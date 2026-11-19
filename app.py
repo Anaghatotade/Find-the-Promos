@@ -11,7 +11,7 @@ Environment (all optional):
 Editors can ✓/✗ each promo; votes go to feedback/feedback.jsonl and can be used to
 re-fit the ranking weights (python -m promofinder.learn_weights).
 """
-import gc, hashlib, html, io, json, logging, os, shutil, time, uuid, threading, zipfile
+import gc, hashlib, html, io, json, logging, os, shutil, sys, time, uuid, threading, zipfile
 from flask import Flask, request, redirect, Response, abort
 from werkzeug.exceptions import HTTPException
 from promofinder.ingest import load_bytes, InputError
@@ -28,6 +28,7 @@ RUNS = os.path.join(DATA, "outputs", "web_runs"); FB = os.path.join(DATA, "feedb
 DEMO_DIR = os.path.join(DATA, "outputs", "demo_run")
 SAMPLE_DIR = os.path.join(ROOT, "samples", "the_cleaner_was_the_heiress")
 SAMPLE_ZIP = os.path.join(ROOT, "samples", "the_cleaner_was_the_heiress.zip")
+PREBUILT_DEMO = os.path.join(ROOT, "prebuilt", "demo_run")   # built at deploy time (render.yaml buildCommand)
 KEEP_RUNS = int(os.environ.get("PROMOFINDER_KEEP_RUNS", "40" if PUBLIC else "0"))   # 0 = keep everything
 MAX_QUEUE = 3            # jobs waiting or running; more than this -> "busy, try again" page
 os.makedirs(RUNS, exist_ok=True); os.makedirs(FB, exist_ok=True)
@@ -315,6 +316,9 @@ h1{font-size:21px;margin:0 0 4px}.sub{color:#6b6b70;font-size:13px}.bar{height:1
 a{color:#1d1d1f}</style></head><body><div class=w><div class=box>
 <h1>Finding promos · __SHOW__</h1><div class=sub>__N__ episode(s). Every legal cut point is scored; the results open automatically.</div>
 <div class=bar><i id=b></i></div><div id=st>Starting…</div><div id=el></div>
+<div id=slow style="display:none;margin-top:12px;font-size:13px;color:#6b6b70;background:#f6f5f2;border-radius:10px;padding:10px 12px">
+Still working: this server has much less CPU than a laptop, so a full 50-episode show can take several minutes here
+(about 8 s on a laptop). The progress above is live, and the results open automatically. You can leave this tab open.</div>
 <noscript><p>JavaScript is off: <a href="/job/__JID__">refresh this page</a> to check progress.</p></noscript></div></div>
 <script>
 const t0=Date.now();
@@ -326,6 +330,7 @@ async function poll(){
     document.getElementById('b').style.width=Math.round(j.frac*100)+'%';
     document.getElementById('st').textContent=j.stage+' · '+Math.round(j.frac*100)+'%';
     document.getElementById('el').textContent='Elapsed '+Math.round((Date.now()-t0)/1000)+' s';
+    if(Date.now()-t0>30000)document.getElementById('slow').style.display='block';
     if(j.status==='done'){location.replace('/r/'+j.rid);return}
     if(j.status==='error'){location.replace('/job/__JID__/error');return}
   }catch(e){document.getElementById('el').textContent='Reconnecting…'}
@@ -490,9 +495,57 @@ def _load_sample():
         return load_bytes([(os.path.basename(SAMPLE_ZIP), fh.read())])
 
 
+def _sample_sha():
+    with open(SAMPLE_ZIP, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
+
+
+def _install_prebuilt_demo():
+    """Copy the demo built at deploy time into place (v1.2.5). Costs no CPU at runtime, so a free instance
+    waking from sleep never queues a visitor's upload behind a demo run. Used only if it was built by this
+    exact code version from this exact sample; otherwise the demo is computed as before."""
+    try:
+        with open(os.path.join(PREBUILT_DEMO, "BUILD.json"), encoding="utf-8") as fh:
+            marker = json.load(fh)
+        if (marker.get("version") != __version__ or marker.get("sample_sha256") != _sample_sha()
+                or not os.path.exists(os.path.join(PREBUILT_DEMO, "promos_top.json"))):
+            log.info("prebuilt demo ignored (built by %s, this is %s)", marker.get("version"), __version__)
+            return False
+        tmp = DEMO_DIR + ".tmp"
+        shutil.rmtree(tmp, ignore_errors=True)
+        shutil.copytree(PREBUILT_DEMO, tmp)
+        shutil.rmtree(DEMO_DIR, ignore_errors=True)
+        os.replace(tmp, DEMO_DIR)
+        log.info("demo installed from the deploy-time build (no runtime scoring)")
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def prebuild_demo():
+    """`python app.py --prebuild-demo`: score the sample once at build time (Render buildCommand / Dockerfile)."""
+    shutil.rmtree(PREBUILT_DEMO, ignore_errors=True)
+    show, eps = _load_sample()
+    jid = "prebuild-demo"
+    JOBS[jid] = {"status": "queued", "stage": "", "frac": 0.0, "started": time.time(), "show": show,
+                 "n_eps": len(eps), "rid": None, "error": None}
+    _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], PREBUILT_DEMO)
+    if JOBS[jid]["status"] != "done" or not os.path.exists(os.path.join(PREBUILT_DEMO, "promos_top.json")):
+        print("prebuild-demo FAILED:", JOBS[jid].get("error")); return 1
+    with open(os.path.join(PREBUILT_DEMO, "BUILD.json"), "w", encoding="utf-8") as fh:
+        json.dump({"version": __version__, "sample_sha256": _sample_sha(), "built_at": time.strftime("%Y-%m-%dT%H:%M:%S")}, fh)
+    print(f"prebuild-demo OK: {show}, {len(eps)} episodes -> {PREBUILT_DEMO}")
+    return 0
+
+
 def precompute_demo():
     """Build the instant demo results once (at startup); safe to call repeatedly."""
     if os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")) or not os.path.exists(SAMPLE_ZIP):
+        return
+    if _install_prebuilt_demo():
+        with JOBS_LOCK:   # anyone already waiting on the demo progress page is sent to the results
+            JOBS["demo-precompute"] = {"status": "done", "stage": "Done", "frac": 1.0, "started": time.time(),
+                                       "show": "demo", "n_eps": 0, "rid": "demo", "error": None}
         return
     show, eps = _load_sample()
     jid = "demo-precompute"
@@ -504,7 +557,7 @@ def precompute_demo():
 
 @app.get("/demo")
 def demo():
-    if os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")):
+    if os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")) or _install_prebuilt_demo():
         return redirect("/r/demo")
     with JOBS_LOCK:
         j = JOBS.get("demo-precompute")
@@ -537,9 +590,34 @@ def sample_file(name):
         return Response(fh.read(), mimetype=mt, headers={"Content-Disposition": f"attachment; filename={fn}"})
 
 
+def _cpu_info():
+    """What this host really gives us: visible cores vs usable CPU quota vs maths threads (v1.2.5)."""
+    info = {"visible_cores": os.cpu_count()}
+    try:
+        info["usable_cores"] = len(os.sched_getaffinity(0))
+    except (AttributeError, OSError):
+        pass
+    for path in ("/sys/fs/cgroup/cpu.max", "/sys/fs/cgroup/cpu/cpu.cfs_quota_us"):
+        try:
+            with open(path) as fh:
+                info["cgroup_cpu_limit"] = fh.read().strip()
+            break
+        except OSError:
+            continue
+    try:
+        from threadpoolctl import threadpool_info
+        info["math_threads"] = {i.get("internal_api", "?"): i.get("num_threads") for i in threadpool_info()}
+    except Exception:
+        pass
+    return info
+
+
 @app.get("/healthz")
 def healthz():
-    return {"ok": True, "public": PUBLIC, "demo_ready": os.path.exists(os.path.join(DEMO_DIR, "promos_top.json"))}
+    return {"ok": True, "public": PUBLIC, "version": __version__,
+            "demo_ready": os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")),
+            "demo_source": "prebuilt" if os.path.exists(os.path.join(PREBUILT_DEMO, "BUILD.json")) else "runtime",
+            "cpu": _cpu_info()}
 
 
 @app.after_request
@@ -550,9 +628,11 @@ def security_headers(resp):
     return resp
 
 
-if os.environ.get("PROMOFINDER_PRECOMPUTE_DEMO", "1") == "1":
+if os.environ.get("PROMOFINDER_PRECOMPUTE_DEMO", "1") == "1" and "--prebuild-demo" not in sys.argv:
     threading.Thread(target=precompute_demo, daemon=True).start()
 
 
 if __name__ == "__main__":
+    if "--prebuild-demo" in sys.argv:
+        sys.exit(prebuild_demo())
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 7860)), debug=False)

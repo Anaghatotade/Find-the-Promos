@@ -125,7 +125,17 @@ class SeriesIndex:
 
     def unintroduced_refs(self, ep_no, dia_blocks):
         """Names mentioned in-window that were introduced in an EARLIER episode and who do
-        not themselves speak in the window: a stranger will not know who they are."""
+        not themselves speak in the window: a stranger will not know who they are.
+        Memoised per series on the exact (episode, lines) key: clips that differ only by a camera-shot
+        boundary contain the same lines (51,598 calls -> 14,958 distinct on the 50-episode pack)."""
+        key = (ep_no, tuple((b.episode, b.idx) for b in dia_blocks))
+        cache = self.__dict__.setdefault("_refs_cache", {})
+        hit = cache.get(key)
+        if hit is None:
+            hit = cache[key] = frozenset(self._unintroduced_refs(ep_no, dia_blocks))
+        return set(hit)
+
+    def _unintroduced_refs(self, ep_no, dia_blocks):
         speakers = " ".join(b.speaker.title() for b in dia_blocks)
         refs = set()
         for b in dia_blocks:

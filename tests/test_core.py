@@ -140,3 +140,13 @@ def test_edl_is_ascii():
     txt = promo_edl(p, "Show — Name")
     txt.encode("ascii")
     assert '"Theo?" -> "Why?"' in txt and "Wait..." in txt
+
+
+def test_progress_reports_each_hook_fold_and_never_goes_back():
+    show, eps = load_bytes(show_items(6), "Test Show")
+    seen = []
+    PromoFinder(load_config(overrides={"top_n": 3})).run(show, eps, progress=lambda st, fr: seen.append((st, fr)))
+    labels = [s for s, _ in seen]
+    assert any("model 1 of 5" in s for s in labels) and any("model 5 of 5" in s for s in labels)
+    fr = [f for _, f in seen]
+    assert fr == sorted(fr) and 0 < fr[0] and fr[-1] <= 1.0

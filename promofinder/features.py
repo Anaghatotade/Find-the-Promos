@@ -1,5 +1,6 @@
 """Moment- and window-level features computed directly from timestamped blocks."""
 from __future__ import annotations
+import functools
 import re
 from bisect import bisect_left
 import numpy as np
@@ -53,6 +54,12 @@ CLIFF_SPAN = 6.0    # last beat(s) before the cut
 def vader(text: str) -> float:
     if not _VADER or not text:
         return 0.0
+    return _vader_cached(text)
+
+
+@functools.lru_cache(maxsize=65536)
+def _vader_cached(text: str) -> float:
+    """VADER is a pure function of the text; overlapping moments repeat the same text ~3x (v1.2.5)."""
     return _VADER.polarity_scores(text)["compound"]
 
 

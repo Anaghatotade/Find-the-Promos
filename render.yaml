@@ -7,7 +7,7 @@ services:
     name: promofinder
     runtime: python
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: pip install -r requirements.txt && python app.py --prebuild-demo   # demo scored at build time, not on the 0.1-CPU instance
     startCommand: gunicorn -c gunicorn.conf.py app:app
     healthCheckPath: /healthz
     autoDeploy: true
@@ -15,6 +15,14 @@ services:
       - key: PROMOFINDER_PUBLIC
         value: "1"
       - key: PYTHONUTF8
+        value: "1"
+      # one maths thread: the free instance gets 0.1 CPU, so BLAS/OpenMP threads per visible host core
+      # would only compete with each other (measured: no slowdown on a normal machine)
+      - key: OMP_NUM_THREADS
+        value: "1"
+      - key: OPENBLAS_NUM_THREADS
+        value: "1"
+      - key: MKL_NUM_THREADS
         value: "1"
       - key: PROMOFINDER_DATA_DIR
         value: /tmp/promofinder

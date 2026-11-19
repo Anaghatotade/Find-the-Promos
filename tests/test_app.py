@@ -15,6 +15,7 @@ def client(tmp_path, monkeypatch):
     monkeypatch.setattr(A, "RUNS", str(tmp_path / "runs")); os.makedirs(A.RUNS)
     monkeypatch.setattr(A, "FB", str(tmp_path / "fb")); os.makedirs(A.FB)
     monkeypatch.setattr(A, "DEMO_DIR", str(tmp_path / "demo_run"))
+    monkeypatch.setattr(A, "PREBUILT_DEMO", str(tmp_path / "no_prebuilt" / "demo_run"))   # tests opt in explicitly
     with A.JOBS_LOCK:
         A.JOBS.clear()
     return A.app.test_client()
@@ -294,3 +295,35 @@ def test_zip_member_failures_get_friendly_400(client, kind, expect):
 def test_deflated_zip_still_works(client):
     _, st, _ = wait_job(client, post(client, [("show.zip", _deflated_zip())]))
     assert st["status"] == "done"
+
+
+# ---- v1.2.5: deploy-time demo + diagnostics
+def test_prebuilt_demo_installs_without_scoring_and_stale_one_is_ignored(tmp_path, monkeypatch):
+    import json as _json, shutil as _sh
+    pre = tmp_path / "prebuilt" / "demo_run"; demo = tmp_path / "data" / "demo_run"
+    monkeypatch.setattr(A, "PREBUILT_DEMO", str(pre)); monkeypatch.setattr(A, "DEMO_DIR", str(demo))
+    assert A.prebuild_demo() == 0 and (pre / "BUILD.json").exists()
+    calls = []
+    monkeypatch.setattr(A, "_run_job", lambda *a, **k: calls.append(1))   # scoring must not happen
+    A.precompute_demo()
+    assert (demo / "promos_top.json").exists() and not calls
+    # stale marker -> ignored -> falls back to scoring
+    _sh.rmtree(demo)
+    m = _json.loads((pre / "BUILD.json").read_text()); m["version"] = "0.0.0"; (pre / "BUILD.json").write_text(_json.dumps(m))
+    A.precompute_demo()
+    assert calls == [1]
+
+
+def test_healthz_reports_version_and_cpu(client):
+    j = client.get("/healthz").get_json()
+    assert j["ok"] and j["version"] == A.__version__ and "visible_cores" in j["cpu"]
+    assert all(n == 1 for n in j["cpu"].get("math_threads", {}).values())    # pinned maths threads
+
+
+def test_demo_with_prebuilt_goes_straight_to_results(client, tmp_path, monkeypatch):
+    pre = tmp_path / "pre" / "demo_run"
+    monkeypatch.setattr(A, "PREBUILT_DEMO", str(pre)); monkeypatch.setattr(A, "DEMO_DIR", str(tmp_path / "d" / "demo_run"))
+    assert A.prebuild_demo() == 0
+    r = client.get("/demo")
+    assert r.status_code == 302 and r.headers["Location"].endswith("/r/demo")
+    assert "The Cleaner Was the Heiress" in client.get("/r/demo").get_data(as_text=True)

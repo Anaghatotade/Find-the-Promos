@@ -3,11 +3,13 @@
 # Runs as a non-root user; listens on $PORT (hosts set it; default 7860).
 FROM python:3.13-slim
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PYTHONUTF8=1 \
+    OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 \
     PORT=7860 PROMOFINDER_PUBLIC=1 PROMOFINDER_DATA_DIR=/tmp/promofinder
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
+RUN python app.py --prebuild-demo
 RUN useradd -m -u 1000 app && mkdir -p /tmp/promofinder && chown -R app /tmp/promofinder
 USER app
 EXPOSE 7860

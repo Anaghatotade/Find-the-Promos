@@ -31,6 +31,23 @@ HOOK_DENSE = ["h_has_dialogue", "h_first_line_at", "h_action_lex", "h_line_lex",
               "h_prev_gap", "h_mid_speech", "h_relief"]
 
 
+# Tokenisation cache (v1.2.5). Cross-fitting builds a new vectoriser per fold, and the soft-label trick
+# duplicates every training text, so each text used to be tokenised ~10 times per run. The analyzer is
+# the exact default sklearn one for ngram_range=(1, 2); each fold still learns its own vocabulary and IDF
+# from its own training rows, so results are bit-identical (benchmarks/equivalence.py).
+_ANALYZER = TfidfVectorizer(ngram_range=(1, 2)).build_analyzer()
+_TOKENS: Dict[str, list] = {}
+
+
+def _cached_analyzer(doc):
+    toks = _TOKENS.get(doc)
+    if toks is None:
+        if len(_TOKENS) > 300_000:      # bound memory for very large shows
+            _TOKENS.clear()
+        toks = _TOKENS[doc] = _ANALYZER(doc)
+    return toks
+
+
 class TextFeatLR:
     """TF-IDF(text) ⊕ standardized dense features -> logistic regression."""
     def __init__(self, dense_keys, use_text=True, use_dense=True, C=1.0):
@@ -40,7 +57,7 @@ class TextFeatLR:
         mats = []
         if self.use_text:
             if fit:
-                self.tf = TfidfVectorizer(ngram_range=(1, 2), min_df=2, sublinear_tf=True, max_features=20000)
+                self.tf = TfidfVectorizer(analyzer=_cached_analyzer, min_df=2, sublinear_tf=True, max_features=20000)
                 mats.append(self.tf.fit_transform(texts))
             else:
                 mats.append(self.tf.transform(texts))

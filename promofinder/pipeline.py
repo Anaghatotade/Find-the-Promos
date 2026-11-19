@@ -133,7 +133,8 @@ def score_cliffs(cliffs: List[Moment], mode="withheld_payoff", blend=0.7, n_fold
         m.score = float(f); m.extra["model_oof"] = float(o); m.extra["model"] = "self_supervised+rules"
 
 
-def score_hooks(hooks: List[Moment], mode="weak_supervision", n_folds=5, seed=0):
+def score_hooks(hooks: List[Moment], mode="weak_supervision", n_folds=5, seed=0, progress=None):
+    """progress(k, n) is called after each cross-fitted fold (UI only; results are unaffected)."""
     Lm = np.array([hook_lfs(m.feats) for m in hooks])
     lm = LabelModel().fit(Lm)
     p_lm = lm.predict_proba(Lm)
@@ -145,7 +146,10 @@ def score_hooks(hooks: List[Moment], mode="weak_supervision", n_folds=5, seed=0)
     groups = np.array([m.ep for m in hooks]); eps_ = np.unique(groups)
     out = np.zeros(len(hooks))
     rng = np.random.RandomState(seed); order = eps_.copy(); rng.shuffle(order)
-    for fold in np.array_split(order, min(n_folds, len(order))):
+    folds = np.array_split(order, min(n_folds, len(order)))
+    for k, fold in enumerate(folds):
+        if progress:
+            progress(k, len(folds))
         te = np.isin(groups, fold); tr = np.where(~te)[0]
         # soft labels -> duplicated rows with probability weights
         texts = [hooks[i].text for i in tr] * 2
@@ -303,7 +307,11 @@ class PromoFinder:
             wf[k] = sum(f[k] for f, _ in wf_list)
         wf["w_arousal_peak"] = max(f["w_arousal_peak"] for f, _ in wf_list)
         wf["w_dangling_open"] = wf_list[0][0]["w_dangling_open"]
-        wf["w_answer_open"] = float(opens_on_answer(c.segments[0], eps))
+        k0 = (c.segments[0].episode, c.segments[0].start)      # depends only on where the clip starts
+        ao = self._ooa_cache.get(k0)
+        if ao is None:
+            ao = self._ooa_cache[k0] = float(opens_on_answer(c.segments[0], eps))
+        wf["w_answer_open"] = ao
         wf["w_n_speakers"] = float(len({b.speaker for b in dia_all if not b.voiceover}))
         refs = series.unintroduced_refs(c.segments[0].episode, dia_all)
         wf["w_unintroduced"] = float(len(refs))
@@ -359,6 +367,7 @@ class PromoFinder:
     def run(self, show: str, episodes: List[Episode], progress=None):
         """progress(stage_label, fraction_done) is called between stages (e.g. by the web app)."""
         cfg = self.cfg
+        self._ooa_cache = {}     # per run: (episode, start) -> opens-on-answer (51,598 calls -> 2,846 distinct)
         timings, clock = {}, [time.perf_counter()]
 
         def stage(done_label, frac, next_label):
@@ -380,7 +389,8 @@ class PromoFinder:
         stage("series_index", 0.05, "Finding every legal cut point")
         hooks, cliffs, bnd = build_moments(episodes)
         stage("cut_points_and_moment_features", 0.12, "Scoring hooks (weak supervision)")
-        lm = score_hooks(hooks, cfg["hook_model"])
+        lm = score_hooks(hooks, cfg["hook_model"], progress=(lambda k, n: progress(
+            f"Scoring hooks (weak supervision) · model {k + 1} of {n}", 0.12 + 0.12 * k / n)) if progress else None)
         stage("hook_model", 0.24, "Scoring cliffhangers")
         score_cliffs(cliffs, cfg["cliff_model"], blend=cfg.get("cliff_blend", 0.7), hooks=hooks, episodes=episodes)
         for arr in (hooks, cliffs):
