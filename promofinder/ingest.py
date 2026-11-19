@@ -43,9 +43,18 @@ def _read_member(z: zipfile.ZipFile, info: zipfile.ZipInfo, zip_name: str) -> by
                          "Download or create the ZIP again, or upload the episode .txt files directly.")
 
 
+def _open_zip(data: bytes) -> zipfile.ZipFile:
+    try:
+        return zipfile.ZipFile(io.BytesIO(data))
+    except LookupError:
+        # Non-UTF-8 member names are decoded with the cp437 codec, which some Python installs
+        # fail to load. latin-1 is built in and maps every byte, so names still decode.
+        return zipfile.ZipFile(io.BytesIO(data), metadata_encoding="latin-1")
+
+
 def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, bytes]]:
     try:
-        z = zipfile.ZipFile(io.BytesIO(data))
+        z = _open_zip(data)
     except zipfile.BadZipFile:
         raise InputError(f"'{os.path.basename(zip_name)}' is not a valid ZIP archive (it may be corrupted or still downloading).")
     with z:

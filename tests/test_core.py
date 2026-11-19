@@ -150,3 +150,22 @@ def test_progress_reports_each_hook_fold_and_never_goes_back():
     assert any("model 1 of 5" in s for s in labels) and any("model 5 of 5" in s for s in labels)
     fr = [f for _, f in seen]
     assert fr == sorted(fr) and 0 < fr[0] and fr[-1] <= 1.0
+
+
+def test_zip_loads_without_cp437_codec():
+    # some hosted Pythons cannot load cp437, which zipfile uses for non-UTF-8 names
+    import subprocess, sys, textwrap
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    code = textwrap.dedent("""
+        import sys, importlib.abc
+        class Block(importlib.abc.MetaPathFinder):
+            def find_spec(self, name, path, target=None):
+                if name == "encodings.cp437": raise ImportError("blocked")
+        sys.meta_path.insert(0, Block())
+        from promofinder.ingest import load_bytes
+        show, eps = load_bytes([("s.zip", open("samples/the_cleaner_was_the_heiress.zip", "rb").read())])
+        assert len(eps) > 0
+        print("ok")
+    """)
+    r = subprocess.run([sys.executable, "-c", code], cwd=root, capture_output=True, text=True)
+    assert r.returncode == 0 and "ok" in r.stdout, r.stderr
