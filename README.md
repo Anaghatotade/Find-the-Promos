@@ -6,8 +6,7 @@ timecodes, the hook (first 3 s), the cliffhanger (the cut), the beat the viewer 
 line, risk flags, a stability badge, and the source line numbers. Exports include JSON, CSV, Markdown and
 **CMX3600 EDLs** for Premiere Pro or DaVinci Resolve. It runs on CPU with no AI API key; an LLM can optionally re-rank the shortlist.
 
-**Live demo:** _(add your Render URL here, e.g. `https://promofinder.onrender.com`)_. Click **Try the live demo** for instant results on an original sample
-show, run the pipeline live, or download the sample files and upload them yourself.
+**Live demo:** https://promofinder-h00l.onrender.com. Click **Try the live demo** for instant results on an original sample
 
 > The sample show *The Cleaner Was the Heiress* (`samples/`) is original fiction written for this demo in the
 > production screenplay format. The confidential screenplays this tool was developed on are not included.
