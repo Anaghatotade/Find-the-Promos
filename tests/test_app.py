@@ -252,8 +252,8 @@ def test_error_page_names_exception_and_log_location(client, monkeypatch):
     assert "MemoryError" in body and "Render dashboard" in body and "secret detail" not in body
 
 
-# ---- v1.2.3 regression: ZIPs whose *members* fail to read used to escape as BadZipFile /
-# NotImplementedError / RuntimeError and produce the generic "Something went wrong" page on /run.
+# ---- ZIPs whose members can't be read (damaged, Deflate64, password-protected) must get a clear 400
+# page, not the generic "Something went wrong" page.
 def _deflated_zip():
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
@@ -297,7 +297,7 @@ def test_deflated_zip_still_works(client):
     assert st["status"] == "done"
 
 
-# ---- v1.2.5: deploy-time demo + diagnostics
+# ---- deploy-time demo + diagnostics
 def test_prebuilt_demo_installs_without_scoring_and_stale_one_is_ignored(tmp_path, monkeypatch):
     import json as _json, shutil as _sh
     pre = tmp_path / "prebuilt" / "demo_run"; demo = tmp_path / "data" / "demo_run"

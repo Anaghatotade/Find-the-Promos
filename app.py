@@ -19,6 +19,7 @@ from promofinder.config import load_config
 from promofinder.pipeline import PromoFinder
 from promofinder.export import write_outputs
 from promofinder.report import html_report
+from promofinder.theme import BASE_CSS
 from promofinder import __version__
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -38,12 +39,10 @@ LOCK = threading.Lock()
 log = logging.getLogger("promofinder.app")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
-ERROR_PAGE = """<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder · {title}</title>
-<style>body{{margin:0;font:15px/1.55 -apple-system,Segoe UI,Inter,sans-serif;background:#f6f5f2;color:#1d1d1f}}
-.w{{max-width:640px;margin:10vh auto;padding:0 24px}}.box{{background:#fff;border:1px solid #e6e4df;border-radius:16px;padding:24px}}
-h1{{font-size:22px;margin:0 0 8px}}p{{color:#44444a}}ul{{color:#44444a;padding-left:20px}}code{{background:#f1efe9;padding:1px 5px;border-radius:4px}}
-a.btn{{display:inline-block;margin-top:10px;background:#1d1d1f;color:#fff;border-radius:10px;padding:9px 16px;text-decoration:none}}</style></head>
-<body><div class=w><div class=box><h1>{title}</h1><p>{message}</p>{details}<a class=btn href="/">Back to upload</a></div></div></body></html>"""
+ERROR_PAGE = ("""<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder: {title}</title>
+<style>@@CSS@@</style></head>
+<body><div class=shell><div class=sheet><h1>{title}</h1><p>{message}</p>{details}<a class=btn href="/">Back to upload</a></div></div></body></html>"""
+              .replace("@@CSS@@", BASE_CSS.replace("{", "{{").replace("}", "}}")))
 
 
 def error_page(title, message, status=400, details=None):
@@ -89,29 +88,58 @@ def unexpected_error(e):
 def favicon():
     return Response(status=204)
 
-INDEX = """<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder</title>
-<style>body{margin:0;font:15px/1.5 -apple-system,Segoe UI,Inter,sans-serif;background:#f6f5f2;color:#1d1d1f}
-.w{max-width:640px;margin:9vh auto;padding:0 24px}h1{font-size:30px;letter-spacing:-.02em;margin:0 0 6px}p{color:#6b6b70}
-form{background:#fff;border:1px solid #e6e4df;border-radius:16px;padding:24px;margin-top:22px}
-input[type=file]{display:block;margin:10px 0 18px}button{background:#1d1d1f;color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer}
-label{font-size:13px;color:#6b6b70}select,input[type=number]{font:inherit;margin-left:6px}.runs a{display:block;color:#1d1d1f;margin:4px 0}
-#busy{display:none;margin-top:14px;color:#6b6b70}
-.demo{background:#1d1d1f;color:#f6f5f2;border-radius:16px;padding:22px 24px;margin-top:22px}.demo p{color:#c9c6bf;margin:6px 0 14px}
-.demo h2{font-size:18px;margin:0}.demo a.b{display:inline-block;background:#f6f5f2;color:#1d1d1f;border-radius:10px;padding:9px 16px;text-decoration:none;margin:0 8px 8px 0;font-weight:600}
-.demo button.b2{background:transparent;color:#f6f5f2;border:1px solid #6b6b70;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer;margin:0 8px 8px 0}
-.demo .dl{font-size:13px;color:#c9c6bf}.demo .dl a{color:#f6f5f2}.small{font-size:12px;color:#8a8a90;margin-top:10px}h3{font-size:15px}</style></head><body><div class=w>
-<h1>PromoFinder</h1><p>Finds the best 20–60s promo clips in a microdrama's timestamped screenplays: exact timecodes, the hook, the cliffhanger and why each works, ranked. Runs on CPU with no AI API needed.</p>
-<div class=demo><h2>Try the live demo</h2><p>Six episodes of <i>The Cleaner Was the Heiress</i>, an original sample show written for this demo in the production screenplay format.</p>
-<a class=b href="/demo">See ranked promos →</a>
-<form method=post action="/demo/run" style="display:inline;background:none;border:0;padding:0;margin:0"><button class=b2>Run the pipeline live (a few seconds)</button></form>
-<div class=dl>Or download the sample and upload it below: <a href="/samples/sample.zip">sample .zip</a> · __EPLINKS__</div></div>
-<form method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Working…'">
-<input type=file name=files multiple accept=".zip,.txt" required>
-<label>Promos to return <input type=number name=top value=12 min=3 max=30></label>
-<label style="margin-left:14px"><input type=checkbox name=funnel checked> prefer early episodes (fewer spoilers)</label><br><br>
-<button>Find promos</button><div id=busy>Uploading…</div>
+INDEX = """<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder</title>
+<style>@@CSS@@
+.top{background:var(--sheet);border-bottom:1px solid var(--rule)}
+.top .in{max-width:1040px;margin:0 auto;padding:40px 28px 30px}
+.top h1{font-size:56px;line-height:.95}
+.top .in{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:end}
+.anat{font-size:13px;color:var(--mute)}
+.anat .strip{position:relative;height:18px;background:var(--soft);border-radius:3px;overflow:hidden;margin:8px 0 6px}
+.anat .strip span{position:absolute;top:0;bottom:0}
+.anat .row{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.anat b{color:var(--ink)}
+.lede{font-size:18px;max-width:58ch;margin:14px 0 0}
+.grid{max-width:1040px;margin:0 auto;padding:28px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
+.up h2,.demo h2{margin-bottom:4px}
+.drop{display:block;border:2px dashed var(--rule);border-radius:8px;padding:22px;margin:16px 0;background:var(--paper);cursor:pointer}
+.drop b{display:block;margin-bottom:8px}
+.drop input{font:inherit;max-width:100%}
+.opts{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;color:var(--mute);font-size:14px;margin-bottom:18px}
+.opts input[type=number]{font:inherit;width:64px;margin-left:6px;padding:4px 6px;border:1px solid var(--rule);border-radius:4px;background:var(--sheet)}
+#busy{display:none;margin-top:12px;color:var(--mute)}
+.small{font-size:13px;color:var(--mute);margin-top:14px}
+.demo{background:var(--slate);color:var(--slate-ink);border-radius:8px;padding:26px 28px}
+.demo h2{color:#fff}.demo p{color:#b9c2bb}
+.demo .btn{background:var(--slate-ink);color:var(--slate);border-color:var(--slate-ink);margin:6px 8px 8px 0}
+.demo .btn-quiet{background:transparent;color:var(--slate-ink);border-color:#5c6a62}
+.demo .dl{font-size:13px;color:#b9c2bb;margin-top:10px}.demo .dl a{color:var(--slate-ink);white-space:nowrap}
+.lists{max-width:1040px;margin:0 auto;padding:0 28px 48px}
+.runs{background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:18px 22px;margin-top:18px}
+.runs a{display:block;padding:5px 0;font-weight:600}.runs .hint{font-weight:400;color:var(--mute);font-size:13px}
+.runs form{margin:8px 0}
+@media(max-width:860px){.grid{grid-template-columns:1fr;padding:18px}.top .in{grid-template-columns:1fr;gap:22px;padding:30px 18px 24px}.top h1{font-size:42px}.lists{padding:0 18px 40px}}
+</style></head><body>
+<div class=top><div class=in><div><h1>PromoFinder</h1>
+<p class=lede>Upload a show's timestamped screenplays and get back ranked 20&ndash;60 second promos: exact timecodes, the hook, the moment to cut, and why each one works. Runs on an ordinary CPU, no AI API needed.</p></div>
+<div class=anat aria-label="What every promo is checked for"><b>What every clip is checked for</b>
+<div class=strip><span style="left:0;width:10%;background:var(--safelight)"></span><span style="right:0;width:18%;background:var(--tape)"></span><span style="left:0;width:3px;background:var(--pencil)"></span><span style="right:0;width:3px;background:var(--pencil)"></span></div>
+<div class=row><span>Hook in the first 3 s</span><span>Cut on an open question</span></div>
+<p style="margin:8px 0 0">Every cut lands between lines of dialogue, never inside one.</p></div></div></div>
+<div class=grid>
+<form class="up sheet" method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Uploading';">
+<h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt files.</p>
+<label class=drop><b>Choose screenplay files</b><input type=file name=files multiple accept=".zip,.txt" required></label>
+<div class=opts><label>Promos to return <input type=number name=top value=12 min=3 max=30></label>
+<label><input type=checkbox name=funnel checked> Prefer early episodes (fewer spoilers)</label></div>
+<button>Find promos</button><div id=busy>Uploading. Scoring starts as soon as the files arrive.</div>
 <div class=small>__PRIVACY__</div></form>
-__RUNS__</div></body></html>"""
+<div class=demo><h2>Try the live demo</h2><p>Six episodes of <i>The Cleaner Was the Heiress</i>, an original sample show written for this demo in the production screenplay format.</p>
+<a class=btn href="/demo">See ranked promos</a>
+<form method=post action="/demo/run" style="display:inline"><button class="btn btn-quiet">Run the pipeline live</button></form>
+<div class=dl>Or download the sample and upload it yourself: <a href="/samples/sample.zip">sample .zip</a>, __EPLINKS__</div></div>
+</div>
+<div class=lists>__RUNS__</div></body></html>""".replace("@@CSS@@", BASE_CSS)
 
 
 @app.get("/")
@@ -120,20 +148,19 @@ def index():
     for r in ([] if PUBLIC else sorted(os.listdir(RUNS), reverse=True)[:15]):
         try:  # one damaged or partial run folder must not break the home page
             show = json.load(open(os.path.join(RUNS, r, "run_meta.json"), encoding="utf-8"))["show"]
-            links.append(f'<a href="/r/{html.escape(r)}">{html.escape(show)} · {html.escape(r)}</a>')
+            links.append(f'<a href="/r/{html.escape(r)}">{html.escape(show)} <span class=hint>{html.escape(r)}</span></a>')
         except (OSError, ValueError, KeyError):
             continue
-    eplinks = " ".join(f'<a href="/samples/{html.escape(f)}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
+    eplinks = ", ".join(f'<a href="/samples/{html.escape(f)}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
                        for f in _sample_files())
     privacy = (f"Uploads up to {app.config['MAX_CONTENT_LENGTH'] // (1024 * 1024)} MB. Results are only visible to whoever has the link "
                "and are deleted automatically. Don't upload confidential scripts to a public demo." if PUBLIC else
                "Runs are saved in outputs/web_runs on this machine.")
-    runs_html = "" if PUBLIC else f'<div class=runs><h3>Previous runs</h3>{"".join(links) or "<p>none yet</p>"}</div>'
+    runs_html = "" if PUBLIC else f'<div class=runs><h3>Previous runs</h3>{"".join(links) or "<p class=mute>None yet. Your runs on this machine will be listed here.</p>"}</div>'
     priv = _private_samples()
-    priv_html = "" if not priv else ('<div class=runs><h3>Local samples <span style="font-weight:400;color:#8a8a90;font-size:13px">'
-                                     '(from private_samples/, only on this machine)</span></h3>' + "".join(
-        f'<form method=post action="/private-sample/run" style="background:none;border:0;padding:0;margin:6px 0">'
-        f'<input type=hidden name=name value="{html.escape(n)}"><button>Run: {html.escape(n)}</button></form>' for n in priv) + "</div>")
+    priv_html = "" if not priv else ('<div class=runs><h3>Local samples <span class=hint>(from private_samples/, only on this machine)</span></h3>' + "".join(
+        f'<form method=post action="/private-sample/run"><input type=hidden name=name value="{html.escape(n)}">'
+        f'<button class="btn btn-quiet">Run: {html.escape(n)}</button></form>' for n in priv) + "</div>")
     return INDEX.replace("__RUNS__", priv_html + runs_html).replace("__EPLINKS__", eplinks).replace("__PRIVACY__", privacy)
 
 
@@ -174,7 +201,7 @@ def run():
     if max(e.duration for e in eps) < cfg["min_dur"] and len(eps) < 2:
         return error_page("Too short for a promo",
                           f"The upload holds {total:.1f}s of story; a promo needs at least {cfg['min_dur']:.0f}s of continuous material.")
-    # validation passed: score in the background and show live progress (the run takes seconds)
+    # validation passed: score in the background and show live progress
     notes = report["warnings"] + [f"skipped (no timestamped blocks): {n}" for n in report["skipped"]] + [f"ignored (not .zip/.txt): {b}" for b in bad]
     # Off for LLM runs (not deterministic) and in public mode, where an unguessable run link is the only access
     # control and must never be handed to a different visitor.
@@ -308,17 +335,16 @@ def _run_job(jid, cfg, show, eps, notes, out_dir=None, cache_key=None):
                     f"The full traceback is in {_where_logs()}."))
 
 
-PROGRESS_PAGE = """<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder · working</title>
-<style>body{margin:0;font:15px/1.55 -apple-system,Segoe UI,Inter,sans-serif;background:#f6f5f2;color:#1d1d1f}
-.w{max-width:640px;margin:12vh auto;padding:0 24px}.box{background:#fff;border:1px solid #e6e4df;border-radius:16px;padding:26px}
-h1{font-size:21px;margin:0 0 4px}.sub{color:#6b6b70;font-size:13px}.bar{height:10px;background:#eeece6;border-radius:6px;overflow:hidden;margin:18px 0 10px}
-.bar i{display:block;height:100%;width:0;background:#1d1d1f;transition:width .35s ease}#st{font-size:14px}#el{color:#6b6b70;font-size:12px;margin-top:4px}
-a{color:#1d1d1f}</style></head><body><div class=w><div class=box>
-<h1>Finding promos · __SHOW__</h1><div class=sub>__N__ episode(s). Every legal cut point is scored; the results open automatically.</div>
-<div class=bar><i id=b></i></div><div id=st>Starting…</div><div id=el></div>
-<div id=slow style="display:none;margin-top:12px;font-size:13px;color:#6b6b70;background:#f6f5f2;border-radius:10px;padding:10px 12px">
-Still working: this server has much less CPU than a laptop, so a full 50-episode show can take several minutes here
-(about 8 s on a laptop). The progress above is live, and the results open automatically. You can leave this tab open.</div>
+PROGRESS_PAGE = """<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder: working</title>
+<style>@@CSS@@
+.bar{height:12px;background:var(--soft);border-radius:3px;overflow:hidden;margin:20px 0 10px}
+.bar i{display:block;height:100%;width:0;background:var(--tape)}
+#st{font-weight:600}#el{color:var(--mute);font-size:13px;margin-top:4px;font-variant-numeric:tabular-nums}
+#slow{display:none;margin-top:16px;font-size:14px;color:#4d3800;background:var(--warn-bg);border-left:4px solid var(--pencil);border-radius:4px;padding:10px 14px}
+</style></head><body><div class=shell><div class=sheet>
+<h1>Finding promos in __SHOW__</h1><p class=mute>__N__ episode(s). Every legal cut point is being scored, and the results open by themselves when it's done.</p>
+<div class=bar><i id=b></i></div><div id=st>Starting</div><div id=el></div>
+<div id=slow>Still working. This server has far less CPU than a laptop, so a full 50-episode show can take a minute or more here (about 7 s on a laptop). The progress above is live; you can leave this tab open.</div>
 <noscript><p>JavaScript is off: <a href="/job/__JID__">refresh this page</a> to check progress.</p></noscript></div></div>
 <script>
 const t0=Date.now();
@@ -328,16 +354,16 @@ async function poll(){
     if(r.status===404){document.getElementById('st').textContent='This job is no longer available.';return}
     const j=await r.json();
     document.getElementById('b').style.width=Math.round(j.frac*100)+'%';
-    document.getElementById('st').textContent=j.stage+' · '+Math.round(j.frac*100)+'%';
-    document.getElementById('el').textContent='Elapsed '+Math.round((Date.now()-t0)/1000)+' s';
+    document.getElementById('st').textContent=j.stage+' ('+Math.round(j.frac*100)+'%)';
+    document.getElementById('el').textContent=Math.round((Date.now()-t0)/1000)+' s elapsed';
     if(Date.now()-t0>30000)document.getElementById('slow').style.display='block';
     if(j.status==='done'){location.replace('/r/'+j.rid);return}
     if(j.status==='error'){location.replace('/job/__JID__/error');return}
-  }catch(e){document.getElementById('el').textContent='Reconnecting…'}
+  }catch(e){document.getElementById('el').textContent='Reconnecting'}
   setTimeout(poll,500);
 }
 poll();
-</script></body></html>"""
+</script></body></html>""".replace("@@CSS@@", BASE_CSS)
 
 
 @app.get("/job/<jid>")
@@ -392,11 +418,13 @@ def view(rid):
         notes = [f"Identical files and settings were already processed, so this is the saved result (computed earlier"
                  + (f" in {meta_t:.1f}s" if isinstance(meta_t, (int, float)) else "") + "). PromoFinder is deterministic: rescoring gives the same promos."] + notes
     if notes:
-        banner = ('<div style="max-width:1080px;margin:12px auto 0;padding:10px 16px;background:#fef3c7;border:1px solid #fcd34d;'
-                  'border-radius:10px;font-size:13px;color:#78350f"><b>Notes on this upload</b><ul style="margin:4px 0 0;padding-left:18px">'
-                  + "".join(f"<li>{html.escape(n)}</li>" for n in notes[:12]) + "</ul></div>")
+        banner = ('<div class=notes><div><b>Notes on this upload</b><ul>'
+                  + "".join(f"<li>{html.escape(n)}</li>" for n in notes[:12]) + "</ul></div></div>")
         page = page.replace("<main>", banner + "<main>", 1)
-    dl = f'<div style="max-width:1080px;margin:10px auto 0;padding:0 24px;font-size:13px">Download: <a href="/r/{rid}/promos_top.json">JSON</a> · <a href="/r/{rid}/promos_top.csv">CSV</a> · <a href="/r/{rid}/promos_longlist.csv">longlist CSV</a> · <a href="/r/{rid}/promos_top.md">Markdown</a> · <a href="/r/{rid}/edl.zip">EDLs (Premiere/Resolve)</a> · <a href="/r/{rid}/cutlist_nle.csv">NLE cut list</a></div>'
+    dl = (f'<div class=dl><span class=mute>Download </span><a href="/r/{rid}/edl.zip">EDLs for Premiere or Resolve</a>'
+          f' <a href="/r/{rid}/cutlist_nle.csv">Cut list (CSV)</a> <a href="/r/{rid}/promos_top.csv">Promos (CSV)</a>'
+          f' <a href="/r/{rid}/promos_top.json">JSON</a> <a href="/r/{rid}/promos_top.md">Markdown</a>'
+          f' <a href="/r/{rid}/promos_longlist.csv">Longlist (CSV)</a></div>')
     return page.replace("<main>", dl + "<main>", 1)
 
 
@@ -501,7 +529,7 @@ def _sample_sha():
 
 
 def _install_prebuilt_demo():
-    """Copy the demo built at deploy time into place (v1.2.5). Costs no CPU at runtime, so a free instance
+    """Copy the demo built at deploy time into place. Costs no CPU at runtime, so a free instance
     waking from sleep never queues a visitor's upload behind a demo run. Used only if it was built by this
     exact code version from this exact sample; otherwise the demo is computed as before."""
     try:
@@ -591,7 +619,7 @@ def sample_file(name):
 
 
 def _cpu_info():
-    """What this host really gives us: visible cores vs usable CPU quota vs maths threads (v1.2.5)."""
+    """What this host really gives us: visible cores vs usable CPU quota vs maths threads."""
     info = {"visible_cores": os.cpu_count()}
     try:
         info["usable_cores"] = len(os.sched_getaffinity(0))

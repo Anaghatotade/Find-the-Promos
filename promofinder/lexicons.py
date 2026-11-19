@@ -8,7 +8,6 @@ import re
 
 # Delivery/emotion tags -> arousal (0 calm .. 1 explosive). Matching is by stem.
 TAG_AROUSAL = {
-    # explosive
     "scream": 1.0, "shout": 0.95, "roar": 1.0, "furious": 0.95, "fury": 0.95, "rage": 1.0,
     "hysteric": 1.0, "maniacal": 1.0, "agoniz": 1.0, "shriek": 1.0, "thunder": 0.9, "booming": 0.85,
     "explod": 1.0, "frantic": 0.9, "panic": 0.9, "terrified": 0.9, "horrified": 0.9, "sob": 0.85,
@@ -90,7 +89,7 @@ def _tag_arousal_cached(tags):
     return max(vals) if vals else None
 
 
-# ---- Tag-free delivery inference (v1.1) -------------------------------------------
+# ---- Tag-free delivery inference ----------------------------------------------------
 # When a show's screenplay has no "(Furious, Shouting)" tags, infer how a line is delivered
 # from (a) the camera/action text written alongside it and (b) the line's own surface form.
 VISUAL_AROUSAL = {

@@ -31,8 +31,8 @@ HOOK_DENSE = ["h_has_dialogue", "h_first_line_at", "h_action_lex", "h_line_lex",
               "h_prev_gap", "h_mid_speech", "h_relief"]
 
 
-# Tokenisation cache (v1.2.5). Cross-fitting builds a new vectoriser per fold, and the soft-label trick
-# duplicates every training text, so each text used to be tokenised ~10 times per run. The analyzer is
+# Tokenisation cache. Cross-fitting builds a new vectoriser per fold, and the soft-label trick duplicates
+# every training text, so without it each text is tokenised ~10 times per run. The analyzer is
 # the exact default sklearn one for ngram_range=(1, 2); each fold still learns its own vocabulary and IDF
 # from its own training rows, so results are bit-identical (benchmarks/equivalence.py).
 _ANALYZER = TfidfVectorizer(ngram_range=(1, 2)).build_analyzer()
@@ -102,8 +102,8 @@ def hook_lfs(f: Dict[str, float]) -> List[int]:
 
 HOOK_LF_NAMES = ["action_shock", "shock_line", "arousal", "exclamation", "confrontation",
                  "establishing(-)", "empty(-)", "no_line_no_action(-)", "relief(-)"]
-# NOTE (E2b error analysis): "dangling start" and "mid-speech" were removed from the hook LFs -
-# they vetoed real hooks ("They arrested her!"). They now only affect the standalone score.
+# "Dangling start" and "mid-speech" are deliberately not hook LFs: they vetoed real hooks such as
+# "They arrested her!" (experiments/exp2b). They only affect the standalone score.
 
 
 def cross_fit_predict(model_factory, groups, texts, feats, y, n_folds=5, sample_weight=None, seed=0):

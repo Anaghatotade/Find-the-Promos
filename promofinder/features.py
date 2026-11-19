@@ -14,7 +14,7 @@ try:
 except Exception:  # optional dependency
     _VADER = None
 
-# arousal source: "tags" (v1.0 behaviour) | "fallback" (tags, else inferred) | "max" (max of both)
+# arousal source: "tags" (delivery tags only) | "fallback" (tags, else inferred) | "max" (max of both)
 AROUSAL_MODE = "tags"
 
 
@@ -59,7 +59,7 @@ def vader(text: str) -> float:
 
 @functools.lru_cache(maxsize=65536)
 def _vader_cached(text: str) -> float:
-    """VADER is a pure function of the text; overlapping moments repeat the same text ~3x (v1.2.5)."""
+    """VADER is a pure function of the text; overlapping moments repeat the same text ~3x."""
     return _VADER.polarity_scores(text)["compound"]
 
 
@@ -87,7 +87,7 @@ def overlapping(blocks: List[Block], t0: float, t1: float, kinds=None) -> List[B
     if not ok:
         return [b for b in blocks if b.end > t0 + 1e-6 and b.start < t1 - 1e-6 and (kinds is None or b.kind in kinds)]
     lo = bisect_left(starts, t0 - maxdur - 1.0)        # safe lower bound: nothing earlier can reach t0
-    hi = bisect_left(starts, t1 - 1e-6)                 # start < t1 - 1e-6
+    hi = bisect_left(starts, t1 - 1e-6)
     return [b for b in blocks[lo:hi] if b.end > t0 + 1e-6 and (kinds is None or b.kind in kinds)]
 
 

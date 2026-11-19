@@ -23,8 +23,8 @@ def _decode(b: bytes) -> str:
 
 
 def _read_member(z: zipfile.ZipFile, info: zipfile.ZipInfo, zip_name: str) -> bytes:
-    """Return the bytes of one file inside the ZIP. Every way this can fail becomes an InputError the user can act on
-    (v1.2.3: these used to escape as BadZipFile / NotImplementedError / RuntimeError -> generic 500 page)."""
+    """Return the bytes of one file inside the ZIP. Damaged members, unsupported compression (e.g. Deflate64)
+    and encryption raise InputError with a message the user can act on, instead of a raw exception."""
     zn, fn = os.path.basename(zip_name), info.filename
     if info.flag_bits & 0x1:
         raise InputError(f"'{zn}' is password-protected ('{fn}'). Upload an unencrypted ZIP, or select the episode .txt files directly.")

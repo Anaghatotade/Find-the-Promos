@@ -378,7 +378,7 @@ class PromoFinder:
         if progress:
             progress("Indexing the series", 0.02)
         eps = {e.number: e for e in episodes}
-        # delivery-tag coverage decides how line intensity is measured (v1.1, see exp5_tagfree)
+        # delivery-tag coverage decides how line intensity is measured (see experiments/exp5_tagfree.py)
         n_dia = sum(1 for e in episodes for b in e.blocks if b.kind == "dialogue")
         tag_cov = sum(1 for e in episodes for b in e.blocks if b.kind == "dialogue" and b.tags) / max(n_dia, 1)
         mode = cfg.get("arousal_mode", "auto")

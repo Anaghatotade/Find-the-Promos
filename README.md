@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PromoFinder
 
 Find the best 20–60 second promo clips in a microdrama, directly from its screenplay.
@@ -33,6 +34,8 @@ On a 50-episode, 103-minute show the full pipeline takes about 8 seconds on a la
 
 ```bash
 pip install -r requirements.txt
-python app.py                                   
+python app.py                                   # http://localhost:7860
 python -m promofinder run samples/the_cleaner_was_the_heiress.zip --out outputs/demo
 python -m pytest -q tests
+```
+>>>>>>> 12779b2 (Redesign the web interface and tidy code comments)
