@@ -1,0 +1,122 @@
+EPISODE NUMBER: Episode 4
+EPISODE LOGLINE: Back at work the next morning, Mara is humiliated by Marcus and Sienna in the boardroom, until Daniel walks into the board meeting with a court-certified copy of the will.
+CONTINUITY NOTES: The next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HALLORAN TOWER BOARDROOM – DAY
+Scene start: 00:00.00
+Scene end: 00:41.60
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Wide shot of the long glass table.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Mara mops the floor of the empty boardroom in her uniform.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:07.10)
+Medium shot of Marcus and Sienna in the doorway.
+
+**MARCUS (Mocking):**
+Start: (00:02.70) | End: (00:06.90)
+"Look who came back to clean up her own mess."
+
+**CAMERA:**
+Start: (00:07.10) | End: (00:08.60)
+Insert of the bucket tipping.
+
+**ACTION:**
+Start: (00:07.10) | End: (00:08.60)
+Sienna kicks over Mara's bucket. Dirty water floods across the floor.
+
+**SOUND FX:**
+Start: (00:08.60) | End: (00:10.10)
+Bucket clattering and water splashing.
+
+**CAMERA:**
+Start: (00:08.60) | End: (00:11.80)
+Close-up on Sienna smiling.
+
+**SIENNA (Cruel, Amused):**
+Start: (00:08.80) | End: (00:11.60)
+"Oops. Clean it. On your knees."
+
+**CAMERA:**
+Start: (00:11.80) | End: (00:15.70)
+Close-up on Mara, unbroken.
+
+**MARA (Calm, Dangerous):**
+Start: (00:12.00) | End: (00:15.50)
+"Gladly. Enjoy the room while it's still yours."
+
+**CAMERA:**
+Start: (00:15.70) | End: (00:18.90)
+Close-up on Marcus.
+
+**MARCUS (Laughing):**
+Start: (00:15.90) | End: (00:18.70)
+"Still dreaming, Mara? That's almost sweet."
+
+**CAMERA:**
+Start: (00:18.90) | End: (00:21.40)
+Wide shot of the board seated.
+
+**ACTION:**
+Start: (00:18.90) | End: (00:21.40)
+Board members file in. Diane takes the chair at the head of the table.
+
+**CAMERA:**
+Start: (00:21.40) | End: (00:26.30)
+Medium shot of Diane.
+
+**DIANE HALLORAN (Triumphant):**
+Start: (00:21.60) | End: (00:26.10)
+"Let's make it official. I move to be named chief executive."
+
+**CAMERA:**
+Start: (00:26.30) | End: (00:28.80)
+Low-angle shot of Daniel in the doorway.
+
+**ACTION:**
+Start: (00:26.30) | End: (00:28.80)
+The double doors swing open. Daniel walks in holding a document stamped with a court seal.
+
+**SOUND FX:**
+Start: (00:28.80) | End: (00:30.00)
+Heavy doors banging open.
+
+**CAMERA:**
+Start: (00:28.80) | End: (00:34.40)
+Close-up on the court seal.
+
+**DANIEL OKAFOR (Authoritative):**
+Start: (00:29.00) | End: (00:34.20)
+"Before you vote, the court registered a certified copy of Edmund Halloran's will."
+
+**CAMERA:**
+Start: (00:34.40) | End: (00:36.30)
+Close-up on Diane, colour draining.
+
+**DIANE HALLORAN (Stunned):**
+Start: (00:34.60) | End: (00:36.10)
+"That's impossible."
+
+**CAMERA:**
+Start: (00:36.30) | End: (00:41.60)
+Slow push-in on Mara holding the mop.
+
+**DANIEL OKAFOR (Cold, Final):**
+Start: (00:36.50) | End: (00:41.40)
+"The majority shareholder is already in the room. She's holding a mop."
+
+**SOUND FX:**
+Start: (00:41.60) | End: (00:43.10)
+A dramatic orchestral hit.
+
+--- SCRIPT END ---

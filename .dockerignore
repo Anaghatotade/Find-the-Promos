@@ -1,0 +1,11 @@
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+outputs
+feedback
+eval
+experiments
+docs
+*.zip
+!samples/the_cleaner_was_the_heiress.zip

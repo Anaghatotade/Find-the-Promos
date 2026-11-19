@@ -1,0 +1,12 @@
+numpy>=1.26
+scipy>=1.11
+scikit-learn>=1.4
+PyYAML>=6.0
+vaderSentiment>=3.3.2
+Flask>=3.0
+gunicorn>=22; platform_system != "Windows"   # production server (Linux hosts)
+# optional: plug in a stronger model for re-ranking / judging
+# anthropic>=0.40
+# openai>=1.40
+# dev
+pytest>=8

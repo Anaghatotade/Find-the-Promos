@@ -1,0 +1,29 @@
+# PromoFinder configuration. Every key is optional; defaults live in promofinder/config.py.
+min_dur: 20
+max_dur: 60
+ideal_dur: [25, 45]          # Reels/TikTok sweet spot; outside it the score decays mildly
+top_n: 12
+longlist_n: 50
+max_per_episode: 2           # diversity: at most 2 picks from one episode
+mmr_lambda: 0.35             # diversity strength vs. raw score
+
+# Weighted geometric mean: a promo with no hook or no cliffhanger cannot rank high.
+# Weights were set a priori (not fit) and are robust: +-50% perturbation keeps ~10.5/12 picks
+# (outputs/experiments/exp3_ranking.json). Re-fit from editor votes: python -m promofinder.learn_weights
+weights: {hook: 1.0, cliff: 1.0, standalone: 0.8, arc: 0.6, premise: 0.5}
+
+funnel: {enabled: true, late_episode_penalty: 0.12}   # mild preference for early, spoiler-free episodes
+allow_cross_episode: true
+allow_cold_open: true
+
+cliff_model: withheld_payoff     # withheld_payoff | self_supervised | rules
+hook_model: weak_supervision     # weak_supervision | rules
+arousal_mode: auto               # auto: use delivery tags if >=50% of lines have them, else infer from camera/action text
+
+llm:
+  enabled: false
+  provider: none        # anthropic | openai | openai_compatible | mock
+  model: ""             # e.g. claude-sonnet-4-5, gpt-4o-mini, llama3.1 (via base_url)
+  base_url: ""          # for OpenAI-compatible servers (Ollama, Groq, vLLM, Gemini)
+  rerank_top_k: 30      # only the shortlist is sent -> cost is ~constant per show
+  system_weight: 0.5    # rank-average of system rank and LLM rank

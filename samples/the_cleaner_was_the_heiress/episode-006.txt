@@ -1,0 +1,106 @@
+EPISODE NUMBER: Episode 6
+EPISODE LOGLINE: Daniel admits Edmund Halloran's death was never investigated, Mara finds a voicemail her grandfather left before he died, and Marcus returns with the stolen original will and a price.
+CONTINUITY NOTES: Later that night.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. EDMUND HALLORAN'S STUDY – NIGHT
+Scene start: 00:00.00
+Scene end: 00:36.20
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:04.60)
+Medium shot of Mara among dusty bookshelves.
+
+**MARA (Demanding):**
+Start: (00:00.20) | End: (00:04.40)
+"Tell me the truth, Daniel. How did my grandfather die?"
+
+**CAMERA:**
+Start: (00:04.60) | End: (00:09.90)
+Close-up on Daniel.
+
+**DANIEL OKAFOR (Hesitant, Guilty):**
+Start: (00:04.80) | End: (00:09.70)
+"The police called it a heart attack. Nobody asked for an autopsy."
+
+**CAMERA:**
+Start: (00:09.90) | End: (00:13.50)
+Close-up on Mara.
+
+**MARA (Furious):**
+Start: (00:10.10) | End: (00:13.30)
+"Nobody? Or someone made sure nobody did?"
+
+**CAMERA:**
+Start: (00:13.50) | End: (00:16.50)
+Insert of the phone screen lighting up.
+
+**ACTION:**
+Start: (00:13.50) | End: (00:16.50)
+Mara opens a desk drawer and finds an old phone with one unheard voicemail.
+
+**CAMERA:**
+Start: (00:16.50) | End: (00:22.10)
+Close-up on Mara listening.
+
+**EDMUND HALLORAN (V.O.) (Weak, Urgent):**
+Start: (00:16.70) | End: (00:21.90)
+"Mara, if anything happens to me, don't trust anyone in this house. Especially—"
+
+**SOUND FX:**
+Start: (00:22.10) | End: (00:23.60)
+The voicemail cutting off into static.
+
+**CAMERA:**
+Start: (00:22.10) | End: (00:24.70)
+Close-up on Mara's trembling hands.
+
+**MARA (Whispering, Desperate):**
+Start: (00:22.30) | End: (00:24.50)
+"Especially who? Grandpa, who?"
+
+**CAMERA:**
+Start: (00:24.70) | End: (00:27.20)
+Low-angle shot of Marcus.
+
+**ACTION:**
+Start: (00:24.70) | End: (00:27.20)
+The study door creaks open. Marcus stands in the doorway holding a yellowed envelope.
+
+**SOUND FX:**
+Start: (00:27.20) | End: (00:28.40)
+Old door hinges creaking.
+
+**CAMERA:**
+Start: (00:27.20) | End: (00:30.40)
+Close-up on the envelope.
+
+**MARCUS (Smug, Threatening):**
+Start: (00:27.40) | End: (00:30.20)
+"Looking for this? Edmund's original will."
+
+**CAMERA:**
+Start: (00:30.40) | End: (00:32.60)
+Close-up on Mara.
+
+**MARA (Shocked):**
+Start: (00:30.60) | End: (00:32.40)
+"You stole it?"
+
+**CAMERA:**
+Start: (00:32.60) | End: (00:36.20)
+Extreme close-up on Marcus's grin.
+
+**MARCUS (Cold, Final):**
+Start: (00:32.80) | End: (00:36.00)
+"Want it back? It'll cost you everything."
+
+**SOUND FX:**
+Start: (00:36.20) | End: (00:37.70)
+A sharp cliffhanger sting into silence.
+
+--- SCRIPT END ---

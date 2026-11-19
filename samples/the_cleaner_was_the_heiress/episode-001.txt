@@ -1,0 +1,157 @@
+EPISODE NUMBER: Episode 1
+EPISODE LOGLINE: At the Halloran Tower gala, night cleaner Mara Quinn watches her fiancé Marcus announce his engagement to the CEO's daughter Sienna, and is humiliated and thrown out, until a stranger stops her at the door.
+CONTINUITY NOTES: First episode. Establishes Mara, Marcus, Sienna and Diane Halloran.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HALLORAN TOWER BALLROOM – NIGHT
+Scene start: 00:00.00
+Scene end: 00:41.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of the chandeliers and the crowd in evening gowns.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Mara, in a grey cleaner's uniform, carries a tray of champagne flutes through a glittering crowd.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:07.30)
+Medium shot of Marcus on stage, raising a glass.
+
+**MARCUS (Charming, Loud):**
+Start: (00:03.20) | End: (00:07.10)
+"Thank you all for coming. Tonight I have news."
+
+**CAMERA:**
+Start: (00:07.30) | End: (00:12.60)
+Close-up on Mara's hopeful face.
+
+**MARA (Whispering, Hopeful):**
+Start: (00:07.50) | End: (00:12.40)
+"He's going to say it. He's finally going to say my name."
+
+**CAMERA:**
+Start: (00:12.60) | End: (00:16.50)
+Close-up on Marcus kissing Sienna's hand.
+
+**MARCUS (Proud):**
+Start: (00:12.80) | End: (00:16.30)
+"Sienna Halloran has agreed to be my wife."
+
+**CAMERA:**
+Start: (00:16.50) | End: (00:18.10)
+Insert of glasses shattering at Mara's feet.
+
+**ACTION:**
+Start: (00:16.50) | End: (00:18.10)
+The tray slips from Mara's hands and crashes to the marble floor.
+
+**SOUND FX:**
+Start: (00:18.10) | End: (00:19.60)
+Glass shattering, then a collective gasp.
+
+**CAMERA:**
+Start: (00:18.10) | End: (00:21.70)
+Close-up on Mara, tears welling.
+
+**MARA (Shocked, Breaking):**
+Start: (00:18.30) | End: (00:21.50)
+"Marcus? You proposed to me last week!"
+
+**CAMERA:**
+Start: (00:21.70) | End: (00:25.60)
+Medium shot of Sienna descending the stage steps.
+
+**SIENNA (Mocking, Cold):**
+Start: (00:21.90) | End: (00:25.40)
+"Proposed? To the girl who mops our floors?"
+
+**CAMERA:**
+Start: (00:25.60) | End: (00:29.50)
+Close-up on Marcus, unbothered.
+
+**MARCUS (Cold, Dismissive):**
+Start: (00:25.80) | End: (00:29.30)
+"Did you really think I'd marry a cleaner?"
+
+**CAMERA:**
+Start: (00:29.50) | End: (00:31.00)
+Slow-motion close-up as the wine splashes across Mara's face.
+
+**ACTION:**
+Start: (00:29.50) | End: (00:31.00)
+Sienna throws her glass of red wine into Mara's face.
+
+**CAMERA:**
+Start: (00:31.00) | End: (00:34.60)
+Two-shot of Sienna towering over Mara.
+
+**SIENNA (Venomous):**
+Start: (00:31.20) | End: (00:34.40)
+"You were a placeholder. Now get out."
+
+**CAMERA:**
+Start: (00:34.60) | End: (00:38.50)
+Low-angle shot of Diane in black velvet.
+
+**DIANE HALLORAN (Commanding, Icy):**
+Start: (00:34.80) | End: (00:38.30)
+"Security. Remove her before she embarrasses this family."
+
+**CAMERA:**
+Start: (00:38.50) | End: (00:41.70)
+Close-up on Mara wiping wine from her eyes.
+
+**MARA (Trembling, Defiant):**
+Start: (00:38.70) | End: (00:41.50)
+"You'll regret this. All of you."
+
+SCENE 02
+Scene heading: INT. HALLORAN TOWER LOBBY – CONTINUOUS
+Scene start: 00:41.70
+Scene end: 00:54.30
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:41.70) | End: (00:44.20)
+Tracking shot behind the guards.
+
+**ACTION:**
+Start: (00:41.70) | End: (00:44.20)
+Two guards drag Mara across the lobby toward the revolving doors.
+
+**CAMERA:**
+Start: (00:44.20) | End: (00:46.80)
+Medium shot of a tall man in a dark suit blocking the doors.
+
+**DANIEL OKAFOR (Calm, Firm):**
+Start: (00:44.40) | End: (00:46.60)
+"Let her go. Now."
+
+**CAMERA:**
+Start: (00:46.80) | End: (00:49.00)
+Close-up on Mara.
+
+**MARA (Confused, Breathless):**
+Start: (00:47.00) | End: (00:48.80)
+"Who are you?"
+
+**CAMERA:**
+Start: (00:49.00) | End: (00:54.30)
+Close-up on Daniel holding a sealed envelope.
+
+**DANIEL OKAFOR (Grave):**
+Start: (00:49.20) | End: (00:54.10)
+"Miss Quinn, your grandfather left you something they never told you about."
+
+**SOUND FX:**
+Start: (00:54.30) | End: (00:56.30)
+A low ominous string swell.
+
+--- SCRIPT END ---

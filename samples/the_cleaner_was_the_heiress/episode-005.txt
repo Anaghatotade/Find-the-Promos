@@ -1,0 +1,110 @@
+EPISODE NUMBER: Episode 5
+EPISODE LOGLINE: Mara takes her seat at the head of the table and fires Marcus, Sienna slaps her, and Diane leaves her with a chilling question about her grandfather's death.
+CONTINUITY NOTES: Picks up immediately from Episode 4.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HALLORAN TOWER BOARDROOM – CONTINUOUS
+Scene start: 00:00.00
+Scene end: 00:37.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.60)
+Medium shot of Marcus on his feet.
+
+**MARCUS (Shouting, Panicked):**
+Start: (00:00.20) | End: (00:03.40)
+"This is a forgery! She's a cleaner!"
+
+**CAMERA:**
+Start: (00:03.60) | End: (00:06.60)
+Close-up on the apron landing on the glass.
+
+**ACTION:**
+Start: (00:03.60) | End: (00:06.60)
+Mara unties her apron, folds it, and sits in the chair at the head of the table.
+
+**CAMERA:**
+Start: (00:06.60) | End: (00:11.20)
+Close-up on Mara.
+
+**MARA (Calm, Commanding):**
+Start: (00:06.80) | End: (00:11.00)
+"Marcus, you're fired. Security will help you with your things."
+
+**CAMERA:**
+Start: (00:11.20) | End: (00:14.40)
+Close-up on Marcus.
+
+**MARCUS (Desperate):**
+Start: (00:11.40) | End: (00:14.20)
+"Mara, please. After everything we had?"
+
+**CAMERA:**
+Start: (00:14.40) | End: (00:19.30)
+Two-shot across the table.
+
+**MARA (Icy):**
+Start: (00:14.60) | End: (00:19.10)
+"You told a ballroom I was a placeholder. Consider yourself replaced."
+
+**CAMERA:**
+Start: (00:19.30) | End: (00:20.80)
+Whip-pan to the slap.
+
+**ACTION:**
+Start: (00:19.30) | End: (00:20.80)
+Sienna storms around the table and slaps Mara across the face.
+
+**SOUND FX:**
+Start: (00:20.80) | End: (00:21.80)
+A sharp slap echoing in the room.
+
+**CAMERA:**
+Start: (00:20.80) | End: (00:23.40)
+Close-up on Sienna, shaking.
+
+**SIENNA (Screaming, Furious):**
+Start: (00:21.00) | End: (00:23.20)
+"You stole my life!"
+
+**CAMERA:**
+Start: (00:23.40) | End: (00:27.00)
+Close-up on Mara turning her face back slowly.
+
+**MARA (Steely, Quiet):**
+Start: (00:23.60) | End: (00:26.80)
+"That's the last time you touch me."
+
+**CAMERA:**
+Start: (00:27.00) | End: (00:29.60)
+Medium shot of Diane rising.
+
+**DIANE HALLORAN (Smiling, Venomous):**
+Start: (00:27.20) | End: (00:29.40)
+"Enjoy your chair, Mara."
+
+**CAMERA:**
+Start: (00:29.60) | End: (00:33.90)
+Extreme close-up on Diane's smile.
+
+**DIANE HALLORAN (Chilling):**
+Start: (00:29.80) | End: (00:33.70)
+"And ask your lawyer who really killed your grandfather."
+
+**CAMERA:**
+Start: (00:33.90) | End: (00:37.10)
+Close-up on Mara turning to Daniel.
+
+**MARA (Shaken):**
+Start: (00:34.10) | End: (00:36.90)
+"Killed? He died in his sleep."
+
+**SOUND FX:**
+Start: (00:37.10) | End: (00:39.10)
+A low cello drone holding into silence.
+
+--- SCRIPT END ---
