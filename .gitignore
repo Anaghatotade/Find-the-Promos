@@ -8,3 +8,5 @@ feedback/
 private_samples/
 *.zip
 !samples/the_cleaner_was_the_heiress.zip
+# generated at deploy time by `python app.py --prebuild-demo`
+prebuilt/

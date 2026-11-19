@@ -130,7 +130,7 @@ footer.foot{margin-top:0}
 @media(max-width:980px){.promo{grid-template-columns:64px minmax(0,1fr);gap:20px 22px}.side{grid-column:2;border-left:0;padding-left:0;
 border-top:1px dashed var(--rule);padding-top:18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 28px;align-items:start}
 .side .bars{grid-row:span 3}.rank{font-size:56px}.method{grid-template-columns:1fr;gap:10px}}
-@media(max-width:640px){.hd{padding-top:34px}.hd h1{font-size:44px}.stats div{padding-right:18px;margin-right:18px}.stats dd{font-size:18px}
+@media(max-width:640px){.hd{padding-top:34px}.hd h1{font-size:44px}.stats{display:grid;grid-template-columns:1fr 1fr}.stats div{margin-right:0;padding:14px 12px 14px 0;border-right:0}.stats div:nth-child(odd){border-right:1px solid var(--night-rule)}.stats div:nth-child(even){padding-left:16px}.stats dd{font-size:18px}
 .promo{grid-template-columns:1fr;padding:26px 0 28px}.p-rank{display:flex;align-items:baseline;gap:14px}.score{margin:0}.score b{display:inline;margin-left:4px}
 .top-pick{margin:0}.rank{font-size:48px}.side{grid-column:1;display:block}.line{grid-template-columns:1fr;gap:2px}.withheld{margin-left:0}
 .why{font-size:20px}.tc{font-size:15px}}
