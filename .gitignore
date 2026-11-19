@@ -4,3 +4,7 @@ __pycache__/
 .pytest_cache/
 outputs/
 feedback/
+# confidential packs for local one-click testing - never commit
+private_samples/
+*.zip
+!samples/the_cleaner_was_the_heiress.zip

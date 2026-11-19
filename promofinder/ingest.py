@@ -1,6 +1,6 @@
 """Load a show from a ZIP, a directory, or individual .txt files (safely)."""
 from __future__ import annotations
-import hashlib, io, os, zipfile
+import hashlib, io, os, zipfile, zlib
 from typing import Dict, Iterable, List, Optional, Tuple
 from .parser import parse_screenplay, Episode
 
@@ -22,6 +22,27 @@ def _decode(b: bytes) -> str:
     return b.decode("utf-8", "ignore")
 
 
+def _read_member(z: zipfile.ZipFile, info: zipfile.ZipInfo, zip_name: str) -> bytes:
+    """Return the bytes of one file inside the ZIP. Every way this can fail becomes an InputError the user can act on
+    (v1.2.3: these used to escape as BadZipFile / NotImplementedError / RuntimeError -> generic 500 page)."""
+    zn, fn = os.path.basename(zip_name), info.filename
+    if info.flag_bits & 0x1:
+        raise InputError(f"'{zn}' is password-protected ('{fn}'). Upload an unencrypted ZIP, or select the episode .txt files directly.")
+    try:
+        # read with a hard cap: a member whose header under-states its size (zip bomb) is cut off
+        with z.open(info) as fh:
+            return fh.read(MAX_FILE_BYTES + 1)
+    except NotImplementedError:
+        method = {9: "Deflate64", 12: "BZIP2", 14: "LZMA", 95: "XZ", 98: "PPMd", 99: "AES"}.get(info.compress_type, f"#{info.compress_type}")
+        raise InputError(f"'{zn}' uses {method} compression, which PromoFinder can't read ('{fn}'). Re-create the ZIP with standard "
+                         "(Deflate) compression, or select all the episode .txt files and upload them directly.")
+    except RuntimeError as e:   # encrypted members not flagged in the header
+        raise InputError(f"'{zn}' could not be read ('{fn}': {e}). Upload an unencrypted ZIP or the .txt files directly.")
+    except (zipfile.BadZipFile, zlib.error, EOFError, OSError) as e:
+        raise InputError(f"'{zn}' is damaged: '{fn}' failed its integrity check ({type(e).__name__}). "
+                         "Download or create the ZIP again, or upload the episode .txt files directly.")
+
+
 def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, bytes]]:
     try:
         z = zipfile.ZipFile(io.BytesIO(data))
@@ -39,9 +60,7 @@ def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, 
                 continue
             if info.file_size > MAX_FILE_BYTES:
                 continue
-            # read with a hard cap: a member whose header under-states its size (zip bomb) is cut off
-            with z.open(info) as fh:
-                data = fh.read(MAX_FILE_BYTES + 1)
+            data = _read_member(z, info, zip_name)
             if len(data) > MAX_FILE_BYTES:
                 continue
             total += len(data)

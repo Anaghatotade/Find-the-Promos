@@ -59,13 +59,29 @@ def http_error(e):
     return error_page(titles.get(e.code, e.name), msg.get(e.code, e.description or e.name), e.code)
 
 
+ON_RENDER = bool(os.environ.get("RENDER"))   # Render sets RENDER=true in every service
+
+
+def _where_logs():
+    return ("Render dashboard → this service → Logs (search for the error id)" if ON_RENDER else
+            "the server logs" if PUBLIC else "the terminal running app.py")
+
+
+def _upload_summary():
+    """File names and sizes only (never contents), so a log line explains what was being processed."""
+    try:
+        return [(f.filename, f.content_length or getattr(f.stream, "tell", lambda: None)()) for f in request.files.getlist("files")]
+    except Exception:
+        return []
+
+
 @app.errorhandler(Exception)
 def unexpected_error(e):
     eid = uuid.uuid4().hex[:8]
-    log.exception("unhandled error %s on %s", eid, request.path)
+    log.exception("unhandled error %s on %s %s (%s) uploads=%s", eid, request.method, request.path, type(e).__name__, _upload_summary())
     return error_page("Something went wrong",
-                      f"PromoFinder hit an unexpected error (error id {eid}). Nothing was saved. "
-                      "The full details are in the terminal running app.py; please include the error id if you report it.", 500)
+                      f"PromoFinder hit an unexpected error ({type(e).__name__}, error id {eid}). Nothing was saved. "
+                      f"The full traceback is in {_where_logs()}; please include the error id if you report it.", 500)
 
 
 @app.get("/favicon.ico")
@@ -112,7 +128,12 @@ def index():
                "and are deleted automatically. Don't upload confidential scripts to a public demo." if PUBLIC else
                "Runs are saved in outputs/web_runs on this machine.")
     runs_html = "" if PUBLIC else f'<div class=runs><h3>Previous runs</h3>{"".join(links) or "<p>none yet</p>"}</div>'
-    return INDEX.replace("__RUNS__", runs_html).replace("__EPLINKS__", eplinks).replace("__PRIVACY__", privacy)
+    priv = _private_samples()
+    priv_html = "" if not priv else ('<div class=runs><h3>Local samples <span style="font-weight:400;color:#8a8a90;font-size:13px">'
+                                     '(from private_samples/, only on this machine)</span></h3>' + "".join(
+        f'<form method=post action="/private-sample/run" style="background:none;border:0;padding:0;margin:6px 0">'
+        f'<input type=hidden name=name value="{html.escape(n)}"><button>Run: {html.escape(n)}</button></form>' for n in priv) + "</div>")
+    return INDEX.replace("__RUNS__", priv_html + runs_html).replace("__EPLINKS__", eplinks).replace("__PRIVACY__", privacy)
 
 
 def _int_field(name, default, lo, hi):
@@ -283,7 +304,7 @@ def _run_job(jid, cfg, show, eps, notes, out_dir=None, cache_key=None):
         log.exception("job %s failed (error id %s)", jid, eid)
         _job_update(jid, status="error", error=("Something went wrong",
                     f"PromoFinder hit an unexpected error (error id {eid}). Nothing was saved. "
-                    "The full details are in the terminal running app.py."))
+                    f"The full traceback is in {_where_logs()}."))
 
 
 PROGRESS_PAGE = """<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder · working</title>
@@ -411,6 +432,43 @@ def feedback():
     with open(path, "a", encoding="utf-8") as fh:
         fh.write(json.dumps({k: j[k] for k in ("run", "show", "id", "vote", "components", "ts") if k in j}) + "\n")
     return {"ok": True}
+
+
+# ------------------------------------------------------------------ local-only private samples
+# Put confidential packs (e.g. the Kuku development screenplays) in private_samples/ to test them in one click
+# on YOUR machine. Never served in public mode; the folder is git- and docker-ignored and not in the public bundle.
+PRIVATE_DIR = os.environ.get("PROMOFINDER_PRIVATE_SAMPLES", os.path.join(ROOT, "private_samples"))
+
+
+def _private_samples():
+    if PUBLIC:
+        return []
+    try:
+        return sorted(f for f in os.listdir(PRIVATE_DIR) if f.lower().endswith(".zip") and os.path.isfile(os.path.join(PRIVATE_DIR, f)))
+    except OSError:
+        return []
+
+
+@app.post("/private-sample/run")
+def private_sample_run():
+    name = request.form.get("name", "")
+    if name not in _private_samples():   # exact match against the listing: no paths, nothing in public mode
+        abort(404)
+    with open(os.path.join(PRIVATE_DIR, name), "rb") as fh:
+        items = [(name, fh.read())]
+    cfg = load_config(os.path.join(ROOT, "config.yaml") if os.path.exists(os.path.join(ROOT, "config.yaml")) else None)
+    try:
+        report = {}
+        show, eps = load_bytes(items, report=report)
+    except InputError as e:
+        return error_page("That sample can't be processed", str(e))
+    if not eps:
+        return error_page("No screenplay found in the sample", f"{name} contains no timestamped screenplay files.")
+    key = _cache_key(items, cfg)
+    hit = _cache_get(key)
+    if hit:
+        return redirect(f"/r/{hit}?cached=1")
+    return _start_job(cfg, show, eps, report["warnings"] + [f"Local private sample: {name} (never served in public mode)."], cache_key=key)
 
 
 # ------------------------------------------------------------------ live demo

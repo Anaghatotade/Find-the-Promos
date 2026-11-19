@@ -225,3 +225,72 @@ def test_public_mode_never_shares_cached_runs(client, monkeypatch):
     z = show_zip(3)
     wait_job(client, post(client, [("show.zip", z)]))
     assert "/job/" in post(client, [("show.zip", z)]).headers["Location"]   # recomputed, no link reuse
+
+
+def test_private_samples_local_only(client, monkeypatch, tmp_path):
+    pdir = tmp_path / "private"; pdir.mkdir()
+    (pdir / "pack.zip").write_bytes(show_zip(3))
+    monkeypatch.setattr(A, "PRIVATE_DIR", str(pdir))
+    home = client.get("/").get_data(as_text=True)
+    assert "Local samples" in home and "pack.zip" in home
+    r = client.post("/private-sample/run", data={"name": "pack.zip"})
+    _, st, _ = wait_job(client, r); assert st["status"] == "done"
+    assert client.post("/private-sample/run", data={"name": "../pack.zip"}).status_code == 404
+    assert client.post("/private-sample/run", data={"name": "missing.zip"}).status_code == 404
+    monkeypatch.setattr(A, "PUBLIC", True)                      # public deployment: invisible and unreachable
+    assert "Local samples" not in client.get("/").get_data(as_text=True)
+    assert client.post("/private-sample/run", data={"name": "pack.zip"}).status_code == 404
+
+
+def test_error_page_names_exception_and_log_location(client, monkeypatch):
+    def boom(*a, **k):
+        raise MemoryError("secret detail")
+    monkeypatch.setattr(A, "load_bytes", boom)
+    monkeypatch.setattr(A, "ON_RENDER", True)
+    body = post(client, [("show.zip", show_zip())]).get_data(as_text=True)
+    assert "MemoryError" in body and "Render dashboard" in body and "secret detail" not in body
+
+
+# ---- v1.2.3 regression: ZIPs whose *members* fail to read used to escape as BadZipFile /
+# NotImplementedError / RuntimeError and produce the generic "Something went wrong" page on /run.
+def _deflated_zip():
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for i in range(1, 4):
+            z.writestr(f"My Show/episode-{i:03d}.txt", make_episode(i, LINES) * 3)
+    return buf.getvalue()
+
+
+def _broken_zip(kind):
+    import re as _re
+    good = _deflated_zip()
+    infos = zipfile.ZipFile(io.BytesIO(good)).infolist()
+    b = bytearray(good)
+    if kind == "corrupt":
+        i = infos[0]
+        off = i.header_offset + 30 + len(i.filename.encode()) + len(i.extra) + 20
+        b[off:off + 30] = b"\x00" * 30
+    elif kind == "deflate64":
+        for i in infos:
+            b[i.header_offset + 8:i.header_offset + 10] = (9).to_bytes(2, "little")
+        for m in _re.finditer(rb"PK\x01\x02", good):
+            b[m.start() + 10:m.start() + 12] = (9).to_bytes(2, "little")
+    elif kind == "encrypted":
+        for i in infos:
+            b[i.header_offset + 6] |= 1
+        for m in _re.finditer(rb"PK\x01\x02", good):
+            b[m.start() + 8] |= 1
+    return bytes(b)
+
+
+@pytest.mark.parametrize("kind,expect", [("corrupt", "is damaged"), ("deflate64", "Deflate64 compression"),
+                                         ("encrypted", "password-protected")])
+def test_zip_member_failures_get_friendly_400(client, kind, expect):
+    r = post(client, [("show.zip", _broken_zip(kind))])
+    body = r.get_data(as_text=True)
+    assert r.status_code == 400 and expect in body and "Something went wrong" not in body, body[:300]
+
+
+def test_deflated_zip_still_works(client):
+    _, st, _ = wait_job(client, post(client, [("show.zip", _deflated_zip())]))
+    assert st["status"] == "done"
