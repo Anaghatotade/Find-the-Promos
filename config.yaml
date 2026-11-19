@@ -8,8 +8,8 @@ max_per_episode: 2           # diversity: at most 2 picks from one episode
 mmr_lambda: 0.35             # diversity strength vs. raw score
 
 # Weighted geometric mean: a promo with no hook or no cliffhanger cannot rank high.
-# Weights were set a priori (not fit) and are robust: +-50% perturbation keeps ~10.5/12 picks
-# (outputs/experiments/exp3_ranking.json). Re-fit from editor votes: python -m promofinder.learn_weights
+# Weights were set a priori (not fit) and are robust: +-50% perturbation keeps ~10.5/12 picks.
+# Re-fit from editor votes: python -m promofinder.learn_weights
 weights: {hook: 1.0, cliff: 1.0, standalone: 0.8, arc: 0.6, premise: 0.5}
 
 funnel: {enabled: true, late_episode_penalty: 0.12}   # mild preference for early, spoiler-free episodes

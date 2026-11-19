@@ -19,7 +19,7 @@ from promofinder.config import load_config
 from promofinder.pipeline import PromoFinder
 from promofinder.export import write_outputs
 from promofinder.report import html_report
-from promofinder.theme import BASE_CSS
+from promofinder.theme import BASE_CSS, HEAD, topbar
 from promofinder import __version__
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -40,9 +40,10 @@ log = logging.getLogger("promofinder.app")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 
 ERROR_PAGE = ("""<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder: {title}</title>
-<style>@@CSS@@</style></head>
-<body><div class=shell><div class=sheet><h1>{title}</h1><p>{message}</p>{details}<a class=btn href="/">Back to upload</a></div></div></body></html>"""
-              .replace("@@CSS@@", BASE_CSS.replace("{", "{{").replace("}", "}}")))
+@@HEAD@@<style>@@CSS@@</style></head>
+<body>@@TOPBAR@@<div class=shell><div class=sheet><p class=kicker><b style="color:var(--hook)">&#9679;</b>&nbsp; Needs attention</p><h1>{title}</h1><p>{message}</p>{details}<a class=btn href="/">Back to upload <span class=arr>&rarr;</span></a></div></div></body></html>"""
+              .replace("@@CSS@@", BASE_CSS.replace("{", "{{").replace("}", "}}")).replace("@@HEAD@@", HEAD)
+              .replace("@@TOPBAR@@", topbar('<a href="/demo">Live demo</a>').replace("{", "{{").replace("}", "}}")))
 
 
 def error_page(title, message, status=400, details=None):
@@ -88,58 +89,153 @@ def unexpected_error(e):
 def favicon():
     return Response(status=204)
 
-INDEX = """<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder</title>
-<style>@@CSS@@
-.top{background:var(--sheet);border-bottom:1px solid var(--rule)}
-.top .in{max-width:1040px;margin:0 auto;padding:40px 28px 30px}
-.top h1{font-size:56px;line-height:.95}
-.top .in{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:40px;align-items:end}
-.anat{font-size:13px;color:var(--mute)}
-.anat .strip{position:relative;height:18px;background:var(--soft);border-radius:3px;overflow:hidden;margin:8px 0 6px}
-.anat .strip span{position:absolute;top:0;bottom:0}
-.anat .row{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
-.anat b{color:var(--ink)}
-.lede{font-size:18px;max-width:58ch;margin:14px 0 0}
-.grid{max-width:1040px;margin:0 auto;padding:28px;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:24px;align-items:start}
-.up h2,.demo h2{margin-bottom:4px}
-.drop{display:block;border:2px dashed var(--rule);border-radius:8px;padding:22px;margin:16px 0;background:var(--paper);cursor:pointer}
-.drop b{display:block;margin-bottom:8px}
-.drop input{font:inherit;max-width:100%}
-.opts{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;color:var(--mute);font-size:14px;margin-bottom:18px}
-.opts input[type=number]{font:inherit;width:64px;margin-left:6px;padding:4px 6px;border:1px solid var(--rule);border-radius:4px;background:var(--sheet)}
-#busy{display:none;margin-top:12px;color:var(--mute)}
-.small{font-size:13px;color:var(--mute);margin-top:14px}
-.demo{background:var(--slate);color:var(--slate-ink);border-radius:8px;padding:26px 28px}
-.demo h2{color:#fff}.demo p{color:#b9c2bb}
-.demo .btn{background:var(--slate-ink);color:var(--slate);border-color:var(--slate-ink);margin:6px 8px 8px 0}
-.demo .btn-quiet{background:transparent;color:var(--slate-ink);border-color:#5c6a62}
-.demo .dl{font-size:13px;color:#b9c2bb;margin-top:10px}.demo .dl a{color:var(--slate-ink);white-space:nowrap}
-.lists{max-width:1040px;margin:0 auto;padding:0 28px 48px}
-.runs{background:var(--sheet);border:1px solid var(--rule);border-radius:8px;padding:18px 22px;margin-top:18px}
-.runs a{display:block;padding:5px 0;font-weight:600}.runs .hint{font-weight:400;color:var(--mute);font-size:13px}
-.runs form{margin:8px 0}
-@media(max-width:860px){.grid{grid-template-columns:1fr;padding:18px}.top .in{grid-template-columns:1fr;gap:22px;padding:30px 18px 24px}.top h1{font-size:42px}.lists{padding:0 18px 40px}}
+INDEX = """<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder: ranked promo clips from microdrama screenplays</title>
+<meta name=description content="Upload a show's timestamped screenplays and get ranked 20-60 second promos with exact timecodes, the hook, the cut and why each one works.">
+@@HEAD@@<style>@@CSS@@
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.band{background:var(--night);color:var(--on-night);--hatch:repeating-linear-gradient(135deg,var(--on-night) 0 1.5px,transparent 1.5px 5px)}
+.band .kicker{color:var(--night-mute)}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:72px;align-items:end;padding:76px 0 72px}
+.hero h1{font-size:88px;line-height:.92;letter-spacing:-.025em}
+.hero h1 em{color:var(--hook)}
+.lede{font-size:18.5px;line-height:1.6;color:var(--night-mute);max-width:50ch;margin:28px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:24px;font:12.5px var(--mono);color:var(--night-mute)}
+.facts span::before{content:"\\2014\\00a0";opacity:.6}
+.anat{margin:0;padding:22px 0 0;border-top:1px solid var(--night-rule)}
+.anat figcaption{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+.anat figcaption b{font:600 13px var(--sans)}
+.anat figcaption span{font:11.5px var(--mono);color:var(--night-mute)}
+.ruler{display:flex;justify-content:space-between;font:10.5px var(--mono);color:var(--night-mute);margin-bottom:6px;font-variant-numeric:tabular-nums}
+.astrip{position:relative;height:46px;background:var(--night-2);
+background-image:linear-gradient(90deg,var(--night-rule) 1px,transparent 1px);background-size:16.666% 100%}
+.astrip span{position:absolute;top:0;bottom:0}
+.astrip .h{left:0;width:10%;background:var(--hook)}
+.astrip .c{right:0;width:20%;background:var(--hatch);box-shadow:inset 1px 0 0 var(--on-night)}
+.astrip .m{width:4px;background:var(--mark);top:-6px;bottom:-6px}
+.astrip .l{position:absolute;top:0;bottom:0;display:flex;align-items:center;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--night-mute)}
+.anat .row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:22px;font-size:13.5px;color:var(--night-mute)}
+.anat .row div{border-top:1px solid var(--night-rule);padding-top:12px}
+.anat .row i{display:inline-block;width:10px;height:10px;margin-right:8px;vertical-align:-1px}
+.anat .row b{display:block;color:var(--on-night);font-weight:600;margin-bottom:2px}
+.work{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);border-bottom:1px solid var(--rule)}
+.up{padding:52px 56px 56px 0;border-right:1px solid var(--rule)}
+.demo{padding:52px 0 56px 56px}
+.step{font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 12px}
+.step b{color:var(--hook)}
+.up h2,.demo h2{font-size:36px}
+.drop{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;min-height:178px;
+border:1.5px dashed var(--faint);border-radius:var(--r);padding:26px;margin:24px 0 22px;background:var(--sheet);cursor:pointer}
+.drop:hover,.drop.over{border-color:var(--ink);background:var(--paper)}
+.drop.over{border-style:solid;background:var(--mark-bg)}
+.drop:focus-within{outline:2px solid var(--hook);outline-offset:3px}
+.drop input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.drop .empty{display:flex;flex-direction:column;align-items:center;gap:6px;pointer-events:none}
+.drop .ic{width:42px;height:30px;margin-bottom:6px}
+.drop b{font-size:16px}
+.drop .sub{font-size:13.5px;color:var(--mute)}
+.drop .sub u{color:var(--ink);text-decoration-color:var(--hook);text-underline-offset:3px}
+.drop.has{border-style:solid;border-color:var(--ink);align-items:stretch;text-align:left}
+.picked{pointer-events:none;display:none;list-style:none;margin:0;padding:0;font:13px/1.4 var(--mono)}
+.drop.has .picked{display:block}.drop.has .empty{display:none}
+.picked li{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--rule)}
+.picked li span:last-child{color:var(--mute);white-space:nowrap}
+.picked .more{color:var(--mute);border:0}
+.picked .chg{font-family:var(--sans);font-size:13px;color:var(--mute);border:0;padding-top:10px}
+.opts{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center;font-size:14.5px;color:var(--ink-2);margin-bottom:24px}
+.opts label{display:inline-flex;align-items:center;gap:10px;cursor:pointer}
+.opts input[type=number]{font:500 15px var(--mono);width:72px;padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink)}
+.opts input[type=number]:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px var(--mark-bg)}
+.opts input[type=checkbox]{width:17px;height:17px;accent-color:var(--ink);margin:0}
+.submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+#busy{display:none;font-size:14px;color:var(--ink-2)}
+#busy::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hook);margin-right:8px;vertical-align:1px}
+.small{font-size:13px;color:var(--mute);margin-top:22px;max-width:60ch}
+.demo>p{color:var(--ink-2);max-width:46ch}
+.acts{list-style:none;padding:0;margin:24px 0 0;border-top:1px solid var(--rule)}
+.acts li{border-bottom:1px solid var(--rule)}
+.acts a,.acts button{display:flex;width:100%;justify-content:space-between;align-items:center;gap:12px;padding:16px 2px;background:none;border:0;border-radius:0;
+color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align:left}
+.acts a:hover,.acts button:hover{background:none;color:var(--hook-ink)}
+.acts small{display:block;font:400 13px/1.4 var(--sans);color:var(--mute);margin-top:3px}
+.acts .arr{font:400 18px var(--mono)}
+.acts a:hover .arr,.acts button:hover .arr{color:var(--hook)}
+.acts form{margin:0}
+.dl{font-size:13.5px;color:var(--mute);margin-top:18px;line-height:1.9}
+.dl a{font-family:var(--mono);font-size:12.5px;color:var(--ink);white-space:nowrap}
+.how{padding:64px 0 24px}
+.how-h{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:24px}
+.how-h h2{font-size:40px}
+.how-h p{color:var(--mute);margin:0;max-width:44ch;font-size:14.5px}
+.how ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--ink)}
+.how li{padding:20px 22px 8px 0;border-right:1px solid var(--rule);margin-right:22px}
+.how li:last-child{border-right:0;margin-right:0}
+.how li span{font:500 12px var(--mono);color:var(--hook)}
+.how li b{display:block;font:400 24px/1.15 var(--serif);margin:8px 0 8px}
+.how li p{font-size:14px;color:var(--ink-2);margin:0}
+.lists{padding:36px 0 56px}
+.runs{margin-top:22px;border-top:2px solid var(--ink);padding-top:16px}
+.runs h3{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font:600 13px var(--sans);margin-bottom:6px}
+.runs a{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--rule);font-weight:600;text-decoration:none}
+.runs a:hover{color:var(--hook-ink)}
+.runs .hint{font:400 12px var(--mono);color:var(--mute)}
+.runs form{margin:0;padding:10px 0;border-bottom:1px solid var(--rule)}
+.runs>p{padding:12px 0;margin:0}
+@media(max-width:980px){.hero{grid-template-columns:1fr;gap:44px;padding:52px 0 52px}.hero h1{font-size:64px}
+.work{grid-template-columns:1fr}.up{padding:40px 0 40px;border-right:0;border-bottom:1px solid var(--rule)}.demo{padding:40px 0 44px}
+.how ol{grid-template-columns:1fr 1fr}.how li:nth-child(2){border-right:0;margin-right:0}.how li{border-bottom:1px solid var(--rule)}}
+@media(max-width:560px){.hero h1{font-size:48px}.lede{font-size:16.5px}.anat .row{grid-template-columns:1fr;gap:8px}.up h2,.demo h2{font-size:30px}
+.how-h{display:block}.how ol{grid-template-columns:1fr}.how li{border-right:0;margin-right:0}.drop{min-height:150px}.submit button{width:100%;justify-content:center}}
 </style></head><body>
-<div class=top><div class=in><div><h1>PromoFinder</h1>
-<p class=lede>Upload a show's timestamped screenplays and get back ranked 20&ndash;60 second promos: exact timecodes, the hook, the moment to cut, and why each one works. Runs on an ordinary CPU, no AI API needed.</p></div>
-<div class=anat aria-label="What every promo is checked for"><b>What every clip is checked for</b>
-<div class=strip><span style="left:0;width:10%;background:var(--safelight)"></span><span style="right:0;width:18%;background:var(--tape)"></span><span style="left:0;width:3px;background:var(--pencil)"></span><span style="right:0;width:3px;background:var(--pencil)"></span></div>
-<div class=row><span>Hook in the first 3 s</span><span>Cut on an open question</span></div>
-<p style="margin:8px 0 0">Every cut lands between lines of dialogue, never inside one.</p></div></div></div>
-<div class=grid>
-<form class="up sheet" method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Uploading';">
-<h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt files.</p>
-<label class=drop><b>Choose screenplay files</b><input type=file name=files multiple accept=".zip,.txt" required></label>
+@@TOPBAR@@
+<div class=band><div class=wrap>
+<section class=hero><div><p class=kicker><b>&#9679;</b>&nbsp; Screenplay in, promo cuts out</p>
+<h1>Find the thirty seconds that <em>sell the show.</em></h1>
+<p class=lede>Upload a show's timestamped screenplays and get back ranked 20&ndash;60 second promos: exact timecodes, the hook, the moment to cut, and why each one works. Runs on an ordinary CPU, no AI API needed.</p>
+<div class=facts><span>EDLs for Premiere &amp; Resolve</span><span>CSV, JSON, Markdown</span><span>Deterministic results</span></div></div>
+<figure class=anat aria-label="What every promo is checked for"><figcaption><b>What every clip is checked for</b><span>anatomy of a 30 s promo</span></figcaption>
+<div class=ruler><span>0 s</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30 s</span></div>
+<div class=astrip><span class=h></span><span class=c></span><span class=m style="left:0"></span><span class=m style="right:0"></span><span class=l style="left:14%">story</span></div>
+<div class=row><div><b><i class=sw style="background:var(--hook)"></i>Hook</b>Grabs in the first 3 s</div>
+<div><b><i class=sw style="background:var(--hatch);box-shadow:inset 0 0 0 1px var(--on-night)"></i>Cut</b>Ends on an open question</div>
+<div><b><i class=sw style="background:var(--mark)"></i>In / out</b>Every cut lands between lines of dialogue, never inside one.</div></div></figure>
+</section></div></div>
+<div class=wrap>
+<section class=work id=upload>
+<form class=up method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Uploading';">
+<p class=step><b>01</b>&nbsp; Your show</p><h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt files.</p>
+<label class=drop id=drop><input type=file name=files multiple accept=".zip,.txt" required aria-describedby=dropsub>
+<span class=empty><svg class=ic viewBox="0 0 42 30" aria-hidden=true><rect x=".75" y=".75" width="40.5" height="28.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="9" width="3" height="12" style="fill:var(--mark)"/><rect x="11" y="12" width="9" height="6" style="fill:var(--hook)"/><rect x="20" y="12" width="9" height="6" fill="none" stroke="currentColor"/><rect x="33" y="9" width="3" height="12" style="fill:var(--mark)"/></svg>
+<b>Choose screenplay files</b><span class=sub id=dropsub>Drop them here or <u>browse</u> &middot; .zip or .txt</span></span>
+<ul class=picked id=picked aria-live=polite></ul></label>
 <div class=opts><label>Promos to return <input type=number name=top value=12 min=3 max=30></label>
 <label><input type=checkbox name=funnel checked> Prefer early episodes (fewer spoilers)</label></div>
-<button>Find promos</button><div id=busy>Uploading. Scoring starts as soon as the files arrive.</div>
+<div class=submit><button>Find promos <span class=arr>&rarr;</span></button><div id=busy>Uploading. Scoring starts as soon as the files arrive.</div></div>
 <div class=small>__PRIVACY__</div></form>
-<div class=demo><h2>Try the live demo</h2><p>Six episodes of <i>The Cleaner Was the Heiress</i>, an original sample show written for this demo in the production screenplay format.</p>
-<a class=btn href="/demo">See ranked promos</a>
-<form method=post action="/demo/run" style="display:inline"><button class="btn btn-quiet">Run the pipeline live</button></form>
+<div class=demo id=demo><p class=step><b>02</b>&nbsp; Or start with a sample</p><h2>Try the live demo</h2><p>Six episodes of <i>The Cleaner Was the Heiress</i>, an original sample show written for this demo in the production screenplay format.</p>
+<ul class=acts><li><a href="/demo"><span>See ranked promos<small>Opens instantly: results are precomputed</small></span><span class=arr>&rarr;</span></a></li>
+<li><form method=post action="/demo/run"><button ><span>Run the pipeline live<small>Watch every stage score the sample</small></span><span class=arr>&rarr;</span></button></form></li></ul>
 <div class=dl>Or download the sample and upload it yourself: <a href="/samples/sample.zip">sample .zip</a>, __EPLINKS__</div></div>
-</div>
-<div class=lists>__RUNS__</div></body></html>""".replace("@@CSS@@", BASE_CSS)
+</section>
+<section class=how id=how><div class=how-h><h2>How it ranks</h2><p>Transparent signals, no black box. Every pick shows the lines it was scored on.</p></div>
+<ol><li><span>01</span><b>Parse</b><p>Every camera shot, action, sound cue and line of dialogue, with its timestamp and delivery tags.</p></li>
+<li><span>02</span><b>Find legal cuts</b><p>A clip never starts or ends inside a line of dialogue.</p></li>
+<li><span>03</span><b>Score hook &amp; cut</b><p>The first 3 s must grab; the last 6 s must leave a question the viewer needs answered.</p></li>
+<li><span>04</span><b>Rank &amp; export</b><p>Diverse picks with no overlaps, ready as EDLs, cut lists, CSV, JSON or Markdown.</p></li></ol></section>
+<div class=lists>__RUNS__</div></div>
+<footer class=foot><span>PromoFinder @@VERSION@@</span><span>Runs on CPU &middot; no AI API key needed</span></footer>
+<script>
+(function(){const d=document.getElementById('drop');if(!d)return;const inp=d.querySelector('input'),ul=document.getElementById('picked');
+function kb(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
+function esc(s){return s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function show(){const f=[...inp.files];d.classList.toggle('has',f.length>0);
+ ul.innerHTML=f.slice(0,6).map(x=>`<li><span>${esc(x.name)}</span><span>${kb(x.size)}</span></li>`).join('')+(f.length>6?`<li class=more>+ ${f.length-6} more</li>`:'')+(f.length?'<li class=chg>Click or drop to choose different files</li>':'')}
+inp.addEventListener('change',show);
+['dragenter','dragover'].forEach(e=>d.addEventListener(e,()=>d.classList.add('over')));
+['dragleave','drop'].forEach(e=>d.addEventListener(e,()=>d.classList.remove('over')));
+window.addEventListener('pageshow',()=>{const b=document.querySelector('.up button');if(b){b.disabled=false;b.innerHTML='Find promos <span class=arr>&rarr;</span>'}document.getElementById('busy').style.display='none';show()});
+})();
+</script></body></html>""".replace("@@CSS@@", BASE_CSS).replace("@@HEAD@@", HEAD).replace("@@VERSION@@", __version__).replace(
+    "@@TOPBAR@@", topbar('<a href="/demo">Live demo</a><a href="#how" class=hide-sm>How it ranks</a><span class="ver hide-sm">v' + __version__ + '</span>'))
 
 
 @app.get("/")
@@ -336,15 +432,23 @@ def _run_job(jid, cfg, show, eps, notes, out_dir=None, cache_key=None):
 
 
 PROGRESS_PAGE = """<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>PromoFinder: working</title>
-<style>@@CSS@@
-.bar{height:12px;background:var(--soft);border-radius:3px;overflow:hidden;margin:20px 0 10px}
-.bar i{display:block;height:100%;width:0;background:var(--tape)}
-#st{font-weight:600}#el{color:var(--mute);font-size:13px;margin-top:4px;font-variant-numeric:tabular-nums}
-#slow{display:none;margin-top:16px;font-size:14px;color:#4d3800;background:var(--warn-bg);border-left:4px solid var(--pencil);border-radius:4px;padding:10px 14px}
-</style></head><body><div class=shell><div class=sheet>
-<h1>Finding promos in __SHOW__</h1><p class=mute>__N__ episode(s). Every legal cut point is being scored, and the results open by themselves when it's done.</p>
-<div class=bar><i id=b></i></div><div id=st>Starting</div><div id=el></div>
+@@HEAD@@<style>@@CSS@@
+.sheet h1 span{color:var(--hook);font-style:italic}
+.bar{position:relative;height:28px;background:var(--soft);overflow:hidden;margin:34px 0 14px;
+background-image:linear-gradient(90deg,var(--soft-2) 1px,transparent 1px);background-size:5% 100%}
+.bar i{display:block;height:100%;width:0;background:var(--ink)}
+.bar::after{content:"";position:absolute;top:-4px;bottom:-4px;left:0;width:3px;background:var(--mark)}
+.prog{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+#st{font-weight:600;font-size:16px}#el{color:var(--mute);font:13px var(--mono);font-variant-numeric:tabular-nums}
+#slow{display:none;margin-top:24px;font-size:14px;color:var(--mark-ink);background:var(--mark-bg);border-left:3px solid var(--mark);padding:12px 16px}
+.steps{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:30px;padding-top:16px;border-top:1px solid var(--rule);font:12px var(--mono);color:var(--mute)}
+.steps span::before{content:"\\2192\\00a0";color:var(--faint)}
+</style></head><body>@@TOPBAR@@<div class=shell><div class=sheet>
+<p class=kicker><b style="color:var(--hook)">&#9679;</b>&nbsp; Scoring in progress</p>
+<h1>Finding promos in <span>__SHOW__</span></h1><p class=mute>__N__ episode(s). Every legal cut point is being scored, and the results open by themselves when it's done.</p>
+<div class=bar role=progressbar aria-label="Scoring progress"><i id=b></i></div><div class=prog><div id=st aria-live=polite>Starting</div><div id=el></div></div>
 <div id=slow>Still working. This server has far less CPU than a laptop, so a full 50-episode show can take a minute or more here (about 7 s on a laptop). The progress above is live; you can leave this tab open.</div>
+<div class=steps><span>Parse screenplays</span><span>Find legal cuts</span><span>Score hooks &amp; cuts</span><span>Rank &amp; write exports</span></div>
 <noscript><p>JavaScript is off: <a href="/job/__JID__">refresh this page</a> to check progress.</p></noscript></div></div>
 <script>
 const t0=Date.now();
@@ -354,6 +458,7 @@ async function poll(){
     if(r.status===404){document.getElementById('st').textContent='This job is no longer available.';return}
     const j=await r.json();
     document.getElementById('b').style.width=Math.round(j.frac*100)+'%';
+    document.getElementById('b').parentNode.setAttribute('aria-valuenow',Math.round(j.frac*100));
     document.getElementById('st').textContent=j.stage+' ('+Math.round(j.frac*100)+'%)';
     document.getElementById('el').textContent=Math.round((Date.now()-t0)/1000)+' s elapsed';
     if(Date.now()-t0>30000)document.getElementById('slow').style.display='block';
@@ -363,7 +468,7 @@ async function poll(){
   setTimeout(poll,500);
 }
 poll();
-</script></body></html>""".replace("@@CSS@@", BASE_CSS)
+</script></body></html>""".replace("@@CSS@@", BASE_CSS).replace("@@HEAD@@", HEAD).replace("@@TOPBAR@@", topbar(""))
 
 
 @app.get("/job/<jid>")
@@ -421,7 +526,7 @@ def view(rid):
         banner = ('<div class=notes><div><b>Notes on this upload</b><ul>'
                   + "".join(f"<li>{html.escape(n)}</li>" for n in notes[:12]) + "</ul></div></div>")
         page = page.replace("<main>", banner + "<main>", 1)
-    dl = (f'<div class=dl><span class=mute>Download </span><a href="/r/{rid}/edl.zip">EDLs for Premiere or Resolve</a>'
+    dl = (f'<div class=dl><span class=dl-label>Export</span><a class=dl-primary href="/r/{rid}/edl.zip">EDLs for Premiere or Resolve</a>'
           f' <a href="/r/{rid}/cutlist_nle.csv">Cut list (CSV)</a> <a href="/r/{rid}/promos_top.csv">Promos (CSV)</a>'
           f' <a href="/r/{rid}/promos_top.json">JSON</a> <a href="/r/{rid}/promos_top.md">Markdown</a>'
           f' <a href="/r/{rid}/promos_longlist.csv">Longlist (CSV)</a></div>')

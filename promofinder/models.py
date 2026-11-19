@@ -103,7 +103,7 @@ def hook_lfs(f: Dict[str, float]) -> List[int]:
 HOOK_LF_NAMES = ["action_shock", "shock_line", "arousal", "exclamation", "confrontation",
                  "establishing(-)", "empty(-)", "no_line_no_action(-)", "relief(-)"]
 # "Dangling start" and "mid-speech" are deliberately not hook LFs: they vetoed real hooks such as
-# "They arrested her!" (experiments/exp2b). They only affect the standalone score.
+# "They arrested her!". They only affect the standalone score.
 
 
 def cross_fit_predict(model_factory, groups, texts, feats, y, n_folds=5, sample_weight=None, seed=0):
