@@ -20,7 +20,7 @@ def client(tmp_path, monkeypatch):
 
 def test_home_keeps_every_control(client):
     body = client.get("/").get_data(as_text=True)
-    for needle in ('action="/run"', 'name=files', 'accept=".zip,.txt"', 'name=top', 'name=funnel',
+    for needle in ('action="/run"', 'name=files', 'accept=".zip,.txt,', 'name=top', 'name=funnel',
                    'href="/demo"', 'action="/demo/run"', 'href="/samples/sample.zip"', 'href="/samples/episode-001.txt"',
                    'id=busy', "Try the live demo", "Find promos in your show"):
         assert needle in body, needle

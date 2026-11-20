@@ -15,6 +15,7 @@ import gc, hashlib, html, io, json, logging, os, shutil, sys, time, uuid, thread
 from flask import Flask, request, redirect, Response, abort
 from werkzeug.exceptions import HTTPException
 from promofinder.ingest import load_bytes, InputError
+from promofinder.formats import SUPPORTED_EXT
 from promofinder.config import load_config
 from promofinder.pipeline import PromoFinder
 from promofinder.export import write_outputs
@@ -213,10 +214,10 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 <div class=wrap>
 <section class=work id=upload>
 <form class=up method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Uploading';">
-<p class=step><b>01</b>&nbsp; Your show</p><h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt files.</p>
-<label class=drop id=drop><input type=file name=files multiple accept=".zip,.txt" required aria-describedby=dropsub>
+<p class=step><b>01</b>&nbsp; Your show</p><h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt / .srt / .vtt / .json files.</p>
+<label class=drop id=drop><input type=file name=files multiple accept=".zip,.txt,.srt,.vtt,.json,.md,.fountain" required aria-describedby=dropsub>
 <span class=empty><svg class=ic viewBox="0 0 42 30" aria-hidden=true><rect x=".75" y=".75" width="40.5" height="28.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="9" width="3" height="12" style="fill:var(--mark)"/><rect x="11" y="12" width="9" height="6" style="fill:var(--hook)"/><rect x="20" y="12" width="9" height="6" fill="none" stroke="currentColor"/><rect x="33" y="9" width="3" height="12" style="fill:var(--mark)"/></svg>
-<b>Choose screenplay files</b><span class=sub id=dropsub>Drop them here or <u>browse</u> &middot; .zip or .txt</span></span>
+<b>Choose screenplay files</b><span class=sub id=dropsub>Drop them here or <u>browse</u> &middot; .zip, .txt, .srt, .vtt or .json</span></span>
 <ul class=picked id=picked aria-live=polite></ul></label>
 <div class=opts><label>Promos to return <input type=number name=top value=12 min=3 max=30></label>
 <label><input type=checkbox name=funnel checked> Prefer early episodes (fewer spoilers)</label></div>
@@ -280,10 +281,11 @@ def run():
     files = [f for f in request.files.getlist("files") if f and f.filename]
     if not files:
         return error_page("No file selected", "Choose the show's screenplay .zip, or one or more episode .txt files, then press Find promos.")
-    bad = [f.filename for f in files if not f.filename.lower().endswith((".zip", ".txt"))]
-    items = [(f.filename, f.read()) for f in files if f.filename.lower().endswith((".zip", ".txt"))]
+    ok_ext = (".zip",) + SUPPORTED_EXT
+    bad = [f.filename for f in files if not f.filename.lower().endswith(ok_ext)]
+    items = [(f.filename, f.read()) for f in files if f.filename.lower().endswith(ok_ext)]
     if not items:
-        return error_page("Unsupported file type", "PromoFinder reads screenplay .zip archives or .txt files.",
+        return error_page("Unsupported file type", "PromoFinder reads screenplay .zip archives and .txt, .srt, .vtt, .json, .md or .fountain files.",
                           details=[f"not supported: {b}" for b in bad])
     try:
         top_n = _int_field("top", 12, 3, 30)
@@ -305,7 +307,7 @@ def run():
         return error_page("Too short for a promo",
                           f"The upload holds {total:.1f}s of story; a promo needs at least {cfg['min_dur']:.0f}s of continuous material.")
     # validation passed: score in the background and show live progress
-    notes = report["warnings"] + [f"skipped (no timestamped blocks): {n}" for n in report["skipped"]] + [f"ignored (not .zip/.txt): {b}" for b in bad]
+    notes = report["warnings"] + [f"skipped (no timestamped blocks): {n}" for n in report["skipped"]] + [f"ignored (unsupported file type): {b}" for b in bad]
     # Off for LLM runs (not deterministic) and in public mode, where an unguessable run link is the only access
     # control and must never be handed to a different visitor.
     key = None if (cfg.get("llm", {}).get("enabled") or PUBLIC) else _cache_key(items, cfg)
