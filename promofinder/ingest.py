@@ -1,6 +1,6 @@
 """Load a show from a ZIP, a directory, or individual .txt files (safely)."""
 from __future__ import annotations
-import hashlib, io, os, zipfile, zlib
+import codecs, hashlib, io, os, zipfile, zlib
 from typing import Dict, Iterable, List, Optional, Tuple
 from .parser import Episode
 from .formats import parse_any, SUPPORTED_EXT
@@ -44,16 +44,19 @@ def _read_member(z: zipfile.ZipFile, info: zipfile.ZipInfo, zip_name: str) -> by
                          "Download or create the ZIP again, or upload the episode .txt files directly.")
 
 
-def _open_zip(data: bytes) -> zipfile.ZipFile:
+def _ensure_cp437():
+    """zipfile decodes non-UTF-8 member names with cp437, which some hosted Pythons cannot load
+    (LookupError). latin-1 is built in and maps every byte, so register it as a stand-in. Works on every
+    Python version (zipfile's metadata_encoding argument only exists from 3.11)."""
     try:
-        return zipfile.ZipFile(io.BytesIO(data))
+        codecs.lookup("cp437")
     except LookupError:
-        # Non-UTF-8 member names are decoded with the cp437 codec, which some Python installs
-        # fail to load. latin-1 is built in and maps every byte, so names still decode.
-        try:
-            return zipfile.ZipFile(io.BytesIO(data), metadata_encoding="latin-1")
-        except TypeError:   # Python < 3.11 has no metadata_encoding
-            raise InputError("This ZIP's file names use an encoding this Python cannot read. Upload the episode files directly.")
+        codecs.register(lambda name: codecs.lookup("latin-1") if name.replace("-", "").replace("_", "").lower() in ("cp437", "ibm437", "437") else None)
+
+
+def _open_zip(data: bytes) -> zipfile.ZipFile:
+    _ensure_cp437()
+    return zipfile.ZipFile(io.BytesIO(data))
 
 
 def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, bytes]]:

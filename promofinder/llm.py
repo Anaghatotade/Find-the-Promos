@@ -60,7 +60,13 @@ def load_dotenv(path: Optional[str] = None) -> List[str]:
             if not line or line.startswith("#") or "=" not in line:
                 continue
             k, v = line.split("=", 1)
-            k = k.strip().removeprefix("export ").strip(); v = v.strip().strip('"').strip("'")
+            k = k.strip()
+            k = k[7:].strip() if k.startswith("export ") else k
+            v = v.strip()
+            if v[:1] in ('"', "'") and v[1:].find(v[0]) >= 0:
+                v = v[1:1 + v[1:].find(v[0])]              # quoted value: keep everything inside the quotes
+            else:
+                v = v.split(" #", 1)[0].strip()           # unquoted: drop an inline comment
             if k and v and k not in os.environ:
                 os.environ[k] = v; loaded.append(k)
     return loaded

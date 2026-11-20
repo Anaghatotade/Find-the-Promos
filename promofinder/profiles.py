@@ -112,7 +112,7 @@ class Profile:
 
 
 PROFILES: Dict[str, Profile] = {
-    "general": Profile("general", "General audience (no angle preference)", {}, {},
+    "general": Profile("general", "General audience", {}, {},
                        "The default ranking: hook, cliffhanger, clarity, intensity and premise only."),
     "romance": Profile("romance", "Romance seekers", {"romance": 1.0}, {"arc": 1.2, "standalone": 1.1},
                        "Viewers who follow couples: tender or charged moments between the leads, protection, jealousy."),

@@ -159,7 +159,7 @@ border:1.5px dashed var(--faint);border-radius:var(--r);padding:26px;margin:24px
 .opts input[type=number]{font:500 15px var(--mono);width:72px;padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink)}
 .opts input[type=number]:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px var(--mark-bg)}
 .opts input[type=checkbox]{width:17px;height:17px;accent-color:var(--ink);margin:0}
-.opts select{font:500 14px var(--sans);padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink);max-width:280px}
+.opts select{font:500 14px var(--sans);padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink);max-width:320px}
 .opts .llmoff{font-size:12.5px;color:var(--mute)}
 .submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
 #busy{display:none;font-size:14px;color:var(--ink-2)}
@@ -969,7 +969,27 @@ if os.environ.get("PROMOFINDER_PRECOMPUTE_DEMO", "1") == "1" and "--prebuild-dem
     threading.Thread(target=precompute_all_demos, daemon=True).start()
 
 
+def _free_port(host, start, tries=20):
+    import socket
+    for p in range(start, start + tries):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                s.bind((host, p)); return p
+            except OSError:
+                continue
+    return start
+
+
 if __name__ == "__main__":
     if "--prebuild-demo" in sys.argv:
         sys.exit(prebuild_demo())
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 7860)), debug=False)
+    # local use: listen on this machine only unless HOST says otherwise (hosted deployments use gunicorn)
+    host = os.environ.get("HOST", "127.0.0.1")
+    port = _free_port(host, int(os.environ.get("PORT", 7860)))
+    url = f"http://{'localhost' if host in ('127.0.0.1', '0.0.0.0') else host}:{port}"
+    print(f"\n  PromoFinder {__version__} is running at {url}\n  (press Ctrl+C to stop)\n", flush=True)
+    if os.environ.get("PROMOFINDER_OPEN_BROWSER") == "1":
+        import webbrowser
+        threading.Timer(1.2, lambda: webbrowser.open(url)).start()
+    app.run(host=host, port=port, debug=False)

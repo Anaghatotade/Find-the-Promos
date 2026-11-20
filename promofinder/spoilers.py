@@ -47,8 +47,8 @@ REVEAL_ACTION = [
     (r"\b(?:walks in on|witness\w*|catches (?:them|her|him))\b", 0.6, "secret"),
 ]
 RESOLUTION = [
-    (r"\b(?:arrest (?:him|her|them)|take (?:him|her|them) away|you are under arrest|seize (?:him|her|them)|apprehend\w*)\b", 0.75),
-    (r"\b(?:it'?s over|it is over|you lost|you've lost|game is over|justice (?:is|has been) (?:served|done))\b", 0.7),
+    (r"\b(?:arrest (?:him|her|them)|take (?:him|her|them) away|(?:you are|you're|you’re|is|are) (?:now )?under arrest|seize (?:him|her|them)|apprehend\w*)\b", 0.75),
+    (r"\b(?:it[’']?s over|it is over|you lost|you've lost|game is over|justice (?:is|has been) (?:served|done))\b", 0.7),
     (r"\b(?:sentenced to|hereby (?:sentence|banish|strip)|stripped of (?:his|her) title)\b", 0.7),
     (r"\b(?:handcuff\w*|led away in chains|dragged away by (?:the )?guards)\b", 0.6),
 ]

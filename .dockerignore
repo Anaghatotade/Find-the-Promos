@@ -13,3 +13,6 @@ docs
 private_samples
 # generated at deploy time by `python app.py --prebuild-demo`
 prebuilt/
+private_eval
+.env
+.llm_cache

@@ -236,7 +236,7 @@ const src=p.segments.map(s=>esc(s.src_file)+', lines '+s.src_lines.join('&ndash;
 const tx=p.transcript.map(l=>`<p><span class=t>E${l.episode} ${l.start}</span>${l.kind=='dialogue'?`<span class=sp>${esc(l.speaker)}</span> <span class=tg>(${esc(l.tags.join(', '))})</span> ${esc(l.text)}`:`<span class=ac>${esc(l.text)}</span>`} <span class=t>L${l.src_line}</span></p>`).join('');
 const st=p.components.stability, f=fb[p.id]||'';
 const stab=st==null?'':`<span class="stab ${st>=.9?'hi':st>=.6?'mid':'lo'}" title="Share of 200 alternative weightings that keep this pick">${st>=.9?'Robust':st>=.6?'Likely':'Borderline'} pick, ${Math.round(st*100)}%</span>`;
-return `<article class=promo id="${p.id}" aria-label="Promo ${p.rank}"><div class=p-rank><div class=rank>${p.rank}</div><div class=score>score <b>${p.score.toFixed(3)}</b></div>${p.rank==1?'<span class=top-pick>Top pick</span>':''}</div>
+return `<article class=promo id="${p.id}" aria-label="Promo ${p.rank}"><div class=p-rank><div class=rank>${p.rank}</div><div class=score>score <b>${p.score.toFixed(3)}</b></div>${p.rank==1&&!p.portfolio_angle?'<span class=top-pick>Top pick</span>':''}</div>
 <div class=p-main><div class=tcs>${tcs}</div><div class=tools><button onclick="copyTc('${p.id}')" title="Copy timecodes for your edit">Copy timecodes</button><button onclick="location.hash='${p.id}';toast('Link set in address bar')">Link</button></div><div class=meta><span class=d>${p.duration_s.toFixed(1)} s</span><span class=sep></span><span>${kind}</span>${p.angle?`<span class=sep></span><span class=ang title="Strongest promo angle in this clip">${esc(p.angle.label)}</span>`:''}</div>${strip(p)}
 <div class="line h" style="${tv(p.hook.type)}"><b>Hook</b><span>${esc(p.hook.text)} ${badge(p.hook.type)}</span></div>
 <div class="line c" style="${tv(p.cliffhanger.type)}"><b>Cut on</b><span>${esc(p.cliffhanger.text)} ${badge(p.cliffhanger.type)}</span></div>
@@ -251,7 +251,7 @@ function vote(id,v,el){fb[id]=v;try{localStorage.setItem('pf_fb_'+D.show,JSON.st
 // ---------- portfolio: best clip per angle, for A/B creative tests
 function renderPortfolio(){const el=document.getElementById('port');if(!el)return;const ps=D.portfolio||[];
  el.innerHTML=ps.length?'<p class=reason style="margin:0 0 6px">One strong clip per angle, not overlapping each other: a ready set of creatives to A/B test against different audiences.</p>'+
- ps.map(p=>`<h3 class=pfh>${esc(p.angle.label)}</h3>`+card(p)).join(''):'<p class=mute>No portfolio in this run (made by an older version).</p>'}
+ ps.map(p=>`<h3 class=pfh>${esc(p.angle.label)}</h3>`+card(p).replace('class=rank>'+p.rank+'<','class=rank>&#9670;<')).join(''):'<p class=mute>No portfolio in this run (made by an older version).</p>'}
 // ---------- search
 const SUGG=['betrayal','strong emotional confrontation','humiliation in public','tender romantic moment','a shocking reveal','someone threatens her','a rescue'];
 function renderSearch(){const el=document.getElementById('search');if(!el)return;

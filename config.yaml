@@ -8,22 +8,36 @@ max_per_episode: 2           # diversity: at most 2 picks from one episode
 mmr_lambda: 0.35             # diversity strength vs. raw score
 
 # Weighted geometric mean: a promo with no hook or no cliffhanger cannot rank high.
-# Weights were set a priori (not fit) and are robust: +-50% perturbation keeps ~10.5/12 picks.
-# Re-fit from editor votes: python -m promofinder.learn_weights
+# Editor feedback (Use/Reject + A/B comparisons) re-fits these automatically, see `learning` below.
 weights: {hook: 1.0, cliff: 1.0, standalone: 0.8, arc: 0.6, premise: 0.5}
 
-funnel: {enabled: true, late_episode_penalty: 0.12}   # mild preference for early, spoiler-free episodes
+funnel: {enabled: true, late_episode_penalty: 0.12}   # mild preference for early episodes (viewers land near the start)
 allow_cross_episode: true
 allow_cold_open: true
+
+# Content-based spoiler model. tolerance: strict | balanced | off
+# free_episodes: what new viewers see first (never treated as a spoiler)
+# use_loglines: anchor "major reveal" detection on each episode's EPISODE LOGLINE when present
+spoilers: {tolerance: balanced, free_episodes: 3, use_loglines: true}
+
+# Audience profile: general | romance | revenge | thriller | mystery | power | family | humor
+audience: general
+
+# Learning from editors. Learned weights replace `weights` once min_judgments are collected.
+# prior_strength: how strongly the defaults resist a few noisy judgments (chosen in simulation, see README)
+learning: {auto_apply: true, min_judgments: 10, prior_strength: 1.0, active_pool: 50}
 
 cliff_model: withheld_payoff     # withheld_payoff | self_supervised | rules
 hook_model: weak_supervision     # weak_supervision | rules
 arousal_mode: auto               # auto: use delivery tags if >=50% of lines have them, else infer from camera/action text
 
+# Optional LLM second opinion. API keys go in .env (never here). The provider can also be set in .env
+# with PROMOFINDER_LLM_PROVIDER. Free options: gemini (Google AI Studio key), groq, openrouter (:free models), ollama (local).
 llm:
   enabled: false
-  provider: none        # anthropic | openai | openai_compatible | mock
-  model: ""             # e.g. claude-sonnet-4-5, gpt-4o-mini, llama3.1 (via base_url)
-  base_url: ""          # for OpenAI-compatible servers (Ollama, Groq, vLLM, Gemini)
+  provider: none        # anthropic | openai | gemini | groq | openrouter | ollama | openai_compatible | mock
+  model: ""             # empty = provider default (see promofinder/llm.py PRESETS)
+  base_url: ""          # only for openai_compatible
   rerank_top_k: 30      # only the shortlist is sent -> cost is ~constant per show
   system_weight: 0.5    # rank-average of system rank and LLM rank
+  pairwise_refine: true # one position-swapped A/B pass over the final list
