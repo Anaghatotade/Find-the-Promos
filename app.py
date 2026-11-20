@@ -15,6 +15,11 @@ import gc, hashlib, html, io, json, logging, os, shutil, sys, time, uuid, thread
 from flask import Flask, request, redirect, Response, abort
 from werkzeug.exceptions import HTTPException
 from promofinder.ingest import load_bytes, InputError
+from promofinder.formats import SUPPORTED_EXT
+from promofinder.llm import load_dotenv, llm_status
+from promofinder.profiles import PROFILES
+from promofinder import preferences as PREF
+load_dotenv()   # API keys for the optional LLM live in .env next to app.py (never in config or outputs)
 from promofinder.config import load_config
 from promofinder.pipeline import PromoFinder
 from promofinder.export import write_outputs
@@ -154,6 +159,8 @@ border:1.5px dashed var(--faint);border-radius:var(--r);padding:26px;margin:24px
 .opts input[type=number]{font:500 15px var(--mono);width:72px;padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink)}
 .opts input[type=number]:focus{border-color:var(--ink);outline:none;box-shadow:0 0 0 3px var(--mark-bg)}
 .opts input[type=checkbox]{width:17px;height:17px;accent-color:var(--ink);margin:0}
+.opts select{font:500 14px var(--sans);padding:8px 10px;border:1px solid var(--rule);border-radius:var(--r);background:var(--sheet);color:var(--ink);max-width:320px}
+.opts .llmoff{font-size:12.5px;color:var(--mute)}
 .submit{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
 #busy{display:none;font-size:14px;color:var(--ink-2)}
 #busy::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--hook);margin-right:8px;vertical-align:1px}
@@ -213,13 +220,16 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 <div class=wrap>
 <section class=work id=upload>
 <form class=up method=post action="/run" enctype=multipart/form-data onsubmit="document.getElementById('busy').style.display='block';const b=this.querySelector('button');b.disabled=true;b.textContent='Uploading';">
-<p class=step><b>01</b>&nbsp; Your show</p><h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt files.</p>
-<label class=drop id=drop><input type=file name=files multiple accept=".zip,.txt" required aria-describedby=dropsub>
+<p class=step><b>01</b>&nbsp; Your show</p><h2>Find promos in your show</h2><p class=mute>A .zip of episode screenplays, or several .txt / .srt / .vtt / .json files.</p>
+<label class=drop id=drop><input type=file name=files multiple accept=".zip,.txt,.srt,.vtt,.json,.md,.fountain" required aria-describedby=dropsub>
 <span class=empty><svg class=ic viewBox="0 0 42 30" aria-hidden=true><rect x=".75" y=".75" width="40.5" height="28.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="9" width="3" height="12" style="fill:var(--mark)"/><rect x="11" y="12" width="9" height="6" style="fill:var(--hook)"/><rect x="20" y="12" width="9" height="6" fill="none" stroke="currentColor"/><rect x="33" y="9" width="3" height="12" style="fill:var(--mark)"/></svg>
-<b>Choose screenplay files</b><span class=sub id=dropsub>Drop them here or <u>browse</u> &middot; .zip or .txt</span></span>
+<b>Choose screenplay files</b><span class=sub id=dropsub>Drop them here or <u>browse</u> &middot; .zip, .txt, .srt, .vtt or .json</span></span>
 <ul class=picked id=picked aria-live=polite></ul></label>
 <div class=opts><label>Promos to return <input type=number name=top value=12 min=3 max=30></label>
-<label><input type=checkbox name=funnel checked> Prefer early episodes (fewer spoilers)</label></div>
+<label><input type=checkbox name=funnel checked> Prefer early episodes</label></div>
+<div class=opts><label>Audience <select name=audience>__AUDIENCE__</select></label>
+<label>Spoilers <select name=spoilers><option value=balanced selected>Balanced: penalise clear twists</option><option value=strict>Strict: avoid any reveal</option><option value=off>Off: ignore spoilers</option></select></label>
+__LLMOPT__</div>
 <div class=submit><button>Find promos <span class=arr>&rarr;</span></button><div id=busy>Uploading. Scoring starts as soon as the files arrive.</div></div>
 <div class=small>__PRIVACY__</div></form>
 <div class=demo id=demo><p class=step><b>02</b>&nbsp; Or start with a sample</p><h2>Try the live demo</h2><p>Two original sample shows, written for this demo in the production screenplay format.</p>
@@ -264,7 +274,20 @@ def index():
     priv_html = "" if not priv else ('<div class=runs><h3>Local samples <span class=hint>(from private_samples/, only on this machine)</span></h3>' + "".join(
         f'<form method=post action="/private-sample/run"><input type=hidden name=name value="{html.escape(n)}">'
         f'<button class="btn btn-quiet">Run: {html.escape(n)}</button></form>' for n in priv) + "</div>")
-    return INDEX.replace("__RUNS__", priv_html + runs_html).replace("__SAMPLES__", samples_html).replace("__PRIVACY__", privacy)
+    aud = "".join(f'<option value="{k}"{" selected" if k == "general" else ""} title="{html.escape(p.description)}">{html.escape(p.label)}</option>'
+                  for k, p in PROFILES.items())
+    st = llm_status(_base_cfg())
+    llm = (f'<label title="{html.escape(st["message"])}"><input type=checkbox name=llm> LLM second opinion ({html.escape(st["provider"])})</label>'
+           if st["ready"] else f'<span class=llmoff title="Optional: add an API key to .env (see README) to enable an LLM re-rank">LLM re-rank: off ({html.escape(st["message"])})</span>')
+    return (INDEX.replace("__RUNS__", priv_html + runs_html).replace("__SAMPLES__", samples_html).replace("__PRIVACY__", privacy)
+            .replace("__AUDIENCE__", aud).replace("__LLMOPT__", "" if PUBLIC else llm))
+
+
+def _base_cfg():
+    return load_config(os.path.join(ROOT, "config.yaml") if os.path.exists(os.path.join(ROOT, "config.yaml")) else None)
+
+
+FB_FILE = lambda: os.path.join(FB, "feedback.jsonl")
 
 
 def _int_field(name, default, lo, hi):
@@ -280,16 +303,29 @@ def run():
     files = [f for f in request.files.getlist("files") if f and f.filename]
     if not files:
         return error_page("No file selected", "Choose the show's screenplay .zip, or one or more episode .txt files, then press Find promos.")
-    bad = [f.filename for f in files if not f.filename.lower().endswith((".zip", ".txt"))]
-    items = [(f.filename, f.read()) for f in files if f.filename.lower().endswith((".zip", ".txt"))]
+    ok_ext = (".zip",) + SUPPORTED_EXT
+    bad = [f.filename for f in files if not f.filename.lower().endswith(ok_ext)]
+    items = [(f.filename, f.read()) for f in files if f.filename.lower().endswith(ok_ext)]
     if not items:
-        return error_page("Unsupported file type", "PromoFinder reads screenplay .zip archives or .txt files.",
+        return error_page("Unsupported file type", "PromoFinder reads screenplay .zip archives and .txt, .srt, .vtt, .json, .md or .fountain files.",
                           details=[f"not supported: {b}" for b in bad])
     try:
         top_n = _int_field("top", 12, 3, 30)
         cfg = load_config(os.path.join(ROOT, "config.yaml") if os.path.exists(os.path.join(ROOT, "config.yaml")) else None)
         cfg["top_n"] = top_n
         cfg["funnel"]["enabled"] = bool(request.form.get("funnel"))
+        aud = request.form.get("audience", "general")
+        cfg["audience"] = aud if aud in PROFILES else "general"
+        sp = request.form.get("spoilers", "balanced")
+        cfg["spoilers"]["tolerance"] = sp if sp in ("strict", "balanced", "off") else "balanced"
+        if request.form.get("llm") and not PUBLIC and llm_status(cfg)["ready"]:
+            cfg["llm"]["enabled"] = True
+            cfg["llm"]["provider"] = llm_status(cfg)["provider"]
+        if not PUBLIC and cfg.get("learning", {}).get("auto_apply", True):
+            lw = PREF.learned_weights_for(FB_FILE(), cfg, profile=None)
+            cfg["learning_state"] = {k: lw[k] for k in ("applied", "n_effective", "n_votes", "n_pairs", "needed", "message", "fitted", "default")}
+            if lw["applied"]:
+                cfg["weights"] = lw["weights"]
         report = {}
         show, eps = load_bytes(items, report=report)
     except InputError as e:
@@ -305,7 +341,13 @@ def run():
         return error_page("Too short for a promo",
                           f"The upload holds {total:.1f}s of story; a promo needs at least {cfg['min_dur']:.0f}s of continuous material.")
     # validation passed: score in the background and show live progress
-    notes = report["warnings"] + [f"skipped (no timestamped blocks): {n}" for n in report["skipped"]] + [f"ignored (not .zip/.txt): {b}" for b in bad]
+    notes = report["warnings"] + [f"skipped (no timestamped blocks): {n}" for n in report["skipped"]] + [f"ignored (unsupported file type): {b}" for b in bad]
+    fm = report.get("formats", {})
+    if fm and set(fm) != {"kuku"}:
+        notes.append("Detected screenplay format: " + ", ".join(f"{k} ({v} file{'s' if v > 1 else ''})" for k, v in fm.items()) + ".")
+    if not any(b.kind in ("camera", "action") for e in eps for b in e.blocks):
+        notes.append("These files have no camera/action lines (e.g. subtitles), so visual hooks such as a slap or a crash can't be "
+                     "detected and intensity is inferred from dialogue only. Expect less reliable picks than from full screenplays.")
     # Off for LLM runs (not deterministic) and in public mode, where an unguessable run link is the only access
     # control and must never be handed to a different visitor.
     key = None if (cfg.get("llm", {}).get("enabled") or PUBLIC) else _cache_key(items, cfg)
@@ -403,6 +445,18 @@ def _run_job(jid, cfg, show, eps, notes, out_dir=None, cache_key=None):
         with LOCK:   # one scoring run at a time (the pipeline sets process-wide arousal mode)
             _job_update(jid, status="running", stage="Starting", frac=0.01)
             res = PromoFinder(cfg).run(show, eps, progress=lambda st, fr: _job_update(jid, stage=st, frac=round(fr, 3)))
+            res["learned_weights"] = cfg.get("learning_state")
+            res["input_formats"] = {}
+            for e in eps:
+                res["input_formats"][getattr(e, "format", "kuku")] = res["input_formats"].get(getattr(e, "format", "kuku"), 0) + 1
+        if cfg.get("llm", {}).get("enabled") and res["top"]:
+            _job_update(jid, stage="LLM second opinion on the shortlist", frac=0.97)
+            try:
+                from promofinder.llm import rerank_with_llm
+                res = rerank_with_llm(res, cfg)
+            except Exception as e:   # the LLM is optional: never lose the run because of it
+                log.warning("LLM re-rank skipped: %s", e)
+                notes = notes + [f"LLM re-rank skipped: {str(e)[:160]}"]
         if not res["top"]:
             total = sum(e.duration for e in eps)
             _job_update(jid, status="error", error=("No promo-length clips found",
@@ -523,7 +577,16 @@ def view(rid):
     if not os.path.exists(os.path.join(d, "promos_top.json")):
         abort(404)
     top = json.load(open(os.path.join(d, "promos_top.json"), encoding="utf-8")); lng = json.load(open(os.path.join(d, "promos_longlist.json"), encoding="utf-8"))
-    page = html_report(top["meta"]["show"], top["meta"], top["promos"], lng["promos"], server=True, run_id=rid)
+    pp = os.path.join(d, "promos_portfolio.json")
+    port = json.load(open(pp, encoding="utf-8"))["promos"] if os.path.exists(pp) else []
+    # measured ad results (imported with `promofinder performance`) are shown as facts, apart from model scores
+    perf = {r["id"]: r for r in PREF.read_feedback(FB_FILE()) if r.get("type") == "performance"}
+    for rec in top["promos"] + lng["promos"] + port:
+        m = perf.get(rec["id"])
+        if m:
+            rec["measured"] = {"impressions": m.get("impressions"), "clicks": m.get("clicks"), "ctr": m.get("ctr")}
+    page = html_report(top["meta"]["show"], top["meta"], top["promos"], lng["promos"], server=True, run_id=rid, portfolio=port,
+                       searchable=os.path.exists(os.path.join(d, "show_index.json")))
     notes_path = os.path.join(d, "load_notes.json")
     notes = json.load(open(notes_path, encoding="utf-8")) if os.path.exists(notes_path) else []
     if request.args.get("cached"):
@@ -537,7 +600,7 @@ def view(rid):
     dl = (f'<div class=dl><span class=dl-label>Export</span><a class=dl-primary href="/r/{rid}/edl.zip">EDLs for Premiere or Resolve</a>'
           f' <a href="/r/{rid}/cutlist_nle.csv">Cut list (CSV)</a> <a href="/r/{rid}/promos_top.csv">Promos (CSV)</a>'
           f' <a href="/r/{rid}/promos_top.json">JSON</a> <a href="/r/{rid}/promos_top.md">Markdown</a>'
-          f' <a href="/r/{rid}/promos_longlist.csv">Longlist (CSV)</a></div>')
+          f' <a href="/r/{rid}/promos_longlist.csv">Longlist (CSV)</a> <a href="/r/{rid}/promos_portfolio.json">Portfolio (JSON)</a></div>')
     return page.replace("<main>", dl + "<main>", 1)
 
 
@@ -556,7 +619,8 @@ def edl_zip(rid):
 
 @app.get("/r/<rid>/<name>")
 def download(rid, name):
-    allowed = {"promos_top.json", "promos_top.csv", "promos_longlist.csv", "promos_longlist.json", "promos_top.md", "run_meta.json", "cutlist_nle.csv"}
+    allowed = {"promos_top.json", "promos_top.csv", "promos_longlist.csv", "promos_longlist.json", "promos_top.md", "run_meta.json",
+               "cutlist_nle.csv", "promos_portfolio.json"}
     if name not in allowed:
         abort(404)
     p = os.path.join(_run_dir(rid), name)
@@ -566,18 +630,85 @@ def download(rid, name):
     return Response(open(p, "rb").read(), mimetype=mt, headers={"Content-Disposition": f"attachment; filename={name}"})
 
 
+def _clean_comps(c):
+    return {k: float(v) for k, v in (c or {}).items() if isinstance(v, (int, float)) and len(k) < 40} if isinstance(c, dict) else None
+
+
 @app.post("/feedback")
 def feedback():
+    """Editor judgments: {vote: up|down, id, components} or {type: pair, a: {id, components}, b: {...}, winner: a|b|tie}."""
     j = request.get_json(force=True, silent=True) or {}
-    if j.get("vote") not in ("up", "down") or "components" not in j:
-        abort(400)
-    j["ts"] = time.time()
-    path = os.path.join(FB, "feedback.jsonl")
-    if os.path.exists(path) and os.path.getsize(path) > 5_000_000:
+    if j.get("type") == "pair":
+        a, b = j.get("a") or {}, j.get("b") or {}
+        ca, cb = _clean_comps(a.get("components")), _clean_comps(b.get("components"))
+        if j.get("winner") not in ("a", "b", "tie") or not ca or not cb:
+            abort(400)
+        rec = {"type": "pair", "run": str(j.get("run", ""))[:80], "show": str(j.get("show", ""))[:200],
+               "profile": str(j.get("profile", "general"))[:20], "source": "editor", "winner": j["winner"],
+               "a": {"id": str(a.get("id", ""))[:80], "components": ca}, "b": {"id": str(b.get("id", ""))[:80], "components": cb}}
+    else:
+        comps = _clean_comps(j.get("components"))
+        if j.get("vote") not in ("up", "down") or not comps:
+            abort(400)
+        rec = {"type": "vote", "run": str(j.get("run", ""))[:80], "show": str(j.get("show", ""))[:200], "id": str(j.get("id", ""))[:80],
+               "vote": j["vote"], "components": comps}
+    if not PREF.append_feedback(FB_FILE(), rec):
         return {"ok": False, "reason": "feedback store full"}, 507
-    with open(path, "a", encoding="utf-8") as fh:
-        fh.write(json.dumps({k: j[k] for k in ("run", "show", "id", "vote", "components", "ts") if k in j}) + "\n")
-    return {"ok": True}
+    st = PREF.learned_weights_for(FB_FILE(), _base_cfg())
+    return {"ok": True, "learning": {k: st[k] for k in ("applied", "n_effective", "needed", "message")}}
+
+
+def _records(rid, names=("promos_longlist.json", "promos_top.json")):
+    d = _run_dir(rid); out, seen = [], set()
+    for n in names:
+        p = os.path.join(d, n)
+        if os.path.exists(p):
+            for r in json.load(open(p, encoding="utf-8"))["promos"]:
+                if r["id"] not in seen:
+                    seen.add(r["id"]); out.append(r)
+    if not out:
+        abort(404)
+    return out
+
+
+@app.get("/r/<rid>/pair")
+def next_pair(rid):
+    """The most informative A/B comparison for this run (active learning)."""
+    recs = sorted(_records(rid), key=lambda r: -r["score"])
+    cfg = _base_cfg()
+    pr = PREF.next_pair(recs, FB_FILE(), cfg, run=rid, top_k=cfg.get("learning", {}).get("active_pool", 50))
+    if not pr:
+        return {"done": True}
+    a, b, p = pr
+    slim = lambda r: {k: r[k] for k in ("id", "rank", "score", "segments", "duration_s", "hook", "cliffhanger", "why_it_works",
+                                         "components", "transcript", "angle", "spoiler") if k in r}
+    return {"a": slim(a), "b": slim(b), "p_a": round(p, 3)}
+
+
+@app.get("/r/<rid>/rerank")
+def rerank(rid):
+    """Re-order this run's promos with the weights learned so far (no re-scoring needed)."""
+    cfg = _base_cfg()
+    st = PREF.learned_weights_for(FB_FILE(), cfg)
+    recs = PREF.rescore(_records(rid, ("promos_longlist.json",)), st["fitted"])
+    return {"learning": {k: st[k] for k in ("applied", "n_effective", "n_votes", "n_pairs", "needed", "message", "fitted", "default")},
+            "order": [{"id": r["id"], "score": r["score"], "prior_rank": r["prior_rank"]} for r in recs]}
+
+
+@app.get("/r/<rid>/search")
+def search(rid):
+    q = (request.args.get("q") or "").strip()[:200]
+    d = _run_dir(rid)
+    if not os.path.exists(os.path.join(d, "show_index.json")):
+        return {"hits": [], "error": "This run was made by an older version; re-run it to enable search."}, 404
+    if not q:
+        return {"hits": []}
+    from promofinder.search import search_run
+    try:
+        k = max(1, min(25, int(request.args.get("k", 10))))
+    except ValueError:
+        k = 10
+    return {"query": q, "hits": search_run(d, q, k=k)}
 
 
 # ------------------------------------------------------------------ local-only private samples
@@ -838,7 +969,27 @@ if os.environ.get("PROMOFINDER_PRECOMPUTE_DEMO", "1") == "1" and "--prebuild-dem
     threading.Thread(target=precompute_all_demos, daemon=True).start()
 
 
+def _free_port(host, start, tries=20):
+    import socket
+    for p in range(start, start + tries):
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            try:
+                s.bind((host, p)); return p
+            except OSError:
+                continue
+    return start
+
+
 if __name__ == "__main__":
     if "--prebuild-demo" in sys.argv:
         sys.exit(prebuild_demo())
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 7860)), debug=False)
+    # local use: listen on this machine only unless HOST says otherwise (hosted deployments use gunicorn)
+    host = os.environ.get("HOST", "127.0.0.1")
+    port = _free_port(host, int(os.environ.get("PORT", 7860)))
+    url = f"http://{'localhost' if host in ('127.0.0.1', '0.0.0.0') else host}:{port}"
+    print(f"\n  PromoFinder {__version__} is running at {url}\n  (press Ctrl+C to stop)\n", flush=True)
+    if os.environ.get("PROMOFINDER_OPEN_BROWSER") == "1":
+        import webbrowser
+        threading.Timer(1.2, lambda: webbrowser.open(url)).start()
+    app.run(host=host, port=port, debug=False)

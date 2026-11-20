@@ -105,7 +105,7 @@ def test_duplicates_and_notes_banner(client):
                       ("cover.pdf", b"%PDF")])
     _, st, _ = wait_job(client, r)
     page = client.get(f"/r/{st['rid']}").get_data(as_text=True)
-    assert "duplicate file ignored" in page and "ignored (not .zip/.txt): cover.pdf" in page
+    assert "duplicate file ignored" in page and "ignored (unsupported file type): cover.pdf" in page
 
 
 def test_unknown_run_and_unexpected_errors_are_friendly(client, monkeypatch):

@@ -1,8 +1,9 @@
 """Load a show from a ZIP, a directory, or individual .txt files (safely)."""
 from __future__ import annotations
-import hashlib, io, os, zipfile, zlib
+import codecs, hashlib, io, os, zipfile, zlib
 from typing import Dict, Iterable, List, Optional, Tuple
-from .parser import parse_screenplay, Episode
+from .parser import Episode
+from .formats import parse_any, SUPPORTED_EXT
 
 MAX_FILE_BYTES = 5_000_000      # per screenplay file
 MAX_FILES = 2000
@@ -43,13 +44,19 @@ def _read_member(z: zipfile.ZipFile, info: zipfile.ZipInfo, zip_name: str) -> by
                          "Download or create the ZIP again, or upload the episode .txt files directly.")
 
 
-def _open_zip(data: bytes) -> zipfile.ZipFile:
+def _ensure_cp437():
+    """zipfile decodes non-UTF-8 member names with cp437, which some hosted Pythons cannot load
+    (LookupError). latin-1 is built in and maps every byte, so register it as a stand-in. Works on every
+    Python version (zipfile's metadata_encoding argument only exists from 3.11)."""
     try:
-        return zipfile.ZipFile(io.BytesIO(data))
+        codecs.lookup("cp437")
     except LookupError:
-        # Non-UTF-8 member names are decoded with the cp437 codec, which some Python installs
-        # fail to load. latin-1 is built in and maps every byte, so names still decode.
-        return zipfile.ZipFile(io.BytesIO(data), metadata_encoding="latin-1")
+        codecs.register(lambda name: codecs.lookup("latin-1") if name.replace("-", "").replace("_", "").lower() in ("cp437", "ibm437", "437") else None)
+
+
+def _open_zip(data: bytes) -> zipfile.ZipFile:
+    _ensure_cp437()
+    return zipfile.ZipFile(io.BytesIO(data))
 
 
 def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, bytes]]:
@@ -63,7 +70,7 @@ def _iter_zip(data: bytes, zip_name: str = "upload.zip") -> Iterable[Tuple[str, 
         total = 0
         for info in z.infolist():
             name = info.filename
-            if info.is_dir() or not name.lower().endswith(".txt"):
+            if info.is_dir() or not name.lower().endswith(SUPPORTED_EXT):
                 continue
             if "__MACOSX" in name or os.path.basename(name).startswith("."):
                 continue
@@ -87,7 +94,7 @@ def load_inputs(paths: List[str]) -> Tuple[str, List[Episode]]:
             show = show or os.path.basename(os.path.normpath(p))
             for root, _, files in os.walk(p):
                 for f in sorted(files):
-                    if f.lower().endswith(".txt"):
+                    if f.lower().endswith(SUPPORTED_EXT):
                         with open(os.path.join(root, f), "rb") as fh:
                             items.append((os.path.join(root, f), fh.read()))
         elif p.lower().endswith(".zip"):
@@ -97,7 +104,7 @@ def load_inputs(paths: List[str]) -> Tuple[str, List[Episode]]:
             if zitems and show is None:
                 d = os.path.dirname(zitems[0][0])
                 show = os.path.basename(d) if d else os.path.splitext(os.path.basename(p))[0]
-        elif p.lower().endswith(".txt"):
+        elif p.lower().endswith(SUPPORTED_EXT):
             with open(p, "rb") as fh:
                 items.append((p, fh.read()))
     return load_bytes(items, show)
@@ -127,8 +134,10 @@ def load_bytes(items: List[Tuple[str, bytes]], show: str | None = None,
         seen_hash.add(h); uniq.append((n, d))
     eps = []
     for n, d in uniq:
-        e = parse_screenplay(_decode(d), os.path.basename(n))
+        e = parse_any(_decode(d), os.path.basename(n))
         if e.blocks:
+            fm = getattr(e, "format", "kuku")
+            report.setdefault("formats", {})[fm] = report.setdefault("formats", {}).get(fm, 0) + 1
             eps.append(e)
         else:
             report["skipped"].append(os.path.basename(n))

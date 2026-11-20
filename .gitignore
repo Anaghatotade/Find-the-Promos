@@ -11,3 +11,9 @@ private_samples/
 !samples/last_call_from_the_marigold.zip
 # generated at deploy time by `python app.py --prebuild-demo`
 prebuilt/
+
+# confidential evaluation data for the Kuku pack (never commit)
+private_eval/
+.env
+.promofinder_env/
+.llm_cache/

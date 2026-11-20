@@ -23,6 +23,17 @@ NON_DIALOGUE = {"CAMERA": "camera", "ACTION": "action", "SOUND FX": "sfx", "SFX"
                 "INSERT": "camera", "TITLE": "text", "SUPER": "text"}
 
 
+HONORIFICS = re.compile(r"^(?:(?:THE|LADY|LORD|SIR|DAME|MR|MRS|MS|MISS|DR|DOCTOR|KING|QUEEN|PRINCE|PRINCESS|DUKE|DUCHESS|"
+                        r"CAPTAIN|DETECTIVE|SHERIFF|OFFICER|MASTER|MISTRESS|MADAM|YOUNG|OLD)\.?\s+)+", re.I)
+
+
+def canon_speaker(name: str) -> str:
+    """'LADY MARA' and 'MARA' are the same person: drop leading honorifics for identity checks."""
+    n = (name or "").strip().upper()
+    c = HONORIFICS.sub("", n).strip()
+    return c or n
+
+
 def ts(m: str, s: str) -> float:
     return int(m) * 60 + float(s)
 

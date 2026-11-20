@@ -17,6 +17,12 @@ DEFAULTS = {
     "cliff_model": "withheld_payoff",   # withheld_payoff | self_supervised | rules
     "hook_model": "weak_supervision",
     "arousal_mode": "auto",             # auto | tags | fallback | max  (auto: tags if >=50% of lines are tagged)
+    # content-based spoiler model (spoilers.py): strict | balanced | off
+    "spoilers": {"tolerance": "balanced", "free_episodes": 3, "use_loglines": True},
+    # audience profile (profiles.py): general | romance | revenge | thriller | mystery | family | humor
+    "audience": "general",
+    # preference learning (preferences.py): apply weights learned from editor judgments when available
+    "learning": {"auto_apply": True, "min_judgments": 10, "prior_strength": 1.0, "active_pool": 50},
     "llm": {"enabled": False, "provider": "none", "model": "", "rerank_top_k": 30},
 }
 
