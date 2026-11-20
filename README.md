@@ -24,25 +24,20 @@ Everything runs on an ordinary CPU with no API key. An LLM second opinion is opt
 ## Quick start
 
 1. **Download and extract the ZIP** (or clone the repo).
-2. **Run the launcher:**
-
-   | System | What to do |
-   |---|---|
-   | Windows | Double-click `run.bat`, or run `.\run.bat` in PowerShell. |
-   | macOS / Linux | Run `./run.sh` in a terminal. If you get *permission denied*, use `bash run.sh`. |
+2. **Run the launcher:** double-click `run.bat`, or run `.\run.bat` in PowerShell.
 
    The first launch finds Python 3.10 or newer, sets up a private environment in `.venv`, installs the dependencies (takes about a minute and needs internet) and creates a `.env` file for optional API keys. Then it starts PromoFinder and opens <http://localhost:7860>.
 3. **After that, just run the launcher again.** It starts in a couple of seconds. It only reinstalls dependencies when `requirements.txt` changes, and it rebuilds `.venv` by itself if the folder moves to another computer.
 
-If Python is missing, the launcher tells you how to install it. On Windows, tick *Add python.exe to PATH* in the installer.
+If Python is missing, the launcher tells you how to install it. Tick *Add python.exe to PATH* in the Python installer.
 
-Other launcher commands (on Windows, use `.\run.bat` instead of `./run.sh`):
+Other launcher commands:
 
-```bash
-./run.sh check                                  # check the setup without starting anything
-./run.sh test                                   # run the 80 automated tests
-./run.sh cli run show.zip --out outputs/show    # use the command line (see below)
-./run.sh reset                                  # delete .venv so the next launch rebuilds it
+```powershell
+.\run.bat check                                  # check the setup without starting anything
+.\run.bat test                                   # run the 80 automated tests
+.\run.bat cli run show.zip --out outputs\show    # use the command line (see below)
+.\run.bat reset                                  # delete .venv so the next launch rebuilds it
 ```
 
 ---
@@ -86,14 +81,14 @@ Here is one pick up close. The strip is drawn to scale: red is the 3-second hook
 
 ### On the command line
 
-```bash
-./run.sh cli run show.zip --out outputs/show                       # rank promos
-./run.sh cli run show.zip --audience thriller --spoilers strict    # target an audience, avoid reveals
-./run.sh cli run show.zip --llm gemini                             # add an LLM second opinion (key in .env)
-./run.sh cli search outputs/show "the sheriff is lying"            # search a finished run
-./run.sh cli eval outputs/show --source show.zip                   # check every pick against the scripts
-./run.sh cli learn feedback/feedback.jsonl                         # see what the editors have taught it
-./run.sh cli performance outputs/show ad_results.csv               # import real ad results
+```powershell
+.\run.bat cli run show.zip --out outputs\show                       # rank promos
+.\run.bat cli run show.zip --audience thriller --spoilers strict     # target an audience, avoid reveals
+.\run.bat cli run show.zip --llm gemini                              # add an LLM second opinion (key in .env)
+.\run.bat cli search outputs\show "the sheriff is lying"             # search a finished run
+.\run.bat cli eval outputs\show --source show.zip                    # check every pick against the scripts
+.\run.bat cli learn feedback\feedback.jsonl                          # see what the editors have taught it
+.\run.bat cli performance outputs\show ad_results.csv                # import real ad results
 ```
 
 The launcher is just a convenience. With the dependencies installed, `python -m promofinder ...` and `python app.py` work the same way.
@@ -121,7 +116,7 @@ The ranking never needs an LLM. If you add one, it only reads the shortlist (abo
 
 Set it up in `.env`. The launcher creates that file on first run; it stays on your computer, git ignores it, and keys never appear in any output.
 
-```bash
+```ini
 PROMOFINDER_LLM_PROVIDER=gemini      # gemini | groq | openrouter | ollama | anthropic | openai | openai_compatible
 GEMINI_API_KEY=your-key-here
 ```
@@ -135,7 +130,7 @@ GEMINI_API_KEY=your-key-here
 
 To use a different model, set `PROMOFINDER_LLM_MODEL`. Any OpenAI-compatible server works through `openai_compatible` plus `PROMOFINDER_LLM_BASE_URL`. No SDK is needed: the calls are plain HTTPS. Answers are cached in `.llm_cache/`, so re-running a show costs nothing, and if a call fails, that clip simply keeps its normal score.
 
-Once a key is set, the upload page shows an *LLM second opinion* checkbox, and `run check` tells you which provider is active.
+Once a key is set, the upload page shows an *LLM second opinion* checkbox, and `.\run.bat check` tells you which provider is active.
 
 ---
 
@@ -192,7 +187,7 @@ Every number below comes from a real run on the 50-episode, 103-minute pack from
 | Same show converted to JSON / inline / production format without bold | couldn't read them | same top 12 each time |
 | … with delivery tags removed / as SRT subtitles | couldn't read them | 8 / 4 of the 12 moments kept |
 | Time for 50 episodes on a 2-core cloud machine (51,598 clips scored) | 5.9 s | about 8 s |
-| Automated tests (Python 3.10 and 3.13 on Linux, 3.14 on Windows) | 47 | 80 |
+| Automated tests (Windows, Python 3.14) | 47 | 80 |
 
 **Learning from editors.** This was tested in a simulation, not with real editors. Three made-up editors with hidden preferences judged clips from the real longlist, with some randomness in their answers. I ran each setting 36 times and measured how closely the learned ranking matched each editor's own (Kendall τ over 50 clips, where 1 means identical):
 
@@ -224,15 +219,14 @@ Letting PromoFinder choose which pair to show learns fastest. Use/Reject votes a
 
 | Problem | Fix |
 |---|---|
-| `permission denied: ./run.sh` | Use `bash run.sh` (unzipping can drop the execute permission), or run `chmod +x run.sh`. |
-| "Python 3.10 or newer was not found" | Install it from python.org. On Windows, tick *Add python.exe to PATH*. On Ubuntu: `sudo apt install python3 python3-venv`. |
-| Installing dependencies fails | Check your internet connection and run the launcher again. To start fresh: `run reset`. |
-| Port 7860 is in use | PromoFinder picks the next free port and prints the address. To choose one yourself: `PORT=8000 ./run.sh` (PowerShell: `$env:PORT=8000; .\run.bat`). |
+| "Python 3.10 or newer was not found" | Install it from python.org and tick *Add python.exe to PATH*. |
+| Installing dependencies fails | Check your internet connection and run the launcher again. To start fresh: `.\run.bat reset`. |
+| Port 7860 is in use | PromoFinder picks the next free port and prints the address. To choose one yourself: `$env:PORT=8000; .\run.bat`. |
 | The browser didn't open | Open the address printed in the terminal, usually <http://localhost:7860>. |
 | "No screenplay found in the upload" | The files need timestamps (see *Screenplay formats*). The page lists every file it skipped. |
-| No LLM checkbox | Set `PROMOFINDER_LLM_PROVIDER` and the matching key in `.env`, restart, then run `run check`. |
+| No LLM checkbox | Set `PROMOFINDER_LLM_PROVIDER` and the matching key in `.env`, restart, then run `.\run.bat check`. |
 | Search says the run was made by an older version | Run the show again; runs from v1.x have no search index. |
-| Opening it from another computer on your network | Start it with `HOST=0.0.0.0` (PowerShell: `$env:HOST="0.0.0.0"; .\run.bat`). Only do this on a network you trust, because there's no login. |
+| Opening it from another computer on your network | Start it with `$env:HOST="0.0.0.0"; .\run.bat`. Only do this on a network you trust, because there's no login. |
 
 ## Deploying
 
