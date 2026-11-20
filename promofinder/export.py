@@ -121,7 +121,7 @@ def write_outputs(result, out_dir, cfg, timings=None):
         fh.write(markdown_report(result["show"], meta, top))
     from .report import html_report
     with open(os.path.join(out_dir, "report.html"), "w", encoding="utf-8") as fh:
-        fh.write(html_report(result["show"], meta, top, longl))
+        fh.write(html_report(result["show"], meta, top, longl, portfolio=port))
     from .edl import write_cutlists
     write_cutlists(top, result["show"], out_dir, fps=cfg.get("fps", 30))
     with open(os.path.join(out_dir, "run_meta.json"), "w", encoding="utf-8") as fh:

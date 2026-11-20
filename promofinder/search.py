@@ -187,14 +187,20 @@ class ShowSearch:
 
     def search(self, query: str, k: int = 8, episodes: Optional[List[int]] = None, merge_window: float = 20.0) -> List[Dict]:
         terms, concepts, tag_stems, inten = expand(query)
-        if not terms and not concepts:
+        phrase = re.sub(r"\s+", " ", query.strip().strip('"“”\'').lower())
+        # exact line search ("who are you") works even when every word is a stop word
+        phr = np.array([1.0 if len(phrase) >= 4 and phrase in u["text"].lower() else 0.0 for u in self.units])
+        if not terms and not concepts and not phr.any():
             return []
-        bm = self._bm25(terms)
+        bm = self._bm25(terms) if terms else np.zeros(self.N)
         bm = bm / (bm.max() or 1.0)
-        qv = self._norm(self._svd.transform(self._tfv.transform([" ".join(t for t, w in terms.items() if w >= 0.5)])))
-        lsa = np.clip((self._Z @ qv.T).ravel(), 0, 1)
+        if terms:
+            qv = self._norm(self._svd.transform(self._tfv.transform([" ".join(t for t, w in terms.items() if w >= 0.5)])))
+            lsa = np.clip((self._Z @ qv.T).ravel(), 0, 1)
+        else:
+            lsa = np.zeros(self.N)
         tagm = np.array([min(1.0, sum(1 for t in u["tags"] + u["ctx_tags"] for s in tag_stems if s in t) / 2) for u in self.units]) if tag_stems else np.zeros(self.N)
-        score = 0.55 * bm + 0.30 * lsa + 0.15 * tagm
+        score = 0.55 * bm + 0.30 * lsa + 0.15 * tagm + 0.6 * phr
         if self._E is not None:
             try:
                 qe = self.embedder.encode([query])[0]
@@ -215,7 +221,7 @@ class ShowSearch:
             if any(h["episode"] == u["episode"] and abs(h["t"] - u["start"]) < merge_window for h in hits):
                 continue
             matched = sorted({t for t in terms if self.tf[i].get(t)}, key=lambda t: -terms[t])[:6]
-            why = ([f"concept: {', '.join(concepts)}"] if concepts else []) + ([f"words: {', '.join(matched)}"] if matched else [])
+            why = (["exact line"] if phr[i] else []) + ([f"concept: {', '.join(concepts)}"] if concepts else []) + ([f"words: {', '.join(matched)}"] if matched else [])
             if tagm[i] > 0:
                 why.append("delivery: " + ", ".join(u["tags"][:2] or u["ctx_tags"][:2]))
             if lsa[i] > 0.4 and not matched:
