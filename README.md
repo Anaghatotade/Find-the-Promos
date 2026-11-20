@@ -12,7 +12,7 @@ Upload a show's timestamped screenplays (`.zip` or `.txt`) and get a ranked list
 - Exact timecodes
 - The opening hook (first 3 seconds)
 - The cliffhanger at the cut
-- The beat the viewer is denied
+- The line the clip cuts away from, so viewers have to tap to hear it
 - A short explanation of why the clip works
 - Risk flags and a stability badge
 - Source line numbers from the screenplay
