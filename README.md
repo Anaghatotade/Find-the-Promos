@@ -1,6 +1,6 @@
 # PromoFinder
 
-**Find the best 20–60 second promo clips in a microdrama, straight from its timestamped screenplays.**
+**Find the best 20 - 60 second promo clips in a microdrama, straight from its timestamped screenplays.**
 
 Built for Kuku's AI Generalist Assignment, Problem 1: *Find the Promos*.
 
