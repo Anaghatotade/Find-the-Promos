@@ -23,18 +23,22 @@ Exports are available in JSON, CSV, Markdown, and **CMX3600 EDLs** for Premiere 
 
 ## Screenshots
 
-**Results page.** Show summary, exports and the ranked picks.
+**Two sample shows.** Upload your own screenplays, or open either sample: a revenge drama (6 episodes) or a mystery thriller (30 episodes).
+
+![Upload form and the two sample shows](docs/screenshots/samples.png)
+
+**Results page.** Show summary, exports, and a colour-coded mix of how the picks open and end. Tap a colour to filter.
 
 ![Results page for the sample show](docs/screenshots/results.png)
 
-**A single pick.** The strip is drawn to scale: red is the hook window, hatching is the cut, gold marks the in and out points. The lines it was scored on, the beat the viewer doesn't get to see, and the score breakdown sit alongside, with **Use / Reject** buttons for editor feedback.
+**A single pick.** The strip is drawn to scale: red is the hook window, hatching is the cut, gold marks the in and out points. Badges name the type of hook and cut. The line the clip cuts away from, the score breakdown and **Use / Reject** buttons for editor feedback sit alongside, and the timecodes copy in one click.
 
 ![One promo candidate with its clip strip and scores](docs/screenshots/promo-card.png)
 
 <table>
 <tr>
 <td width="38%"><img src="docs/screenshots/results-mobile.png" alt="Results page on a phone"></td>
-<td><b>On a phone.</b> The same page works on small screens, so a pick can be reviewed or exported away from the edit suite.</td>
+<td><b>On a phone.</b> The 30-episode sample on a small screen, so a pick can be reviewed or exported away from the edit suite.</td>
 </tr>
 </table>
 
