@@ -27,6 +27,7 @@ def promo_record(c, rank, eps, pool_med, show):
             "angle": {"primary": c.angle.get("primary", "mixed"), "label": ANGLE_LABEL.get(c.angle.get("primary", ""), "Mixed"),
                       "vector": c.angle.get("vector", {})},
             "spoiler": _spoiler_rec(c),
+            "llm_note": getattr(c, "llm_why", None),
             "transcript": transcript(c, eps)}
 
 
@@ -84,6 +85,7 @@ def write_outputs(result, out_dir, cfg, timings=None):
             "top_reveals": rev.summary(15) if rev is not None else [],
             "learned_weights": result.get("learned_weights"),
             "input_formats": result.get("input_formats", {}),
+            "llm_used": result.get("llm_used"),
             "parse_warnings": {e.number: e.warnings for e in result["episodes"] if e.warnings}}
     with open(os.path.join(out_dir, "promos_top.json"), "w", encoding="utf-8") as fh:
         json.dump({"meta": meta, "promos": top}, fh, indent=2, ensure_ascii=False)

@@ -17,6 +17,8 @@ def _safe_console():
 
 def main(argv=None):
     _safe_console()
+    from .llm import load_dotenv
+    load_dotenv()
     ap = argparse.ArgumentParser(prog="promofinder", description="Find 20-60s promo moments in timestamped screenplays.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run", help="process a show")
@@ -24,7 +26,7 @@ def main(argv=None):
     r.add_argument("--out", default="outputs/run")
     r.add_argument("--config", default=None)
     r.add_argument("--top", type=int, default=None)
-    r.add_argument("--llm", default=None, help="provider for optional re-ranking: anthropic | openai | none")
+    r.add_argument("--llm", default=None, help="optional re-ranking: anthropic | openai | gemini | groq | openrouter | ollama | openai_compatible | mock | none")
     r.add_argument("--llm-model", default=None)
     r.add_argument("--audience", default=None, help="general | romance | revenge | thriller | mystery | power | family | humor")
     r.add_argument("--spoilers", default=None, choices=["strict", "balanced", "off"], help="spoiler tolerance (default balanced)")
@@ -35,6 +37,8 @@ def main(argv=None):
     e = sub.add_parser("eval", help="check a run against its source screenplays")
     e.add_argument("run_dir"); e.add_argument("--source", nargs="+", required=True)
     e.add_argument("--labels", default=None); e.add_argument("--compare", default=None)
+    pf = sub.add_parser("performance", help="import measured ad results (CSV: id, impressions, clicks) for a run")
+    pf.add_argument("run_dir"); pf.add_argument("csv"); pf.add_argument("--feedback", default="feedback/feedback.jsonl")
     lw = sub.add_parser("learn", help="fit ranking weights from editor feedback (votes + A/B comparisons)")
     lw.add_argument("feedback", nargs="?", default="feedback/feedback.jsonl")
     a = ap.parse_args(argv)
@@ -49,6 +53,15 @@ def main(argv=None):
     if a.cmd == "eval":
         from .evaluate import evaluate_run
         print(json.dumps(evaluate_run(a.run_dir, a.source, a.labels, a.compare), indent=2))
+        return
+    if a.cmd == "performance":
+        from .preferences import import_performance
+        recs = []
+        for f in ("promos_top.json", "promos_longlist.json", "promos_portfolio.json"):
+            pth = os.path.join(a.run_dir, f)
+            if os.path.exists(pth):
+                recs += json.load(open(pth, encoding="utf-8"))["promos"]
+        print(json.dumps(import_performance(a.csv, a.feedback, recs)))
         return
     if a.cmd == "learn":
         from .preferences import learn_from_file
