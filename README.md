@@ -3,7 +3,7 @@
 Find the best 20–60 second promo clips in a microdrama, directly from its screenplay.
 
 **Live demo:** [https://promofinder-h00l.onrender.com](https://promofinder-h00l.onrender.com)  
-Click **Try the live demo** for instant results on the sample show.
+Click **Try the live demo** for instant results on either sample show.
 
 ![PromoFinder home page](docs/screenshots/home.png)
 
@@ -19,7 +19,7 @@ Upload a show's timestamped screenplays (`.zip` or `.txt`) and get a ranked list
 
 Exports are available in JSON, CSV, Markdown, and **CMX3600 EDLs** for Premiere Pro or DaVinci Resolve. The tool runs entirely on CPU with no AI API key required. An optional LLM can re-rank the shortlist if you want.
 
-> The sample show *The Cleaner Was the Heiress* (in `samples/`) is original fiction written for this demo in standard production screenplay format. The confidential screenplays used during development are not included.
+> The two sample shows in `samples/` are original fiction written for this demo in standard production screenplay format: *The Cleaner Was the Heiress*, a revenge drama, and *Last Call from the Marigold*, a mystery thriller. The confidential screenplays used during development are not included.
 
 ## Screenshots
 

@@ -1,0 +1,137 @@
+EPISODE NUMBER: Episode 1
+EPISODE LOGLINE: On a storm night at Harrow Point harbour, radio operator Nadia Reyes hears a mayday from the Marigold, the fishing boat that sank with her sister Elena three years ago.
+CONTINUITY NOTES: First episode. Establishes Nadia, Owen Pike and the loss of the Marigold.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HARROW POINT HARBOUR RADIO ROOM – NIGHT
+Scene start: 00:00.00
+Scene end: 00:25.20
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of the cramped radio room, storm lamps swinging outside.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Rain hammers the window. Nadia logs the weather, alone, a framed photo of a smiling woman on the desk.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:08.30)
+Medium shot of Nadia at the microphone.
+
+**NADIA (Tired, Quiet):**
+Start: (00:03.20) | End: (00:08.10)
+"Harrow Point to all vessels. Gale warning in effect. Stay in port."
+
+**SOUND FX:**
+Start: (00:08.30) | End: (00:09.80)
+Static crackling, then a weak signal breaking through.
+
+**CAMERA:**
+Start: (00:08.30) | End: (00:13.20)
+Insert of the radio dial glowing.
+
+**RADIO VOICE (Distorted, Desperate):**
+Start: (00:08.50) | End: (00:13.00)
+"Mayday, mayday. This is the Marigold. We are taking on water."
+
+**CAMERA:**
+Start: (00:13.20) | End: (00:14.80)
+Close-up on Nadia's face draining of colour.
+
+**ACTION:**
+Start: (00:13.20) | End: (00:14.80)
+Nadia freezes. Her pen rolls off the desk.
+
+**CAMERA:**
+Start: (00:14.80) | End: (00:18.00)
+Close-up on the framed photo of Elena on the boat's deck.
+
+**NADIA (Shaking, Disbelieving):**
+Start: (00:15.00) | End: (00:17.80)
+"The Marigold sank three years ago."
+
+**CAMERA:**
+Start: (00:18.00) | End: (00:22.30)
+Extreme close-up on the speaker grille.
+
+**RADIO VOICE (Distorted, Pleading):**
+Start: (00:18.20) | End: (00:22.10)
+"Nadia, it's me. Please. Don't let them find me."
+
+**CAMERA:**
+Start: (00:22.30) | End: (00:25.20)
+Close-up on Nadia gripping the microphone.
+
+**NADIA (Breaking, Desperate):**
+Start: (00:22.50) | End: (00:25.00)
+"Elena? Elena, where are you?"
+
+**SOUND FX:**
+Start: (00:25.20) | End: (00:26.70)
+The signal dissolving into static.
+
+SCENE 02
+Scene heading: INT. RADIO ROOM – MOMENTS LATER
+Scene start: 00:25.20
+Scene end: 00:53.00
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:25.20) | End: (00:27.70)
+Medium shot of Owen in the doorway.
+
+**ACTION:**
+Start: (00:25.20) | End: (00:27.70)
+The door bangs open. Owen Pike, the harbour master, shakes rain off his coat.
+
+**CAMERA:**
+Start: (00:27.70) | End: (00:32.30)
+Two-shot of Owen and Nadia.
+
+**OWEN PIKE (Gruff, Wary):**
+Start: (00:27.90) | End: (00:32.10)
+"I heard the alarm from the dock. What was that?"
+
+**CAMERA:**
+Start: (00:32.30) | End: (00:37.90)
+Close-up on Nadia.
+
+**NADIA (Urgent):**
+Start: (00:32.50) | End: (00:37.70)
+"A mayday from the Marigold. It was her voice, Owen. It was Elena."
+
+**CAMERA:**
+Start: (00:37.90) | End: (00:42.80)
+Close-up on Owen avoiding her eyes.
+
+**OWEN PIKE (Flat, Careful):**
+Start: (00:38.10) | End: (00:42.60)
+"That's not possible. Someone is playing a sick joke on you."
+
+**CAMERA:**
+Start: (00:42.80) | End: (00:47.40)
+Insert of a blinking dot on the tracking screen.
+
+**NADIA (Firm):**
+Start: (00:43.00) | End: (00:47.20)
+"Then explain why the Marigold's beacon is transmitting right now."
+
+**CAMERA:**
+Start: (00:47.40) | End: (00:53.00)
+Extreme close-up on Owen's face.
+
+**OWEN PIKE (Quiet, Shaken):**
+Start: (00:47.60) | End: (00:52.80)
+"Because I took that beacon off the wreck myself. And I smashed it."
+
+**SOUND FX:**
+Start: (00:53.00) | End: (00:55.00)
+A deep foghorn sounding across the bay.
+
+--- SCRIPT END ---

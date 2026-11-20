@@ -1,0 +1,120 @@
+EPISODE NUMBER: Episode 3
+EPISODE LOGLINE: Nadia takes a boat out to the wreck site and discovers the Marigold's lifeboat is missing, then a phone call brings a voice she never expected.
+CONTINUITY NOTES: Later the same day. Owen reluctantly helps.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. OPEN WATER ABOVE THE WRECK – DAY
+Scene start: 00:00.00
+Scene end: 00:14.90
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:04.60)
+Medium shot of Owen at the tiller.
+
+**OWEN PIKE (Low, Uneasy):**
+Start: (00:00.20) | End: (00:04.40)
+"We shouldn't be out here. People are watching the harbour."
+
+**CAMERA:**
+Start: (00:04.60) | End: (00:08.90)
+Close-up on Nadia pulling on a dive mask.
+
+**NADIA (Steady):**
+Start: (00:04.80) | End: (00:08.70)
+"Then they already know. Take me down to her."
+
+**CAMERA:**
+Start: (00:08.90) | End: (00:12.40)
+Wide underwater shot of the wreck in green light.
+
+**ACTION:**
+Start: (00:08.90) | End: (00:12.40)
+Underwater, Nadia swims along the broken hull of the Marigold.
+
+**CAMERA:**
+Start: (00:12.40) | End: (00:14.90)
+Close-up on the cut ropes swaying.
+
+**ACTION:**
+Start: (00:12.40) | End: (00:14.90)
+The lifeboat cradle is empty. Its ropes have been cut clean.
+
+SCENE 02
+Scene heading: EXT. BOAT – CONTINUOUS
+Scene start: 00:14.90
+Scene end: 00:27.40
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:14.90) | End: (00:20.90)
+Close-up on Nadia surfacing.
+
+**NADIA (Breathless, Certain):**
+Start: (00:15.10) | End: (00:20.70)
+"The lifeboat is gone. The ropes were cut, Owen. Someone got off that boat."
+
+**CAMERA:**
+Start: (00:20.90) | End: (00:24.50)
+Close-up on Owen.
+
+**OWEN PIKE (Pale, Quiet):**
+Start: (00:21.10) | End: (00:24.30)
+"The report said all hands were lost."
+
+**CAMERA:**
+Start: (00:24.50) | End: (00:27.40)
+Two-shot as the boat rocks.
+
+**NADIA (Sharp):**
+Start: (00:24.70) | End: (00:27.20)
+"The report the sheriff wrote."
+
+SCENE 03
+Scene heading: INT. NADIA'S COTTAGE – NIGHT
+Scene start: 00:27.40
+Scene end: 00:40.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:27.40) | End: (00:30.40)
+Close-up on the phone screen.
+
+**ACTION:**
+Start: (00:27.40) | End: (00:30.40)
+Nadia's phone buzzes. Unknown number. She answers. Only breathing.
+
+**CAMERA:**
+Start: (00:30.40) | End: (00:32.60)
+Close-up on Nadia.
+
+**NADIA (Cautious):**
+Start: (00:30.60) | End: (00:32.40)
+"Who is this?"
+
+**CAMERA:**
+Start: (00:32.60) | End: (00:36.90)
+Extreme close-up on Nadia's face.
+
+**LITTLE GIRL (PHONE) (Small, Scared):**
+Start: (00:32.80) | End: (00:36.70)
+"Aunt Nadia? Mum says you have to stop looking."
+
+**CAMERA:**
+Start: (00:36.90) | End: (00:40.10)
+Close-up on Nadia lowering the phone.
+
+**NADIA (Stunned, Whispering):**
+Start: (00:37.10) | End: (00:39.90)
+"Mum? Elena doesn't have a daughter."
+
+**SOUND FX:**
+Start: (00:40.10) | End: (00:41.60)
+The line going dead.
+
+--- SCRIPT END ---

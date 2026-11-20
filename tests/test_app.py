@@ -1,6 +1,6 @@
 """Web-app reliability tests: every bad input gets a friendly page, never a 500;
 valid uploads produce ranked promos; outputs survive a non-UTF-8 OS default encoding."""
-import io, os, subprocess, sys, zipfile
+import io, os, subprocess, sys, time, zipfile
 import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, ROOT); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -327,3 +327,30 @@ def test_demo_with_prebuilt_goes_straight_to_results(client, tmp_path, monkeypat
     r = client.get("/demo")
     assert r.status_code == 302 and r.headers["Location"].endswith("/r/demo")
     assert "The Cleaner Was the Heiress" in client.get("/r/demo").get_data(as_text=True)
+
+
+# ---- second sample show
+def test_second_sample_has_its_own_demo_files_and_live_run(client):
+    home = client.get("/").get_data(as_text=True)
+    for needle in ("Sample 1", "Sample 2", "Last Call from the Marigold", 'href="/demo/2"',
+                   'name=sample value="2"', 'href="/samples/2/sample.zip"', 'href="/samples/2/episode-001.txt"'):
+        assert needle in home, needle
+    r = client.get("/demo/2")
+    assert r.status_code == 302 and "/job/demo-precompute-2" in r.headers["Location"]
+    for _ in range(200):
+        if client.get("/job/demo-precompute-2/status").get_json()["status"] == "done":
+            break
+        time.sleep(0.1)
+    r = client.get("/demo/2")
+    assert r.headers["Location"].endswith("/r/demo2")
+    page = client.get("/r/demo2").get_data(as_text=True)
+    assert "Last Call from the Marigold" in page and "The Cleaner Was the Heiress" not in page
+    assert client.get("/r/demo2/edl.zip").status_code == 200
+    _, st, _ = wait_job(client, client.post("/demo/run", data={"sample": "2"}))
+    assert st["status"] == "done"
+    z = client.get("/samples/2/sample.zip")
+    assert z.status_code == 200 and "last_call_from_the_marigold.zip" in z.headers["Content-Disposition"]
+    assert client.get("/samples/2/episode-005.txt").status_code == 200
+    for bad in ("/samples/3/sample.zip", "/samples/2/../app.py", "/demo/3"):
+        assert client.get(bad).status_code == 404, bad
+    assert client.post("/demo/run", data={"sample": "9"}).status_code == 404

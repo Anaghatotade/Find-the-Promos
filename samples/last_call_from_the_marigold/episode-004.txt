@@ -1,0 +1,109 @@
+EPISODE NUMBER: Episode 4
+EPISODE LOGLINE: Ferry owner Mrs Calloway reveals who profited from the sinking, and Nadia overhears the sheriff and Owen arguing about the night the Marigold went down.
+CONTINUITY NOTES: The next day. Nadia now suspects both men.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. CALLOWAY FERRY OFFICE – DAY
+Scene start: 00:00.00
+Scene end: 00:17.80
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:04.60)
+Medium shot of Mrs Calloway pouring tea.
+
+**MRS CALLOWAY (Dry, Knowing):**
+Start: (00:00.20) | End: (00:04.40)
+"Three hundred thousand. That's what the Marigold's insurance paid out."
+
+**CAMERA:**
+Start: (00:04.60) | End: (00:09.20)
+Close-up on Nadia.
+
+**NADIA (Surprised):**
+Start: (00:04.80) | End: (00:09.00)
+"Elena's policy went to me. I never saw a penny."
+
+**CAMERA:**
+Start: (00:09.20) | End: (00:15.80)
+Close-up on a folded bank statement slid across the table.
+
+**MRS CALLOWAY (Quiet, Pointed):**
+Start: (00:09.40) | End: (00:15.60)
+"It didn't go to you, love. It went to the man who co-signed the boat loan."
+
+**CAMERA:**
+Start: (00:15.80) | End: (00:17.80)
+Insert of the circled name: T. Brannigan.
+
+**ACTION:**
+Start: (00:15.80) | End: (00:17.80)
+Nadia unfolds it. One name is circled in red.
+
+SCENE 02
+Scene heading: EXT. BEHIND THE BOATHOUSE – NIGHT
+Scene start: 00:17.80
+Scene end: 00:39.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:17.80) | End: (00:20.30)
+Wide shot through wet reeds.
+
+**ACTION:**
+Start: (00:17.80) | End: (00:20.30)
+Nadia crouches in the dark as two figures argue by the slipway.
+
+**CAMERA:**
+Start: (00:20.30) | End: (00:24.60)
+Medium shot of the sheriff jabbing a finger at Owen.
+
+**SHERIFF BRANNIGAN (Hissing, Furious):**
+Start: (00:20.50) | End: (00:24.40)
+"You were supposed to sink that beacon with her."
+
+**CAMERA:**
+Start: (00:24.60) | End: (00:29.90)
+Close-up on Owen.
+
+**OWEN PIKE (Desperate):**
+Start: (00:24.80) | End: (00:29.70)
+"She was alive when we left her, Tom. I heard her calling."
+
+**CAMERA:**
+Start: (00:29.90) | End: (00:34.20)
+Close-up on the sheriff.
+
+**SHERIFF BRANNIGAN (Cold):**
+Start: (00:30.10) | End: (00:34.00)
+"Then whoever's on that radio had better stay quiet."
+
+**CAMERA:**
+Start: (00:34.20) | End: (00:35.80)
+Close-up on Nadia's foot on the branch.
+
+**ACTION:**
+Start: (00:34.20) | End: (00:35.80)
+A branch snaps under Nadia's boot. Both men turn.
+
+**SOUND FX:**
+Start: (00:35.80) | End: (00:36.80)
+A twig snapping, loud in the silence.
+
+**CAMERA:**
+Start: (00:35.80) | End: (00:39.70)
+Low-angle shot of Owen stepping into the light.
+
+**OWEN PIKE (Grim, Regretful):**
+Start: (00:36.00) | End: (00:39.50)
+"You should have let her stay dead, Nadia."
+
+**SOUND FX:**
+Start: (00:39.70) | End: (00:41.70)
+A low ominous drone.
+
+--- SCRIPT END ---

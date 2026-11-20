@@ -9,6 +9,7 @@ experiments
 docs
 *.zip
 !samples/the_cleaner_was_the_heiress.zip
+!samples/last_call_from_the_marigold.zip
 private_samples
 # generated at deploy time by `python app.py --prebuild-demo`
 prebuilt/

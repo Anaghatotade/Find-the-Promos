@@ -27,8 +27,16 @@ PUBLIC = os.environ.get("PROMOFINDER_PUBLIC", "0").lower() in ("1", "true", "yes
 DATA = os.environ.get("PROMOFINDER_DATA_DIR") or ROOT
 RUNS = os.path.join(DATA, "outputs", "web_runs"); FB = os.path.join(DATA, "feedback")
 DEMO_DIR = os.path.join(DATA, "outputs", "demo_run")
-SAMPLE_DIR = os.path.join(ROOT, "samples", "the_cleaner_was_the_heiress")
-SAMPLE_ZIP = os.path.join(ROOT, "samples", "the_cleaner_was_the_heiress.zip")
+# Demo shows: original fiction written for this repo (samples/build_sample*.py). Sample 1 keeps its
+# original URLs (/demo, /r/demo, /samples/sample.zip); later samples are numbered (/demo/2, /r/demo2, /samples/2/...).
+SAMPLES = [
+    {"id": "1", "slug": "the_cleaner_was_the_heiress", "rid": "demo", "title": "The Cleaner Was the Heiress",
+     "blurb": "A rags-to-riches revenge drama: a night cleaner learns she is heir to the company that humiliated her."},
+    {"id": "2", "slug": "last_call_from_the_marigold", "rid": "demo2", "title": "Last Call from the Marigold",
+     "blurb": "A quieter mystery thriller: a harbour radio operator hears a mayday from the boat that sank with her sister."},
+]
+SAMPLE_DIR = os.path.join(ROOT, "samples", SAMPLES[0]["slug"])
+SAMPLE_ZIP = os.path.join(ROOT, "samples", SAMPLES[0]["slug"] + ".zip")
 PREBUILT_DEMO = os.path.join(ROOT, "prebuilt", "demo_run")   # built at deploy time (render.yaml buildCommand)
 KEEP_RUNS = int(os.environ.get("PROMOFINDER_KEEP_RUNS", "40" if PUBLIC else "0"))   # 0 = keep everything
 MAX_QUEUE = 3            # jobs waiting or running; more than this -> "busy, try again" page
@@ -162,6 +170,9 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 .acts form{margin:0}
 .dl{font-size:13.5px;color:var(--mute);margin-top:18px;line-height:1.9}
 .dl a{font-family:var(--mono);font-size:12.5px;color:var(--ink);white-space:nowrap}
+.sample{margin-top:34px}.sample h3{font:400 24px/1.15 var(--serif);letter-spacing:-.01em;margin:0 0 6px}
+.sample h3 span{font:500 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--hook);display:block;margin-bottom:6px}
+.sample>p{color:var(--ink-2);max-width:46ch;margin:0}.sample .acts{margin-top:16px}
 .how{padding:64px 0 24px}
 .how-h{display:flex;justify-content:space-between;align-items:baseline;gap:20px;margin-bottom:24px}
 .how-h h2{font-size:40px}
@@ -211,10 +222,8 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 <label><input type=checkbox name=funnel checked> Prefer early episodes (fewer spoilers)</label></div>
 <div class=submit><button>Find promos <span class=arr>&rarr;</span></button><div id=busy>Uploading. Scoring starts as soon as the files arrive.</div></div>
 <div class=small>__PRIVACY__</div></form>
-<div class=demo id=demo><p class=step><b>02</b>&nbsp; Or start with a sample</p><h2>Try the live demo</h2><p>Six episodes of <i>The Cleaner Was the Heiress</i>, an original sample show written for this demo in the production screenplay format.</p>
-<ul class=acts><li><a href="/demo"><span>See ranked promos<small>Opens instantly: results are precomputed</small></span><span class=arr>&rarr;</span></a></li>
-<li><form method=post action="/demo/run"><button ><span>Run the pipeline live<small>Watch every stage score the sample</small></span><span class=arr>&rarr;</span></button></form></li></ul>
-<div class=dl>Or download the sample and upload it yourself: <a href="/samples/sample.zip">sample .zip</a>, __EPLINKS__</div></div>
+<div class=demo id=demo><p class=step><b>02</b>&nbsp; Or start with a sample</p><h2>Try the live demo</h2><p>Two original sample shows, written for this demo in the production screenplay format.</p>
+__SAMPLES__</div>
 </section>
 <section class=how id=how><div class=how-h><h2>How it ranks</h2><p>Transparent signals, no black box. Every pick shows the lines it was scored on.</p></div>
 <ol><li><span>01</span><b>Parse</b><p>Every camera shot, action, sound cue and line of dialogue, with its timestamp and delivery tags.</p></li>
@@ -246,8 +255,7 @@ def index():
             links.append(f'<a href="/r/{html.escape(r)}">{html.escape(show)} <span class=hint>{html.escape(r)}</span></a>')
         except (OSError, ValueError, KeyError):
             continue
-    eplinks = ", ".join(f'<a href="/samples/{html.escape(f)}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
-                       for f in _sample_files())
+    samples_html = "".join(_sample_block(smp) for smp in SAMPLES if os.path.exists(_sample_zip(smp)))
     privacy = (f"Uploads up to {app.config['MAX_CONTENT_LENGTH'] // (1024 * 1024)} MB. Results are only visible to whoever has the link "
                "and are deleted automatically. Don't upload confidential scripts to a public demo." if PUBLIC else
                "Runs are saved in outputs/web_runs on this machine.")
@@ -256,7 +264,7 @@ def index():
     priv_html = "" if not priv else ('<div class=runs><h3>Local samples <span class=hint>(from private_samples/, only on this machine)</span></h3>' + "".join(
         f'<form method=post action="/private-sample/run"><input type=hidden name=name value="{html.escape(n)}">'
         f'<button class="btn btn-quiet">Run: {html.escape(n)}</button></form>' for n in priv) + "</div>")
-    return INDEX.replace("__RUNS__", priv_html + runs_html).replace("__EPLINKS__", eplinks).replace("__PRIVACY__", privacy)
+    return INDEX.replace("__RUNS__", priv_html + runs_html).replace("__SAMPLES__", samples_html).replace("__PRIVACY__", privacy)
 
 
 def _int_field(name, default, lo, hi):
@@ -402,7 +410,7 @@ def _run_job(jid, cfg, show, eps, notes, out_dir=None, cache_key=None):
                         "window could be cut without splitting a line of dialogue."))
             return
         _job_update(jid, stage="Writing outputs", frac=0.98)
-        rid = "demo" if out_dir == DEMO_DIR else time.strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:16]
+        rid = next((smp["rid"] for smp in SAMPLES if out_dir and out_dir == _demo_dir(smp)), None) or time.strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:16]
         timings = dict(res.get("timings", {}), total_s=round(time.time() - t0, 2))
         target = out_dir or os.path.join(RUNS, rid)
         if out_dir:
@@ -505,7 +513,8 @@ def job_error(jid):
 
 
 def _run_dir(rid):
-    return DEMO_DIR if rid == "demo" else os.path.join(RUNS, os.path.basename(rid))
+    smp = next((x for x in SAMPLES if x["rid"] == rid), None)
+    return _demo_dir(smp) if smp else os.path.join(RUNS, os.path.basename(rid))
 
 
 @app.get("/r/<rid>")
@@ -609,11 +618,56 @@ def private_sample_run():
 
 
 # ------------------------------------------------------------------ live demo
-def _sample_files():
+def _sample(sid):
+    return next((x for x in SAMPLES if x["id"] == str(sid)), None)
+
+
+def _sample_dir(smp):
+    return os.path.join(ROOT, "samples", smp["slug"])
+
+
+def _sample_zip(smp):
+    return os.path.join(ROOT, "samples", smp["slug"] + ".zip")
+
+
+def _suffix(smp):
+    return "" if smp["id"] == "1" else "_" + smp["id"]
+
+
+def _demo_dir(smp):        # read DEMO_DIR / PREBUILT_DEMO at call time so tests can redirect them
+    return DEMO_DIR + _suffix(smp)
+
+
+def _prebuilt_dir(smp):
+    return PREBUILT_DEMO + _suffix(smp)
+
+
+def _demo_job(smp):
+    return "demo-precompute" + _suffix(smp).replace("_", "-")
+
+
+def _sample_files(sid="1"):
     try:
-        return sorted(f for f in os.listdir(SAMPLE_DIR) if f.endswith(".txt"))
+        return sorted(f for f in os.listdir(_sample_dir(_sample(sid))) if f.endswith(".txt"))
     except OSError:
         return []
+
+
+def _sample_url(smp, name):
+    return f"/samples/{name}" if smp["id"] == "1" else f"/samples/{smp['id']}/{name}"
+
+
+def _sample_block(smp):
+    files = _sample_files(smp["id"])
+    eplinks = ", ".join(f'<a href="{_sample_url(smp, html.escape(f))}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
+                        for f in files)
+    see = "/demo" if smp["id"] == "1" else f"/demo/{smp['id']}"
+    hidden = "" if smp["id"] == "1" else f'<input type=hidden name=sample value="{smp["id"]}">'
+    return (f'<div class=sample><h3><span>Sample {smp["id"]}</span><i>{html.escape(smp["title"])}</i></h3>'
+            f'<p>{html.escape(smp["blurb"])} {len(files)} episodes.</p>'
+            f'<ul class=acts><li><a href="{see}"><span>See ranked promos<small>Opens instantly: results are precomputed</small></span><span class=arr>&rarr;</span></a></li>'
+            f'<li><form method=post action="/demo/run">{hidden}<button ><span>Run the pipeline live<small>Watch every stage score the sample</small></span><span class=arr>&rarr;</span></button></form></li></ul>'
+            f'<div class=dl>Or download it and upload it yourself: <a href="{_sample_url(smp, "sample.zip")}">sample .zip</a>, {eplinks}</div></div>')
 
 
 def _demo_cfg():
@@ -622,100 +676,120 @@ def _demo_cfg():
     return cfg
 
 
-def _load_sample():
-    with open(SAMPLE_ZIP, "rb") as fh:
-        return load_bytes([(os.path.basename(SAMPLE_ZIP), fh.read())])
+def _load_sample(sid="1"):
+    path = _sample_zip(_sample(sid))
+    with open(path, "rb") as fh:
+        return load_bytes([(os.path.basename(path), fh.read())])
 
 
-def _sample_sha():
-    with open(SAMPLE_ZIP, "rb") as fh:
+def _sample_sha(sid="1"):
+    with open(_sample_zip(_sample(sid)), "rb") as fh:
         return hashlib.sha256(fh.read()).hexdigest()
 
 
-def _install_prebuilt_demo():
+def _install_prebuilt_demo(sid="1"):
     """Copy the demo built at deploy time into place. Costs no CPU at runtime, so a free instance
     waking from sleep never queues a visitor's upload behind a demo run. Used only if it was built by this
     exact code version from this exact sample; otherwise the demo is computed as before."""
+    smp = _sample(sid); pre, dest = _prebuilt_dir(smp), _demo_dir(smp)
     try:
-        with open(os.path.join(PREBUILT_DEMO, "BUILD.json"), encoding="utf-8") as fh:
+        with open(os.path.join(pre, "BUILD.json"), encoding="utf-8") as fh:
             marker = json.load(fh)
-        if (marker.get("version") != __version__ or marker.get("sample_sha256") != _sample_sha()
-                or not os.path.exists(os.path.join(PREBUILT_DEMO, "promos_top.json"))):
-            log.info("prebuilt demo ignored (built by %s, this is %s)", marker.get("version"), __version__)
+        if (marker.get("version") != __version__ or marker.get("sample_sha256") != _sample_sha(sid)
+                or not os.path.exists(os.path.join(pre, "promos_top.json"))):
+            log.info("prebuilt demo %s ignored (built by %s, this is %s)", sid, marker.get("version"), __version__)
             return False
-        tmp = DEMO_DIR + ".tmp"
+        tmp = dest + ".tmp"
         shutil.rmtree(tmp, ignore_errors=True)
-        shutil.copytree(PREBUILT_DEMO, tmp)
-        shutil.rmtree(DEMO_DIR, ignore_errors=True)
-        os.replace(tmp, DEMO_DIR)
-        log.info("demo installed from the deploy-time build (no runtime scoring)")
+        shutil.copytree(pre, tmp)
+        shutil.rmtree(dest, ignore_errors=True)
+        os.replace(tmp, dest)
+        log.info("demo %s installed from the deploy-time build (no runtime scoring)", sid)
         return True
     except (OSError, ValueError):
         return False
 
 
 def prebuild_demo():
-    """`python app.py --prebuild-demo`: score the sample once at build time (Render buildCommand / Dockerfile)."""
-    shutil.rmtree(PREBUILT_DEMO, ignore_errors=True)
-    show, eps = _load_sample()
-    jid = "prebuild-demo"
-    JOBS[jid] = {"status": "queued", "stage": "", "frac": 0.0, "started": time.time(), "show": show,
-                 "n_eps": len(eps), "rid": None, "error": None}
-    _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], PREBUILT_DEMO)
-    if JOBS[jid]["status"] != "done" or not os.path.exists(os.path.join(PREBUILT_DEMO, "promos_top.json")):
-        print("prebuild-demo FAILED:", JOBS[jid].get("error")); return 1
-    with open(os.path.join(PREBUILT_DEMO, "BUILD.json"), "w", encoding="utf-8") as fh:
-        json.dump({"version": __version__, "sample_sha256": _sample_sha(), "built_at": time.strftime("%Y-%m-%dT%H:%M:%S")}, fh)
-    print(f"prebuild-demo OK: {show}, {len(eps)} episodes -> {PREBUILT_DEMO}")
+    """`python app.py --prebuild-demo`: score every sample once at build time (Render buildCommand / Dockerfile)."""
+    for smp in SAMPLES:
+        if not os.path.exists(_sample_zip(smp)):
+            continue
+        pre = _prebuilt_dir(smp)
+        shutil.rmtree(pre, ignore_errors=True)
+        show, eps = _load_sample(smp["id"])
+        jid = "prebuild" + _demo_job(smp)[len("demo-precompute"):] + "-demo"
+        JOBS[jid] = {"status": "queued", "stage": "", "frac": 0.0, "started": time.time(), "show": show,
+                     "n_eps": len(eps), "rid": None, "error": None}
+        _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], pre)
+        if JOBS[jid]["status"] != "done" or not os.path.exists(os.path.join(pre, "promos_top.json")):
+            print("prebuild-demo FAILED:", show, JOBS[jid].get("error")); return 1
+        with open(os.path.join(pre, "BUILD.json"), "w", encoding="utf-8") as fh:
+            json.dump({"version": __version__, "sample_sha256": _sample_sha(smp["id"]), "built_at": time.strftime("%Y-%m-%dT%H:%M:%S")}, fh)
+        print(f"prebuild-demo OK: {show}, {len(eps)} episodes -> {pre}")
     return 0
 
 
-def precompute_demo():
-    """Build the instant demo results once (at startup); safe to call repeatedly."""
-    if os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")) or not os.path.exists(SAMPLE_ZIP):
+def precompute_demo(sid="1"):
+    """Build the instant demo results for one sample (at startup); safe to call repeatedly."""
+    smp = _sample(sid); dest = _demo_dir(smp); jid = _demo_job(smp)
+    if os.path.exists(os.path.join(dest, "promos_top.json")) or not os.path.exists(_sample_zip(smp)):
         return
-    if _install_prebuilt_demo():
+    if _install_prebuilt_demo(sid):
         with JOBS_LOCK:   # anyone already waiting on the demo progress page is sent to the results
-            JOBS["demo-precompute"] = {"status": "done", "stage": "Done", "frac": 1.0, "started": time.time(),
-                                       "show": "demo", "n_eps": 0, "rid": "demo", "error": None}
+            JOBS[jid] = {"status": "done", "stage": "Done", "frac": 1.0, "started": time.time(),
+                         "show": "demo", "n_eps": 0, "rid": smp["rid"], "error": None}
         return
-    show, eps = _load_sample()
-    jid = "demo-precompute"
+    show, eps = _load_sample(sid)
     with JOBS_LOCK:
         JOBS[jid] = {"status": "queued", "stage": "Preparing demo", "frac": 0.0, "started": time.time(),
                      "show": show, "n_eps": len(eps), "rid": None, "error": None}
-    _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], DEMO_DIR)
+    _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], dest)
+
+
+def precompute_all_demos():
+    for smp in SAMPLES:
+        precompute_demo(smp["id"])
 
 
 @app.get("/demo")
-def demo():
-    if os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")) or _install_prebuilt_demo():
-        return redirect("/r/demo")
+@app.get("/demo/<sid>")
+def demo(sid="1"):
+    smp = _sample(sid)
+    if not smp:
+        abort(404)
+    if os.path.exists(os.path.join(_demo_dir(smp), "promos_top.json")) or _install_prebuilt_demo(sid):
+        return redirect("/r/" + smp["rid"])
+    jid = _demo_job(smp)
     with JOBS_LOCK:
-        j = JOBS.get("demo-precompute")
+        j = JOBS.get(jid)
     if j and j["status"] in ("queued", "running"):
-        return redirect("/job/demo-precompute")
-    threading.Thread(target=precompute_demo, daemon=True).start()
+        return redirect("/job/" + jid)
+    threading.Thread(target=precompute_demo, args=(sid,), daemon=True).start()
     time.sleep(0.2)
-    return redirect("/job/demo-precompute")
+    return redirect("/job/" + jid)
 
 
 @app.post("/demo/run")
 def demo_run():
-    """Run the full pipeline live on the sample (shows the progress page and a fresh result)."""
-    if not os.path.exists(SAMPLE_ZIP):
-        return error_page("Demo unavailable", "The sample show is missing from this deployment.", 404)
-    show, eps = _load_sample()
+    """Run the full pipeline live on a sample (shows the progress page and a fresh result)."""
+    smp = _sample(request.form.get("sample", "1"))
+    if not smp or not os.path.exists(_sample_zip(smp)):
+        return error_page("Demo unavailable", "That sample show is missing from this deployment.", 404)
+    show, eps = _load_sample(smp["id"])
     return _start_job(_demo_cfg(), show, eps, ["Live run on the sample show (original fiction written for this demo)."])
 
 
 @app.get("/samples/<name>")
-def sample_file(name):
+@app.get("/samples/<sid>/<name>")
+def sample_file(name, sid="1"):
+    smp = _sample(sid)
+    if not smp:
+        abort(404)
     if name == "sample.zip":
-        p, mt = SAMPLE_ZIP, "application/zip"
-        fn = "the_cleaner_was_the_heiress.zip"
-    elif name in _sample_files():
-        p, mt, fn = os.path.join(SAMPLE_DIR, name), "text/plain; charset=utf-8", name
+        p, mt, fn = _sample_zip(smp), "application/zip", smp["slug"] + ".zip"
+    elif name in _sample_files(sid):
+        p, mt, fn = os.path.join(_sample_dir(smp), name), "text/plain; charset=utf-8", name
     else:
         abort(404)
     with open(p, "rb") as fh:
@@ -747,8 +821,8 @@ def _cpu_info():
 @app.get("/healthz")
 def healthz():
     return {"ok": True, "public": PUBLIC, "version": __version__,
-            "demo_ready": os.path.exists(os.path.join(DEMO_DIR, "promos_top.json")),
-            "demo_source": "prebuilt" if os.path.exists(os.path.join(PREBUILT_DEMO, "BUILD.json")) else "runtime",
+            "demo_ready": all(os.path.exists(os.path.join(_demo_dir(x), "promos_top.json")) for x in SAMPLES),
+            "demo_source": "prebuilt" if all(os.path.exists(os.path.join(_prebuilt_dir(x), "BUILD.json")) for x in SAMPLES) else "runtime",
             "cpu": _cpu_info()}
 
 
@@ -761,7 +835,7 @@ def security_headers(resp):
 
 
 if os.environ.get("PROMOFINDER_PRECOMPUTE_DEMO", "1") == "1" and "--prebuild-demo" not in sys.argv:
-    threading.Thread(target=precompute_demo, daemon=True).start()
+    threading.Thread(target=precompute_all_demos, daemon=True).start()
 
 
 if __name__ == "__main__":

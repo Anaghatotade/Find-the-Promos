@@ -1,0 +1,120 @@
+EPISODE NUMBER: Episode 2
+EPISODE LOGLINE: Nadia confronts Owen about the beacon and goes to Sheriff Brannigan, who insists the case is closed, until she finds something of Elena's that should be at the bottom of the sea.
+CONTINUITY NOTES: Picks up the next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. HARROW POINT DOCK – DAWN
+Scene start: 00:00.00
+Scene end: 00:16.80
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:04.90)
+Close-up on Nadia blocking Owen's path.
+
+**NADIA (Angry, Accusing):**
+Start: (00:00.20) | End: (00:04.70)
+"Why would you take the beacon off a dead woman's boat?"
+
+**CAMERA:**
+Start: (00:04.90) | End: (00:10.50)
+Medium shot of Owen coiling rope.
+
+**OWEN PIKE (Defensive, Tense):**
+Start: (00:05.10) | End: (00:10.30)
+"Because the insurance men wanted it, and I needed the money. That's all."
+
+**CAMERA:**
+Start: (00:10.50) | End: (00:14.80)
+Close-up on Nadia.
+
+**NADIA (Cold):**
+Start: (00:10.70) | End: (00:14.60)
+"You told me you never dived on the wreck."
+
+**CAMERA:**
+Start: (00:14.80) | End: (00:16.80)
+Wide shot of the empty dock in grey light.
+
+**ACTION:**
+Start: (00:14.80) | End: (00:16.80)
+Owen drops the rope and walks away without answering.
+
+SCENE 02
+Scene heading: INT. SHERIFF'S OFFICE – DAY
+Scene start: 00:16.80
+Scene end: 00:30.90
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:16.80) | End: (00:21.70)
+Medium shot of the sheriff behind his desk.
+
+**SHERIFF BRANNIGAN (Patient, Patronising):**
+Start: (00:17.00) | End: (00:21.50)
+"Grief does strange things, Nadia. Storms do strange things to radios."
+
+**CAMERA:**
+Start: (00:21.70) | End: (00:26.60)
+Close-up on Nadia.
+
+**NADIA (Pleading):**
+Start: (00:21.90) | End: (00:26.40)
+"She said my name. She said don't let them find me."
+
+**CAMERA:**
+Start: (00:26.60) | End: (00:30.90)
+Close-up on the sheriff closing a thin folder.
+
+**SHERIFF BRANNIGAN (Firm, Final):**
+Start: (00:26.80) | End: (00:30.70)
+"The case is closed. I signed the report myself."
+
+SCENE 03
+Scene heading: INT. HARBOUR OFFICE – DAY
+Scene start: 00:30.90
+Scene end: 00:43.90
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:30.90) | End: (00:33.90)
+Slow push-in on the yellow jacket.
+
+**ACTION:**
+Start: (00:30.90) | End: (00:33.90)
+Nadia returns to the office. On the coat hook hangs a yellow rain jacket, bone dry.
+
+**CAMERA:**
+Start: (00:33.90) | End: (00:38.80)
+Close-up on Nadia's trembling hand touching the sleeve.
+
+**NADIA (Whispering, Stunned):**
+Start: (00:34.10) | End: (00:38.60)
+"That's Elena's jacket. She was wearing it the night she drowned."
+
+**CAMERA:**
+Start: (00:38.80) | End: (00:40.30)
+Insert of the note landing on the floor.
+
+**ACTION:**
+Start: (00:38.80) | End: (00:40.30)
+A folded note falls from the pocket.
+
+**CAMERA:**
+Start: (00:40.30) | End: (00:43.90)
+Extreme close-up on the handwriting.
+
+**NADIA (Reading, Afraid):**
+Start: (00:40.50) | End: (00:43.70)
+"Don't trust the sheriff. He was there."
+
+**SOUND FX:**
+Start: (00:43.90) | End: (00:45.40)
+The radio behind her crackling back to life.
+
+--- SCRIPT END ---

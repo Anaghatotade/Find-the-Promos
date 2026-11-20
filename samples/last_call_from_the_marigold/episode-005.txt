@@ -1,0 +1,110 @@
+EPISODE NUMBER: Episode 5
+EPISODE LOGLINE: Nadia escapes to the old lighthouse, where the radio signal is coming from, and finally comes face to face with the truth about her sister.
+CONTINUITY NOTES: Continues directly from Episode 4. Final episode of the arc.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HARROW POINT LIGHTHOUSE – NIGHT
+Scene start: 00:00.00
+Scene end: 00:39.20
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Low-angle shot up the spiral stairwell.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Nadia climbs the spiral stairs, torch shaking. A radio set glows at the top.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:06.90)
+Close-up on Nadia reaching the top step.
+
+**NADIA (Breathless, Calling):**
+Start: (00:03.20) | End: (00:06.70)
+"Elena? I know you're here. I heard you."
+
+**CAMERA:**
+Start: (00:06.90) | End: (00:09.40)
+Slow reveal as the beam sweeps across her face.
+
+**ACTION:**
+Start: (00:06.90) | End: (00:09.40)
+A woman steps out from behind the lamp housing. Thin, older, unmistakable.
+
+**CAMERA:**
+Start: (00:09.40) | End: (00:11.60)
+Close-up on Elena.
+
+**ELENA (Tearful, Quiet):**
+Start: (00:09.60) | End: (00:11.40)
+"Hello, little sister."
+
+**CAMERA:**
+Start: (00:11.60) | End: (00:15.90)
+Close-up on Nadia, tears running.
+
+**NADIA (Breaking):**
+Start: (00:11.80) | End: (00:15.70)
+"Three years. I buried an empty coffin for you."
+
+**CAMERA:**
+Start: (00:15.90) | End: (00:23.90)
+Two-shot in the sweeping light.
+
+**ELENA (Urgent, Low):**
+Start: (00:16.10) | End: (00:23.70)
+"I didn't drown. I hid. They sank my boat to collect the money, and they left me in the water."
+
+**CAMERA:**
+Start: (00:23.90) | End: (00:26.10)
+Close-up on Nadia.
+
+**NADIA (Furious):**
+Start: (00:24.10) | End: (00:25.90)
+"Brannigan and Owen."
+
+**CAMERA:**
+Start: (00:26.10) | End: (00:29.70)
+Close-up on Elena looking down the stairwell.
+
+**ELENA (Afraid):**
+Start: (00:26.30) | End: (00:29.50)
+"And now they know that you know."
+
+**SOUND FX:**
+Start: (00:29.70) | End: (00:31.70)
+Footsteps climbing the iron stairs below.
+
+**CAMERA:**
+Start: (00:29.70) | End: (00:33.60)
+Low-angle shot of a torch beam rising.
+
+**SHERIFF BRANNIGAN (O.S.) (Calm, Menacing):**
+Start: (00:29.90) | End: (00:33.40)
+"Evening, ladies. Nobody needs to get hurt tonight."
+
+**CAMERA:**
+Start: (00:33.60) | End: (00:35.60)
+Wide shot as the beam dies over the bay.
+
+**ACTION:**
+Start: (00:33.60) | End: (00:35.60)
+The lighthouse lamp shuts off. Total darkness.
+
+**CAMERA:**
+Start: (00:35.60) | End: (00:39.20)
+Black screen.
+
+**ELENA (Whispering):**
+Start: (00:35.80) | End: (00:39.00)
+"Nadia. Don't let go of my hand."
+
+**SOUND FX:**
+Start: (00:39.20) | End: (00:41.20)
+A single gunshot echoing over the water.
+
+--- SCRIPT END ---
