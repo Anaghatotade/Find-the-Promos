@@ -14,7 +14,7 @@ It runs on an ordinary CPU in about 8 seconds for a 50-episode show, with no API
 
 ## Key features
 
-- **Ranked promos with exact cuts.** Each clip is 20–60 s and is never cut mid-line. Clips can join scenes across episodes, or open on a "cold open" hook before the story.
+- **Ranked promos with exact cuts.** Each clip is 20 - 60 s and is never cut mid-line. Clips can join scenes across episodes, or open on a "cold open" hook before the story.
 - **Hook and cliffhanger scoring.** It checks that the first 3 seconds stop the scroll and that the clip ends on an unresolved moment.
 - **Spoiler check.** Clips that give away a twist or the ending are penalised. A reveal the title already promises is treated as the selling point.
 - **Audience angles.** Rank for romance, thriller, revenge or other audiences. A Portfolio tab gives one clip per angle for ad A/B tests.
