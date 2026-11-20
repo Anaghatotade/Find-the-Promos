@@ -1,6 +1,8 @@
 # PromoFinder
 
-**Find the best 20 - 60 second promo clips in a microdrama, straight from its timestamped screenplays.**
+**Find the best 20–60 second promo clips in a microdrama, straight from its timestamped screenplays.**
+
+Built for Kuku's AI Generalist Assignment, Problem 1: *Find the Promos*.
 
 **Live demo:** [promofinder-h00l.onrender.com](https://promofinder-h00l.onrender.com). Open a sample show for instant results.
 
@@ -14,7 +16,7 @@ It runs on an ordinary CPU in about 8 seconds for a 50-episode show, with no API
 
 ## Key features
 
-- **Ranked promos with exact cuts.** Each clip is 20 - 60 s and is never cut mid-line. Clips can join scenes across episodes, or open on a "cold open" hook before the story.
+- **Ranked promos with exact cuts.** Each clip is 20–60 s and is never cut mid-line. Clips can join scenes across episodes, or open on a "cold open" hook before the story.
 - **Hook and cliffhanger scoring.** It checks that the first 3 seconds stop the scroll and that the clip ends on an unresolved moment.
 - **Spoiler check.** Clips that give away a twist or the ending are penalised. A reveal the title already promises is treated as the selling point.
 - **Audience angles.** Rank for romance, thriller, revenge or other audiences. A Portfolio tab gives one clip per angle for ad A/B tests.
@@ -44,13 +46,6 @@ Upload a show's screenplays (`.zip`, `.txt`, `.srt`, `.vtt` or `.json`), choose 
 .\run.bat test                                          # run the automated tests
 .\run.bat cli run show.zip --out outputs\show           # run from the command line
 .\run.bat cli search outputs\show "the sheriff is lying"  # search a finished run
-```
-
-**Optional LLM:** add a provider and key to the `.env` file the launcher creates, for example:
-
-```ini
-PROMOFINDER_LLM_PROVIDER=gemini
-GEMINI_API_KEY=your-key-here
 ```
 
 ## Exports
