@@ -5,7 +5,7 @@ import re
 from bisect import bisect_left
 import numpy as np
 from typing import List, Dict
-from .parser import Block, Episode
+from .parser import Block, Episode, canon_speaker
 from . import lexicons as L
 
 try:
@@ -118,7 +118,7 @@ def hook_features(ep: Episode, s: float) -> Dict[str, float]:
     first_line = dia[0].text if dia else ""
     prev = [b for b in ep.blocks if b.kind == "dialogue" and b.end <= s + 0.05]
     prev_gap = min(s - prev[-1].end, 5.0) if prev else 5.0
-    same_spk = bool(prev and dia and prev[-1].speaker == dia[0].speaker and prev_gap < 1.5)
+    same_spk = bool(prev and dia and canon_speaker(prev[-1].speaker) == canon_speaker(dia[0].speaker) and prev_gap < 1.5)
     est = any(re.search(r"\b(wide|establishing|exterior|aerial|panning shot across)\b", b.text, re.I) for b in cam)
     return {
         "h_has_dialogue": float(bool(dia)),
@@ -202,7 +202,7 @@ def window_features(ep: Episode, s: float, e: float) -> Dict[str, float]:
     ar = [(t, a) for t, a in ar if a is not None]
     mid = s + dur / 2
     a1 = [a for t, a in ar if t < mid]; a2 = [a for t, a in ar if t >= mid]
-    speakers = {b.speaker for b in dia if not b.voiceover}
+    speakers = {canon_speaker(b.speaker) for b in dia if not b.voiceover}
     scenes = {b.scene for b in bs}
     first = dia[0].text if dia else ""
     dia_secs = sum(min(b.end, e) - max(b.start, s) for b in dia)

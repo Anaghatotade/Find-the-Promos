@@ -10,6 +10,9 @@ from .features import (set_arousal_mode, hook_features, cliff_features, window_f
 from .models import (TextFeatLR, CLIFF_DENSE, HOOK_DENSE, cliff_rule_score, hook_lfs)
 from .labelmodel import LabelModel
 from .series import SeriesIndex
+from .spoilers import RevealIndex, spoiler_penalty
+from .profiles import angle_vector, primary, portfolio
+from .parser import canon_speaker
 from . import lexicons as L
 
 EPS = 1e-6
@@ -96,7 +99,7 @@ def future_payoff(cliffs: List[Moment], hooks: List[Moment], episodes: List[Epis
             after = [b for b in nxt[m.ep + 1].blocks if b.kind == "dialogue"][:1]
         last = [b for b in overlapping(ep.blocks, m.t - CLIFF_SPAN, m.t, {"dialogue"})][-1:]
         m.feats["c_pending_answer"] = float(bool(last and after and last[0].text.rstrip().endswith("?")
-                                                 and after[0].speaker != last[0].speaker))
+                                                 and canon_speaker(after[0].speaker) != canon_speaker(last[0].speaker)))
 
 
 def cliff_v2_score(f: Dict[str, float]) -> float:
@@ -188,6 +191,9 @@ class Candidate:
     flags: List[str] = field(default_factory=list)
     text: str = ""
     _dia: list = field(default_factory=list, repr=False)   # dialogue blocks in the clip (for exact fast paths)
+    spoiler: object = None          # RevealEvent behind the spoiler risk, if any
+    premise_payoff: object = None   # RevealEvent the title promises, if shown
+    angle: Dict = field(default_factory=dict)
 
     @property
     def dur(self):
@@ -254,7 +260,7 @@ def opens_on_answer(sg, eps, max_gap=3.0) -> bool:
     if not prev or gap is None:
         return False
     q = prev[-1]
-    return q.text.rstrip().endswith("?") and q.speaker != first[0].speaker and gap < max_gap
+    return q.text.rstrip().endswith("?") and canon_speaker(q.speaker) != canon_speaker(first[0].speaker) and gap < max_gap
 
 
 def stability(picks, longlist, cfg, draws=200, spread=0.5, seed=0):
@@ -267,7 +273,7 @@ def stability(picks, longlist, cfg, draws=200, spread=0.5, seed=0):
     W = cfg["weights"]; keys = list(W); n = cfg["top_n"]
     rng = np.random.RandomState(seed)
     logc = np.array([[math.log(max(c.comps[k], 0.02)) for k in keys] for c in pool])
-    extra = np.array([c.comps["duration_fit"] * c.comps["funnel"] * (1 - c.comps.get("_penalty", 0.0)) for c in pool])
+    extra = np.array([extra_factor(c.comps) for c in pool])
     base = np.array([W[k] for k in keys])
     def ranks(w):
         sc = np.exp(logc @ w / w.sum()) * extra
@@ -282,15 +288,25 @@ def stability(picks, longlist, cfg, draws=200, spread=0.5, seed=0):
 
 
 def total_score(comps, W, funnel=True):
-    """Weighted geometric mean of components x duration fit x funnel prior x edit penalty."""
+    """Weighted geometric mean of components x duration fit x funnel prior x edit penalty
+    x spoiler factor x audience-profile factor (the last two default to 1)."""
     ws = sum(W.values()) or 1.0
     logs = sum(W[k] * math.log(max(comps[k], 0.02)) for k in W) / ws
-    return float(math.exp(logs) * comps["duration_fit"] * (comps["funnel"] if funnel else 1.0) * (1 - comps.get("_penalty", 0.0)))
+    return float(math.exp(logs) * comps["duration_fit"] * (comps["funnel"] if funnel else 1.0) * (1 - comps.get("_penalty", 0.0))
+                 * comps.get("spoiler_factor", 1.0) * comps.get("audience_factor", 1.0))
+
+
+def extra_factor(comps) -> float:
+    """Everything in total_score except the weighted geometric mean (used by stability and re-ranking)."""
+    return (comps["duration_fit"] * comps["funnel"] * (1 - comps.get("_penalty", 0.0))
+            * comps.get("spoiler_factor", 1.0) * comps.get("audience_factor", 1.0))
 
 
 class PromoFinder:
     def __init__(self, cfg):
         self.cfg = cfg
+        self.reveals = None
+        self.profile = None
 
     # -- component scores for one candidate
     def _components(self, c: Candidate, eps: Dict[int, Episode], series: SeriesIndex):
@@ -312,7 +328,10 @@ class PromoFinder:
         if ao is None:
             ao = self._ooa_cache[k0] = float(opens_on_answer(c.segments[0], eps))
         wf["w_answer_open"] = ao
-        wf["w_n_speakers"] = float(len({b.speaker for b in dia_all if not b.voiceover}))
+        wf["w_n_speakers"] = float(len({canon_speaker(b.speaker) for b in dia_all if not b.voiceover}))
+        acts = [b for sg in c.segments for b in overlapping(eps[sg.episode].blocks, sg.start, sg.end, {"action"})]
+        vec = angle_vector(dia_all + acts)
+        c.angle = {"vector": vec, "primary": primary(vec)}
         refs = series.unintroduced_refs(c.segments[0].episode, dia_all)
         wf["w_unintroduced"] = float(len(refs))
         c.wfeat = wf
@@ -339,6 +358,7 @@ class PromoFinder:
 
     def _finalise(self, cands: List[Candidate], series: SeriesIndex, n_eps_max: int):
         cfg = self.cfg; W = cfg["weights"]
+        sp_tol = cfg.get("spoilers", {}).get("tolerance", "balanced")
         prem = pct_rank(series.premise_sim_windows([c._dia for c in cands])) if cands else []
         lo, hi = cfg["ideal_dur"]
         for c, p in zip(cands, prem):
@@ -356,13 +376,27 @@ class PromoFinder:
                 funnel = 1 - cfg["funnel"]["late_episode_penalty"] * pos ** 2
             c.comps["duration_fit"] = round(dur_fit, 3); c.comps["funnel"] = round(funnel, 3)
             c.comps["_penalty"] = pen
+            if self.reveals is not None:
+                risk, ev, prem = self.reveals.clip_risk(c.segments)
+                c.comps["spoiler_risk"] = round(risk, 3)
+                c.comps["spoiler_factor"] = round(spoiler_penalty(risk, sp_tol), 4)
+                c.spoiler = ev
+                c.premise_payoff = prem[0] if prem else None
+            if self.profile is not None:
+                c.comps["audience_factor"] = round(self.profile.factor(c), 4)
             c.score = total_score(c.comps, W)
             if c.cliff.feats["c_resolve_lex"] >= 2 and c.cliff.feats["c_last_q"] == 0:
                 c.flags.append("ending may feel resolved")
             if violence_flag(c):
                 c.flags.append("ad-policy review: violence/injury")
-            if (c.segments[0].episode - 1) / max(n_eps_max - 1, 1) > 0.66:
+            ev = getattr(c, "spoiler", None)
+            if ev is not None and c.comps.get("spoiler_risk", 0) >= 0.45:
+                why = "major plot point in the episode logline" if ev.logline_match >= 0.5 else ev.kind
+                c.flags.append(f"spoiler risk {c.comps['spoiler_risk']:.2f} ({why}, E{ev.episode}): “{ev.text[:70]}”")
+            elif (c.segments[0].episode - 1) / max(n_eps_max - 1, 1) > 0.66:
                 c.flags.append("late-series: may spoil major reveals")
+            if getattr(c, "premise_payoff", None) is not None:
+                c.flags.append("premise payoff: shows the reveal the title promises (usually good for ads)")
 
     def run(self, show: str, episodes: List[Episode], progress=None):
         """progress(stage_label, fraction_done) is called between stages (e.g. by the web app)."""
@@ -386,6 +420,13 @@ class PromoFinder:
             mode = "tags" if tag_cov >= 0.5 else "fallback"
         set_arousal_mode(mode)
         series = SeriesIndex(show, episodes)
+        sp = cfg.get("spoilers", {})
+        self.reveals = (RevealIndex(show, episodes, sp.get("free_episodes", 3), sp.get("use_loglines", True))
+                        if sp.get("tolerance", "balanced") != "off" else None)
+        from .profiles import get_profile
+        self.profile = get_profile(cfg.get("audience", "general"), series)
+        if self.profile is not None and self.profile.weights:
+            cfg = self.cfg = dict(cfg, weights=self.profile.apply_weights(cfg["weights"]))
         stage("series_index", 0.05, "Finding every legal cut point")
         hooks, cliffs, bnd = build_moments(episodes)
         stage("cut_points_and_moment_features", 0.12, "Scoring hooks (weak supervision)")
@@ -442,12 +483,15 @@ class PromoFinder:
         cands.sort(key=lambda c: -c.score)
         picks = self._select(cands, series, cfg["top_n"])
         longlist = self._select(cands, series, cfg["longlist_n"])
+        ll_ids = {id(c) for c in longlist}
+        port = portfolio(sorted(longlist + [c for c in cands[:3000] if id(c) not in ll_ids], key=lambda c: -c.score))
         stage("diverse_selection", 0.95, "Checking pick stability")
         stability(picks, longlist, cfg)
         stage("stability", 0.97, "Writing outputs")
         clear_caches()   # long-running servers: don't keep this show's blocks alive via speed-up caches
         return {"timings": timings, "arousal_mode": mode, "tag_coverage": round(tag_cov, 3), "show": show, "episodes": episodes, "series": series, "hooks": hooks, "cliffs": cliffs,
-                "candidates": cands, "top": picks, "longlist": longlist, "label_model": lm}
+                "candidates": cands, "top": picks, "longlist": longlist, "label_model": lm, "config_used": cfg,
+                "reveals": self.reveals, "profile": self.profile, "portfolio": port}
 
     def _cold_opens(self, cands, hooks, bnd, eps, series):
         cfg = self.cfg
