@@ -330,7 +330,7 @@ def html_report(show, meta, top, longlist, server=False, run_id="", portfolio=No
              ("Clips scored", f"{meta['n_candidates']:,}"), ("Shortlisted", f"{len(top)}")]
     settings = []
     if meta.get("audience_profile"):
-        settings.append("Ranked for: " + (meta["audience_profile"] or {}).get("label", "General audience"))
+        settings.append("Ranked for: " + (meta["audience_profile"] or {}).get("label", "General Audience"))
     if meta.get("spoiler_tolerance"):
         settings.append("Spoilers: " + str(meta["spoiler_tolerance"]))
     lw = meta.get("learned_weights") or {}

@@ -112,21 +112,21 @@ class Profile:
 
 
 PROFILES: Dict[str, Profile] = {
-    "general": Profile("general", "General audience", {}, {},
+    "general": Profile("general", "General Audience", {}, {},
                        "The default ranking: hook, cliffhanger, clarity, intensity and premise only."),
-    "romance": Profile("romance", "Romance seekers", {"romance": 1.0}, {"arc": 1.2, "standalone": 1.1},
+    "romance": Profile("romance", "Romance", {"romance": 1.0}, {"arc": 1.2, "standalone": 1.1},
                        "Viewers who follow couples: tender or charged moments between the leads, protection, jealousy."),
-    "revenge": Profile("revenge", "Revenge & underdog drama fans", {"revenge": 0.7, "power": 0.3}, {"hook": 1.15},
+    "revenge": Profile("revenge", "Revenge & Comeback", {"revenge": 0.7, "power": 0.3}, {"hook": 1.15},
                        "Humiliation, betrayal and the moment the tables turn. The classic microdrama ad."),
-    "thriller": Profile("thriller", "Suspense & thriller fans", {"danger": 0.7, "mystery": 0.3}, {"cliff": 1.25},
+    "thriller": Profile("thriller", "Thriller", {"danger": 0.7, "mystery": 0.3}, {"cliff": 1.25},
                         "Threats, danger and ticking clocks; the cliffhanger matters most."),
-    "mystery": Profile("mystery", "Mystery fans", {"mystery": 0.8, "danger": 0.2}, {"cliff": 1.2, "standalone": 1.1},
+    "mystery": Profile("mystery", "Mystery", {"mystery": 0.8, "danger": 0.2}, {"cliff": 1.2, "standalone": 1.1},
                        "Secrets, hidden identities and questions the viewer needs answered."),
-    "power": Profile("power", "Status-reveal / glow-up fans", {"power": 0.8, "revenge": 0.2}, {"premise": 1.2},
+    "power": Profile("power", "Transformation", {"power": 0.8, "revenge": 0.2}, {"premise": 1.2},
                      "Hidden status revealed, the underestimated hero commanding the room."),
-    "family": Profile("family", "Family drama audience", {"family": 0.7, "romance": 0.3}, {"standalone": 1.15},
+    "family": Profile("family", "Family Drama", {"family": 0.7, "romance": 0.3}, {"standalone": 1.15},
                       "Parents, siblings, children: loyalty and betrayal inside the family."),
-    "humor": Profile("humor", "Light / humor audience", {"humor": 1.0}, {"arc": 0.85},
+    "humor": Profile("humor", "Light Drama & Comedy", {"humor": 1.0}, {"arc": 0.85},
                      "Playful or comic beats. Rare in microdrama scripts, so expect few strong matches."),
 }
 

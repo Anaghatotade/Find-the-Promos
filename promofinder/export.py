@@ -80,7 +80,7 @@ def write_outputs(result, out_dir, cfg, timings=None):
             "n_candidates": len(result["candidates"]),
             "arousal_mode": result.get("arousal_mode"), "delivery_tag_coverage": result.get("tag_coverage"), "timings_s": timings or {}, "config": cfg,
             "weights_used": (result.get("config_used") or cfg).get("weights"),
-            "audience_profile": {"key": prof.key, "label": prof.label} if prof else {"key": "general", "label": "General audience"},
+            "audience_profile": {"key": prof.key, "label": prof.label} if prof else {"key": "general", "label": "General Audience"},
             "spoiler_tolerance": cfg.get("spoilers", {}).get("tolerance", "balanced"),
             "top_reveals": rev.summary(15) if rev is not None else [],
             "learned_weights": result.get("learned_weights"),
