@@ -220,14 +220,19 @@ class ShowSearch:
             u = self.units[i]
             if any(h["episode"] == u["episode"] and abs(h["t"] - u["start"]) < merge_window for h in hits):
                 continue
-            matched = sorted({t for t in terms if self.tf[i].get(t)}, key=lambda t: -terms[t])[:6]
+            stems = sorted({t for t in terms if self.tf[i].get(t)}, key=lambda t: -terms[t])[:6]
+            surface = {}
+            for w in TOK.findall(u["doc"].lower()):            # show the script's own words, not their stems
+                surface.setdefault(stem(w), w.strip("'"))
+            matched = [surface.get(t, t) for t in stems]
             why = (["exact line"] if phr[i] else []) + ([f"concept: {', '.join(concepts)}"] if concepts else []) + ([f"words: {', '.join(matched)}"] if matched else [])
             if tagm[i] > 0:
                 why.append("delivery: " + ", ".join(u["tags"][:2] or u["ctx_tags"][:2]))
             if lsa[i] > 0.4 and not matched:
                 why.append("related wording (LSA)")
             from .parser import fmt_ts
-            hits.append({"score": round(float(score[i]), 3), "episode": u["episode"], "t": u["start"], "at": fmt_ts(u["start"]),
+            # an exact-line match can push the raw score above 1; it is shown capped at 1
+            hits.append({"score": round(min(1.0, float(score[i])), 3), "episode": u["episode"], "t": u["start"], "at": fmt_ts(u["start"]),
                          "kind": u["kind"], "speaker": u["speaker"].title(), "tags": u["tags"], "text": u["text"],
                          "matched": why, "clip": self.clip_around(u["episode"], u["start"], u["end"])})
         return hits

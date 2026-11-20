@@ -209,7 +209,7 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 <section class=hero><div><p class=kicker><b>&#9679;</b>&nbsp; Screenplay in, promo cuts out</p>
 <h1>Find the thirty seconds that <em>sell the show.</em></h1>
 <p class=lede>Upload a show's timestamped screenplays and get back ranked 20&ndash;60 second promos: exact timecodes, the hook, the moment to cut, and why each one works. Runs on an ordinary CPU, no AI API needed.</p>
-<div class=facts><span>EDLs for Premiere &amp; Resolve</span><span>CSV, JSON, Markdown</span><span>Deterministic results</span></div></div>
+<div class=facts><span>Spoiler-aware ranking</span><span>Scene search</span><span>Learns from your editors</span><span>EDLs for Premiere &amp; Resolve</span><span>CSV, JSON, Markdown</span></div></div>
 <figure class=anat aria-label="What every promo is checked for"><figcaption><b>What every clip is checked for</b><span>anatomy of a 30 s promo</span></figcaption>
 <div class=ruler><span>0 s</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30 s</span></div>
 <div class=astrip><span class=h></span><span class=c></span><span class=m style="left:0"></span><span class=m style="right:0"></span><span class=l style="left:14%">story</span></div>

@@ -22,6 +22,7 @@ nav.tabs button.on{color:var(--on-night);border-bottom-color:var(--hook);font-we
 nav.tabs button .ct{font:400 12px var(--mono);color:var(--night-mute);margin-left:7px;opacity:.75}
 nav.tabs button.on .ct{color:var(--hook);opacity:1}
 /* ---------- notes + exports (injected by the web app) ---------- */
+.runset{margin:14px 0 0;font:12.5px var(--mono);color:var(--night-mute);letter-spacing:.02em}
 .notes,.dl{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
 .notes>div{margin-top:24px;background:var(--mark-bg);border-left:3px solid var(--mark);padding:12px 18px;color:var(--mark-ink);font-size:14px}
 .notes b{font:500 11.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase}
@@ -253,7 +254,7 @@ function renderPortfolio(){const el=document.getElementById('port');if(!el)retur
  el.innerHTML=ps.length?'<p class=reason style="margin:0 0 6px">One strong clip per angle, not overlapping each other: a ready set of creatives to A/B test against different audiences.</p>'+
  ps.map(p=>`<h3 class=pfh>${esc(p.angle.label)}</h3>`+card(p).replace('class=rank>'+p.rank+'<','class=rank>&#9670;<')).join(''):'<p class=mute>No portfolio in this run (made by an older version).</p>'}
 // ---------- search
-const SUGG=['betrayal','strong emotional confrontation','humiliation in public','tender romantic moment','a shocking reveal','someone threatens her','a rescue'];
+const SUGG=['betrayal','strong emotional confrontation','humiliation in public','tender romantic moment','a confession','someone is arrested','a rescue'];
 function renderSearch(){const el=document.getElementById('search');if(!el)return;
  el.innerHTML=`<p class=reason style="margin:0 0 10px">Describe a moment in plain words. Each result comes with a promo-ready 20&ndash;60 s clip around it, cut at legal points and scored like the main list.</p>
  <form class=sbox onsubmit="doSearch(this.q.value);return false"><input name=q id=sq placeholder="e.g. she is humiliated in front of everyone" aria-label="Search the show"><button>Search</button></form>
@@ -327,10 +328,15 @@ def html_report(show, meta, top, longlist, server=False, run_id="", portfolio=No
                       ensure_ascii=False).replace("</", "<\\/")
     stats = [("Episodes", f"{meta['n_episodes']}"), ("Minutes of story", f"{float(meta['runtime_minutes']):.1f}"),
              ("Clips scored", f"{meta['n_candidates']:,}"), ("Shortlisted", f"{len(top)}")]
+    settings = []
     if meta.get("audience_profile"):
-        stats.append(("Audience", (meta["audience_profile"] or {}).get("label", "General").split(" (")[0]))
+        settings.append("Ranked for: " + (meta["audience_profile"] or {}).get("label", "General audience"))
     if meta.get("spoiler_tolerance"):
-        stats.append(("Spoilers", str(meta["spoiler_tolerance"]).title()))
+        settings.append("Spoilers: " + str(meta["spoiler_tolerance"]))
+    lw = meta.get("learned_weights") or {}
+    if lw.get("applied"):
+        settings.append("Weights learned from editor feedback")
+    settings_html = (f'<p class=runset>{" &middot; ".join(html.escape(x) for x in settings)}</p>') if settings else ""
     stats_html = "".join(f"<div><dt>{k}</dt><dd>{html.escape(v)}</dd></div>" for k, v in stats)
     right = ('<a href="/demo" class=hide-sm>Live demo</a><a href="/">New run</a>' if server
              else f'<span class=ver>{html.escape(str(meta.get("version", "")))}</span>')
@@ -341,7 +347,7 @@ def html_report(show, meta, top, longlist, server=False, run_id="", portfolio=No
 <title>Promos: {html.escape(show)} · {BRAND}</title><meta name=description content="Ranked promo candidates for {html.escape(show)}, scored by {BRAND}.">{HEAD}<style>{CSS}</style></head><body>
 {topbar(right, home_link=server)}
 <header class=rh><div class=hd><p class=kicker><b>&#9679;</b>&nbsp; Promo candidates</p><h1>{html.escape(show)}</h1>
-<dl class=stats>{stats_html}</dl>
+<dl class=stats>{stats_html}</dl>{settings_html}
 <nav class=tabs role=tablist aria-label="Result views">{tab_btn('top', 'Top', len(top), True)}{tab_btn('long', 'Longlist', len(longlist), False)}{tab_btn('port', 'Portfolio', len(portfolio or []), False) if portfolio else ''}{tab_btn('search', 'Search', '', False) if (server and searchable) else ''}{tab_btn('cmp', 'Compare A/B', '', False) if server else ''}{tab_btn('method', 'Method', '', False)}</nav></div></header>
 <main><p class=key id=key><span><i class=sw-h></i>Hook window, first 3 s</span><span><i class=sw-c></i>Cut, last 6 s</span><span><i class=sw-m></i>In and out points</span></p>
 <div id=top role=tabpanel aria-labelledby=b_top></div><div id=long class=hide role=tabpanel aria-labelledby=b_long></div>{'<div id=port class=hide role=tabpanel aria-labelledby=b_port></div>' if portfolio else ''}{'<div id=search class=hide role=tabpanel aria-labelledby=b_search></div>' if (server and searchable) else ''}{'<div id=cmp class=hide role=tabpanel aria-labelledby=b_cmp></div>' if server else ''}<div id=method class=hide role=tabpanel aria-labelledby=b_method>{METHOD}</div></main>

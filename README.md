@@ -1,51 +1,49 @@
 # PromoFinder
 
-Find the best 20–60 second promo clips in a microdrama, straight from its timestamped screenplays.
-You get a ranked list, plus spoiler checks, audience angles, natural-language scene search, and a ranking that learns from your editors.
+PromoFinder finds the best 20–60 second promo clips in a microdrama, working straight from its timestamped screenplays.
+It ranks the candidates, flags clips that give away the plot, suggests angles for different audiences, lets you search for a moment in plain words, and learns from your editors' choices.
+
+**Live demo:** [promofinder-h00l.onrender.com](https://promofinder-h00l.onrender.com). Open either sample show for instant results.
 
 ![PromoFinder home page](docs/screenshots/home.png)
 
-Upload a show's screenplays (`.zip`, `.txt`, `.srt`, `.vtt` or `.json`). Each candidate promo comes with:
+Upload a show's screenplays (`.zip`, `.txt`, `.srt`, `.vtt` or `.json`). Every candidate promo comes with:
 
-- exact episode timecodes for every segment, cut only between lines of dialogue
-- the hook (first 3 s), the cliffhanger at the cut, and the line the viewer is denied
-- one line on why it works, and a score breakdown
-- **spoiler risk**: does it give away a twist or the ending? The reveal the *title* promises counts as a premise payoff, not a spoiler
-- **angle**: romance, revenge, power reveal, danger, mystery, family or humor
-- stability and risk flags, plus the source line numbers in the screenplay
+- exact timecodes for each segment, always cut between lines of dialogue, never inside one
+- the hook (first 3 seconds), the cliffhanger it ends on, and the next line the viewer doesn't get to hear
+- a one-line reason it works, and a score breakdown
+- a **spoiler check**: does the clip give away a twist or the ending? A reveal the *title* already promises is treated as the selling point, not a spoiler
+- an **angle**: romance, revenge, power reveal, danger, mystery, family or humor
+- a stability badge, risk flags, and the screenplay line numbers it came from
 
-Exports: JSON, CSV, Markdown, an offline HTML report and **CMX3600 EDLs** for Premiere Pro or DaVinci Resolve.
-Everything runs on a laptop CPU with no API key. An LLM second opinion is optional.
+You can export JSON, CSV, Markdown, an offline HTML report, and **CMX3600 EDLs** for Premiere Pro or DaVinci Resolve.
+Everything runs on an ordinary CPU with no API key. An LLM second opinion is optional.
 
 ---
 
 ## Quick start
 
-**1. Download and extract the ZIP once.**
+1. **Download and extract the ZIP** (or clone the repo).
+2. **Run the launcher:**
 
-**2. Run the launcher.**
+   | System | What to do |
+   |---|---|
+   | Windows | Double-click `run.bat`, or run `.\run.bat` in PowerShell. |
+   | macOS / Linux | Run `./run.sh` in a terminal. If you get *permission denied*, use `bash run.sh`. |
 
-| System | What to do |
-|---|---|
-| macOS / Linux | Open a terminal in the folder and run `./run.sh`. If it says *permission denied*, run `bash run.sh`. |
-| Windows | Double-click `run.bat`. |
+   The first launch finds Python 3.10 or newer, sets up a private environment in `.venv`, installs the dependencies (takes about a minute and needs internet) and creates a `.env` file for optional API keys. Then it starts PromoFinder and opens <http://localhost:7860>.
+3. **After that, just run the launcher again.** It starts in a couple of seconds. It only reinstalls dependencies when `requirements.txt` changes, and it rebuilds `.venv` by itself if the folder moves to another computer.
 
-On the first launch the launcher finds Python 3.10+ and creates a private environment in `.venv`. It then installs the dependencies (about a minute, needs internet), creates `.env` for optional API keys, starts PromoFinder and opens <http://localhost:7860> in your browser.
+If Python is missing, the launcher tells you how to install it. On Windows, tick *Add python.exe to PATH* in the installer.
 
-**3. Next time, just run the launcher again.** It starts in a second or two. It only reinstalls dependencies when `requirements.txt` changes, and it rebuilds `.venv` by itself if the folder was moved to another computer.
-
-You need **Python 3.10 or newer**. If it's missing, the launcher tells you how to install it. On Windows, tick *Add python.exe to PATH* in the installer.
-
-Other launcher commands:
+Other launcher commands (on Windows, use `.\run.bat` instead of `./run.sh`):
 
 ```bash
-./run.sh check                      # verify the environment, start nothing
-./run.sh test                       # run the 80 automated tests
-./run.sh cli run show.zip --out outputs/my_show       # command line (see below)
-./run.sh reset                      # delete .venv; the next launch rebuilds it
+./run.sh check                                  # check the setup without starting anything
+./run.sh test                                   # run the 80 automated tests
+./run.sh cli run show.zip --out outputs/show    # use the command line (see below)
+./run.sh reset                                  # delete .venv so the next launch rebuilds it
 ```
-
-On Windows, use `run.bat check`, `run.bat test`, `run.bat cli ...` and `run.bat reset`.
 
 ---
 
@@ -54,73 +52,90 @@ On Windows, use `run.bat check`, `run.bat test`, `run.bat cli ...` and `run.bat 
 ### In the browser
 
 1. **Upload** the show's screenplays, or open one of the two sample shows.
-2. **Choose an audience and a spoiler setting.** *General* uses the plain ranking. *Romance seekers*, *Revenge & underdog*, *Suspense & thriller*, *Mystery*, *Status-reveal*, *Family* and *Humor* nudge close calls toward clips that sell that angle. Spoilers can be *Balanced* (penalise clear twists), *Strict* or *Off*.
-3. Review the results in five tabs:
-   - **Top**: the ranked shortlist. Use **Use / Reject** on each pick, and copy timecodes in one click (keys: `J`/`K` move, `U` use, `R` reject, `C` copy).
-   - **Longlist**: 50 diverse candidates.
-   - **Portfolio**: the best clip for each angle, not overlapping each other. This is a ready set of creatives to A/B test against different ad audiences.
-   - **Search**: describe a moment in plain words, e.g. *"she is humiliated in front of everyone"* or *"betrayal"*. Every hit comes with a promo-ready 20–60 s clip around it.
-   - **Compare A/B**: PromoFinder shows the two clips it is least sure how to order, and you pick the better promo (keys `1` / `2` / `0`). After 10 judgments the ranking uses what it learned. *Re-rank this run* applies it to the current results immediately.
-4. **Export**: EDLs, cut list, CSV, JSON, Markdown, portfolio.
+2. **Pick an audience and a spoiler setting.**
+   - *General audience* gives the plain ranking. The other audiences (*Romance seekers*, *Revenge & underdog*, *Suspense & thriller*, *Mystery*, *Status-reveal*, *Family*, *Humor*) nudge close calls toward clips that suit them.
+   - *Balanced* spoiler mode penalises clear twists, *Strict* avoids any reveal, and *Off* ignores spoilers.
 
-![Results](docs/screenshots/results.png)
+   ![Upload options](docs/screenshots/upload-options.png)
+
+3. **Go through the results tabs:**
+   - **Top**: the ranked shortlist. Mark each pick **Use** or **Reject** and copy its timecodes in one click (keys: `J`/`K` to move, `U` use, `R` reject, `C` copy).
+   - **Longlist**: up to 50 varied candidates.
+   - **Portfolio**: the best clip for each angle, none overlapping, ready to A/B test against different ad audiences.
+   - **Search**: describe a moment, e.g. *"the sheriff is lying"* or *"betrayal"*. Each result comes with a promo-ready 20–60 s clip around it.
+   - **Compare A/B**: PromoFinder shows you the two clips it is least sure how to order, and you pick the better promo (keys `1` / `2` / `0`). Once there are 10 judgments, new runs on your machine use what it learned. *Re-rank this run* applies it to the results you're looking at right away.
+   - **Method**: how the scores are made.
+4. **Export** EDLs, the cut list, CSV, JSON, Markdown or the portfolio.
+
+![Results page](docs/screenshots/results.png)
+
+Here is one pick up close. The strip is drawn to scale: red is the 3-second hook window, hatching is the final 6 seconds, gold marks the in and out points.
+
+![One promo](docs/screenshots/promo-card.png)
 
 | Scene search | A/B compare |
 |---|---|
 | ![Search](docs/screenshots/search.png) | ![Compare](docs/screenshots/compare.png) |
 
+<table>
+<tr>
+<td width="38%"><img src="docs/screenshots/results-mobile.png" alt="Results on a phone"></td>
+<td><b>Portfolio and phones.</b> The Portfolio tab gives one clip per angle (<a href="docs/screenshots/portfolio.png">screenshot</a>). The whole app also works on a phone, so you can review picks away from the edit suite.</td>
+</tr>
+</table>
+
 ### On the command line
 
 ```bash
-./run.sh cli run show.zip --out outputs/show                          # rank promos
-./run.sh cli run show.zip --audience thriller --spoilers strict       # target an audience, avoid reveals
-./run.sh cli run show.zip --llm gemini                                # add an LLM second opinion (key in .env)
-./run.sh cli search outputs/show "she finds out her sister is alive"  # scene search on a finished run
-./run.sh cli eval outputs/show --source show.zip                      # check every pick against the scripts
-./run.sh cli learn feedback/feedback.jsonl                            # show what the editors have taught it
-./run.sh cli performance outputs/show ad_results.csv                  # import measured ad results
+./run.sh cli run show.zip --out outputs/show                       # rank promos
+./run.sh cli run show.zip --audience thriller --spoilers strict    # target an audience, avoid reveals
+./run.sh cli run show.zip --llm gemini                             # add an LLM second opinion (key in .env)
+./run.sh cli search outputs/show "the sheriff is lying"            # search a finished run
+./run.sh cli eval outputs/show --source show.zip                   # check every pick against the scripts
+./run.sh cli learn feedback/feedback.jsonl                         # see what the editors have taught it
+./run.sh cli performance outputs/show ad_results.csv               # import real ad results
 ```
 
-The launcher is optional: with the dependencies installed, `python -m promofinder ...` and `python app.py` work the same way.
+The launcher is just a convenience. With the dependencies installed, `python -m promofinder ...` and `python app.py` work the same way.
 
 ### Screenplay formats
 
 | Format | Example | Notes |
 |---|---|---|
-| Production format | `**MARA (Cold):**` / `Start: (00:11.30) \| End: (00:13.10)` / text | Full information. Parsed by the original parser, so results are unchanged. |
-| Variants | headers without `**`, timing on the header line, `[00:11.3 --> 00:13.1]` | Same result as the production format. |
-| Inline | `[00:11.3 - 00:13.1] MARA (Cold): text`, or start times only | `SCENE 12` / `INT.` lines keep scene boundaries. |
-| JSON | `{"episode": 1, "logline": "...", "blocks": [{"start", "end", "kind", "speaker", "tags", "text"}]}` | Lossless. A natural output for AI script generators. |
-| SRT / WebVTT | `MARA: text`, `[MARA] text`, `[door slams]` | Subtitles have no camera or action lines, so visual hooks can't be detected. The app says so. |
+| Production format | `**MARA (Cold):**`, then `Start: (00:11.30) \| End: (00:13.10)`, then the line | Full information. Read by the original parser, so results haven't changed. |
+| Variations of it | headers without `**`, timing on the header line, `[00:11.3 --> 00:13.1]` | Same results as the production format. |
+| Inline | `[00:11.3 - 00:13.1] MARA (Cold): text`, or start times only | `SCENE 12` and `INT.`/`EXT.` lines keep scene boundaries. |
+| JSON | `{"episode": 1, "logline": "...", "blocks": [{"start", "end", "kind", "speaker", "tags", "text"}]}` | Nothing is lost. A natural format for AI script generators. |
+| SRT / WebVTT | `MARA: text`, `[MARA] text`, `[door slams]` | Subtitles have no camera or action lines, so visual hooks can't be found. The app warns you. |
 
-The format is detected from the content of each file, and mixed formats in one ZIP are fine.
+The format is detected from each file's content, so one ZIP can mix formats.
 
 ---
 
 ## Optional: LLM second opinion
 
-The core ranker never needs an LLM. If you add one, it reads only the shortlist (about 30 clips, roughly 50 calls per show) and does two jobs:
+The ranking never needs an LLM. If you add one, it only reads the shortlist (about 30 clips, roughly 50 calls per show) and does two things:
 
-1. **Rubric scores**: hook, cliffhanger, standalone, spoiler-safety and overall, rank-averaged with the system score.
-2. **One pairwise pass over the final list**: each adjacent pair is judged twice with the order swapped. A clip only moves if the verdict survives the swap, because LLM judges favour whichever option is shown first.
+1. **Scores each clip** on hook, cliffhanger, standalone clarity, spoiler safety and overall, and blends that with PromoFinder's own ranking.
+2. **Compares neighbouring picks in pairs**, asking about each pair twice with the order swapped. LLMs tend to favour whichever option they see first, so a clip only moves up if the LLM picks it both times.
 
-Set it up in `.env`. It is created on first launch, stays on your computer, is git-ignored, and keys are never written to any output:
+Set it up in `.env`. The launcher creates that file on first run; it stays on your computer, git ignores it, and keys never appear in any output.
 
 ```bash
 PROMOFINDER_LLM_PROVIDER=gemini      # gemini | groq | openrouter | ollama | anthropic | openai | openai_compatible
 GEMINI_API_KEY=your-key-here
 ```
 
-| Free option | Key from | Notes |
+| Free option | Get a key at | Default model |
 |---|---|---|
-| Gemini | https://aistudio.google.com/apikey | `gemini-2.5-flash` by default |
+| Gemini | https://aistudio.google.com/apikey | `gemini-2.5-flash` |
 | Groq | https://console.groq.com/keys | `llama-3.3-70b-versatile` |
-| OpenRouter | https://openrouter.ai/keys | `:free` models |
-| Ollama | none | runs locally: `ollama pull llama3.1` |
+| OpenRouter | https://openrouter.ai/keys | a `:free` model |
+| Ollama | no key, runs on your machine | `llama3.1` (`ollama pull llama3.1`) |
 
-To swap the model, set `PROMOFINDER_LLM_MODEL`; any OpenAI-compatible server works through `openai_compatible` plus `PROMOFINDER_LLM_BASE_URL`. No SDK is installed: calls are plain HTTPS. Responses are cached in `.llm_cache/`, so a re-run costs nothing, and a failed or malformed answer falls back to the system score.
+To use a different model, set `PROMOFINDER_LLM_MODEL`. Any OpenAI-compatible server works through `openai_compatible` plus `PROMOFINDER_LLM_BASE_URL`. No SDK is needed: the calls are plain HTTPS. Answers are cached in `.llm_cache/`, so re-running a show costs nothing, and if a call fails, that clip simply keeps its normal score.
 
-Once a key is set, the upload page shows an *LLM second opinion* checkbox, and `./run.sh check` confirms which provider is active.
+Once a key is set, the upload page shows an *LLM second opinion* checkbox, and `run check` tells you which provider is active.
 
 ---
 
@@ -131,111 +146,121 @@ screenplays ─► format adapters ─► block table (every line, shot, action,
                                         │
             ┌───────────────────────────┼─────────────────────────────────┐
      legal cut points          series index (premise, names,      reveal index (cues + loglines,
-   (never inside a line)        LSA space, who's introduced)        premise & free-episode exemptions)
+   (never inside a line)        word space, who's introduced)      title & free-episode exemptions)
             │                           │                                  │
    hook scorer (weak supervision)   cliffhanger scorer (open loop + withheld payoff)
-            └──────────── 51k candidate clips (single, cross-episode, cold open) ─────┐
+            └──────────── ~51k candidate clips (single, cross-episode, cold open) ────┐
                                                                                       │
    score = weighted geometric mean(hook, cliff, standalone, intensity, premise)       │
            × duration fit × early-episode prior × spoiler factor × audience factor ◄──┘
                                         │
-             diverse selection (MMR, no overlaps, ≤ 2 per episode) ─► top / longlist / portfolio
+             varied selection (no overlaps, ≤ 2 per episode) ─► top / longlist / portfolio
                                         │
      optional LLM second opinion ◄──────┤──────► editor feedback (Use/Reject, A/B, measured CTR)
-                                        │               └─► Bradley–Terry weights ─► next run
+                                        │               └─► learned weights ─► next run
                                 exports + web app + search index
 ```
 
-| Module | Job |
+| Module | What it does |
 |---|---|
-| `formats.py`, `parser.py`, `ingest.py` | Format detection and safe ZIP and file loading |
-| `features.py`, `models.py`, `labelmodel.py` | Hook and cliffhanger moment scorers (weak supervision, cross-fitted by episode) |
-| `pipeline.py` | Candidate generation, components, scoring, diversity, stability |
-| `spoilers.py` | Reveal index and spoiler risk |
+| `formats.py`, `parser.py`, `ingest.py` | Detect the format, load ZIPs and files safely |
+| `features.py`, `models.py`, `labelmodel.py` | Score hooks and cliffhangers (weak supervision, cross-fitted by episode) |
+| `pipeline.py` | Build candidates, score them, keep the list varied, measure stability |
+| `spoilers.py` | Find reveals and score spoiler risk |
 | `profiles.py` | Angles, audience profiles, portfolio |
-| `search.py` | Hybrid scene search and the clip around each hit |
-| `preferences.py` | Learning from editors, active pair selection, measured results |
-| `llm.py` | Optional providers, cache, debiased judging |
-| `evaluate.py` | Constraint checks, spoiler exposure, run agreement |
+| `search.py` | Scene search and the clip around each result |
+| `preferences.py` | Learn from editors, choose the next A/B pair, use measured results |
+| `llm.py` | Optional LLM providers, cache, order-swapped comparisons |
+| `evaluate.py` | Check runs against the scripts, measure spoilers and agreement |
 | `export.py`, `report.py`, `edl.py`, `app.py` | Outputs, report, cut lists and EDLs, web app |
 
-Design notes, rejected ideas and evaluation details are in [docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
+The design reasoning, the ideas I rejected and the evaluation details are in [docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
+
+---
 
 ## How good is it
 
-All numbers come from real runs. The development show is the 50-episode, 103-minute pack from the brief; it is confidential and not included. "Silver" labels were written by Claude from the episode loglines **before** the feature they test was built. They are not editor labels.
+Every number below comes from a real run on the 50-episode, 103-minute pack from the brief. That pack is confidential and not included here. There are no editor labels yet: the "silver" labels were written by Claude from the episode loglines **before** the feature they test existed.
 
 | Check | v1.3 | v2.0 |
 |---|---|---|
-| Hard constraints on 12 picks and 50-clip longlist (20–60 s, no cut inside a line, inside the episode, no overlaps, EDL = JSON) | 0 violations | 0 violations |
+| Rule breaks in the 12 picks and the 50-clip longlist (outside 20–60 s, cut inside a line, outside the episode, overlapping, EDL not matching JSON) | none | none |
 | Labelled twists or endings shown in the top 12 | 2 | 1 |
 | … in the 50-clip longlist | 5 | 2 |
-| Same picks as v1.3 (exact / same moment) | – | 9 / 10 of 12, same #1 |
-| Scene search, 16 paraphrased queries: relevant episode in the top 5 | no search | 16/16, MRR 0.67 (plain keyword BM25 baseline: 9/16, MRR 0.48) |
-| Same show converted to JSON / inline / unbolded production format: same top 12 | could not read them | 12 / 12 / 12 |
-| … with delivery tags removed / as SRT subtitles | could not read them | 8 / 4 of 12 moments kept |
-| Time for 50 episodes on a 2-core cloud VM (scoring 51,598 clips) | 5.9 s | 8.0 s |
-| Automated tests (Python 3.10 and 3.13) | 47 | 80 |
+| Same picks as v1.3 (exact clip / same moment) | – | 9 / 10 of 12, same #1 |
+| Scene search, 16 reworded queries: right episode in the top 5 | no search | 16/16, MRR 0.67 (plain keyword search: 9/16, MRR 0.48) |
+| Same show converted to JSON / inline / production format without bold | couldn't read them | same top 12 each time |
+| … with delivery tags removed / as SRT subtitles | couldn't read them | 8 / 4 of the 12 moments kept |
+| Time for 50 episodes on a 2-core cloud machine (51,598 clips scored) | 5.9 s | about 8 s |
+| Automated tests (Python 3.10 and 3.13 on Linux, 3.14 on Windows) | 47 | 80 |
 
-**Learning from editors (simulation, not real editors).** Three simulated editors with hidden tastes judged clips from the real longlist, with noise (36 runs per cell, Kendall τ against the editor's own ranking of 50 clips):
+**Learning from editors.** This was tested in a simulation, not with real editors. Three made-up editors with hidden preferences judged clips from the real longlist, with some randomness in their answers. I ran each setting 36 times and measured how closely the learned ranking matched each editor's own (Kendall τ over 50 clips, where 1 means identical):
 
-| Judgments | Use/Reject votes | Random A/B pairs | Active A/B pairs |
+| Judgments | Use/Reject votes | Random A/B pairs | Chosen A/B pairs |
 |---|---|---|---|
 | 0 (default weights) | 0.731 | 0.731 | 0.731 |
 | 10 | 0.743 | 0.737 | **0.759** |
 | 20 | 0.715 | 0.755 | **0.786** |
 | 40 | 0.738 | 0.789 | **0.815** |
 
-Active A/B selection learns fastest. Use/Reject votes alone barely move the ranking, because the clips an editor sees together are all strong and similar. The prior strength and pool size were chosen on this same simulation.
+Letting PromoFinder choose which pair to show learns fastest. Use/Reject votes alone hardly help, because the clips an editor sees together are all strong and similar. One caveat: I picked the learning settings using this same simulation.
+
+---
 
 ## Known limitations
 
-- **Spoiler detection relies on the loglines.** Cue patterns alone found 1 of 9 labelled twists; with Kuku's EPISODE LOGLINE it found 8 of 9. Because the labels were also written from loglines, that 8/9 is optimistic. It misses twists phrased without a cue word (e.g. a marriage declared invalid). Use Strict mode for late-series material, and keep a human check on anything flagged *late-series*.
-- **Angles are lexical.** A clip about a missing daughter can be tagged *romance* if it uses love words. Treat the angle as a hint.
-- **Search synonyms are a hand-written genre list.** It was written after reading this show's loglines, so the 16/16 result is optimistic for other genres. Installing `model2vec` (see `.env`) adds a real embedding model; that path is implemented but was not benchmarked here because the model could not be downloaded in the build environment.
-- **No real engagement data yet.** Scores estimate promo quality; they are **not** predicted click-through rates. Measured results can be imported (`promofinder performance`) and then appear as *Measured* badges and feed the learner. Nothing in the app invents a CTR.
-- **Subtitle-only input is much weaker**: 4 of 12 moments survive, because there are no action lines and no delivery tags.
-- **Windows launcher.** `run.bat` follows the same steps as `run.sh` but could not be executed in the build environment. `run.sh` was tested from a clean extract, including repeat launch, a busy port and a damaged `.venv`.
-- **Single process.** One scoring run at a time, with job state held in memory. That suits one editor or a small team, not many concurrent users.
+- **Spoiler detection leans on the episode loglines.** Without them, the cue words alone caught 1 of 9 labelled twists; with Kuku's `EPISODE LOGLINE` lines it caught 8 of 9. That 8/9 is optimistic, because my labels came from the loglines too. It still misses twists that don't use a cue word, such as a marriage being declared invalid. Use *Strict* for late-series material and have a person check anything flagged *late-series*.
+- **Angles are based on word lists**, so they can be wrong. A scene about a missing daughter can come out as *romance* if the characters talk about love. Treat the angle as a hint.
+- **Search works best with concrete descriptions.** "The sheriff is lying" or "a mayday on the radio" find the right scenes; vague phrases like "a shocking reveal" are hit-and-miss, especially in scripts without delivery tags. The synonym list was also written after I read this show's loglines, so the 16/16 above is probably optimistic for other genres. You can add a real embedding model (see `.env`); that option is built but untested, because the model couldn't be downloaded where I built this.
+- **There's no real engagement data yet.** Scores estimate promo quality; they are **not** predicted click-through rates. You can import real ad results (`promofinder performance`). They then show up as *Measured* badges and feed the learning. The app never makes up a CTR.
+- **Subtitle files are much weaker input.** Only 4 of 12 moments survive, because there are no action lines or delivery tags.
+- **One run at a time.** Jobs are held in memory, which is fine for one editor or a small team but not for many people at once.
 
-## Configuration
+## Settings
 
-`config.yaml` holds clip lengths, number of picks, weights, spoiler tolerance, audience, learning and LLM settings. Each key is commented, and the defaults are in `promofinder/config.py`. Editor judgments are stored in `feedback/feedback.jsonl`. Learned weights apply automatically once 10 judgments exist; set `learning.auto_apply: false` (or pass `--no-learning`) to rank with the fixed weights.
+`config.yaml` holds clip lengths, number of picks, weights, spoiler setting, audience, learning and LLM options. Every key has a comment, and the defaults live in `promofinder/config.py`. Editor judgments are saved in `feedback/feedback.jsonl`. Once there are 10 of them, local runs use the learned weights automatically. To turn that off, set `learning.auto_apply: false` or pass `--no-learning`.
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| `permission denied: ./run.sh` | Run `bash run.sh` (ZIP extraction can drop the execute bit), or `chmod +x run.sh`. |
-| "Python 3.10 or newer was not found" | Install from python.org. Windows: tick *Add python.exe to PATH*. Ubuntu: `sudo apt install python3 python3-venv`. |
-| Dependency install fails | Check your internet connection, then run the launcher again. To start clean: `./run.sh reset`. |
-| Port 7860 is busy | PromoFinder picks the next free port and prints the address. To choose one: `PORT=8000 ./run.sh`. |
-| The browser didn't open | Open the address printed in the terminal (usually <http://localhost:7860>). |
-| "No screenplay found in the upload" | The files need timestamps (see *Screenplay formats*). The page lists every skipped file. |
-| The LLM checkbox doesn't appear | Set `PROMOFINDER_LLM_PROVIDER` and the matching key in `.env`, restart, and run `./run.sh check`. |
-| Search says "made by an older version" | Re-run the show; runs from v1.x have no search index. |
-| Open from another computer on your network | `HOST=0.0.0.0 ./run.sh`. Only do this on a network you trust: there is no login. |
+| `permission denied: ./run.sh` | Use `bash run.sh` (unzipping can drop the execute permission), or run `chmod +x run.sh`. |
+| "Python 3.10 or newer was not found" | Install it from python.org. On Windows, tick *Add python.exe to PATH*. On Ubuntu: `sudo apt install python3 python3-venv`. |
+| Installing dependencies fails | Check your internet connection and run the launcher again. To start fresh: `run reset`. |
+| Port 7860 is in use | PromoFinder picks the next free port and prints the address. To choose one yourself: `PORT=8000 ./run.sh` (PowerShell: `$env:PORT=8000; .\run.bat`). |
+| The browser didn't open | Open the address printed in the terminal, usually <http://localhost:7860>. |
+| "No screenplay found in the upload" | The files need timestamps (see *Screenplay formats*). The page lists every file it skipped. |
+| No LLM checkbox | Set `PROMOFINDER_LLM_PROVIDER` and the matching key in `.env`, restart, then run `run check`. |
+| Search says the run was made by an older version | Run the show again; runs from v1.x have no search index. |
+| Opening it from another computer on your network | Start it with `HOST=0.0.0.0` (PowerShell: `$env:HOST="0.0.0.0"; .\run.bat`). Only do this on a network you trust, because there's no login. |
 
-## Deploy
+## Deploying
 
-`render.yaml` is a Render Blueprint and the `Dockerfile` works on any Docker host. Both use gunicorn in public mode, which hides other visitors' runs, keeps the upload cap small and disables the LLM checkbox. `/healthz` reports the version.
+`render.yaml` is a Render Blueprint, and the `Dockerfile` works on any Docker host. Both run PromoFinder in public mode:
+
+- other visitors' runs are hidden;
+- uploads are capped at 20 MB;
+- the LLM option is turned off, and votes are stored but don't change the ranking.
+
+Render's free plan also wipes files whenever the service restarts, so keep real editor feedback on a local copy. Don't upload confidential scripts to the public demo. `/healthz` reports the running version.
 
 ## AI tools
 
-| Tool | How it was used |
+| Tool | How I used it |
 |---|---|
-| Claude (Anthropic) | v1: main coding partner, plus blind silver labels for hooks and endings. v2: the audit, research-backed design decisions, the implementation, the tests, the evaluation scripts and this README, with every claim checked by a run or a test. |
+| Claude (Anthropic) | v1: main coding partner, and the blind silver labels for hooks and endings. v2: Claude Code did the audit and most of the implementation, tests, evaluation scripts and documentation from my brief, with every claim backed by a test or a measured run. |
 | Grok | v1: brainstorming and second opinions. |
-| Lovable | v1: visual design of the web app (implemented as plain server-rendered HTML and CSS). |
+| Lovable | v1: visual design of the web app, built as plain server-rendered HTML and CSS. |
 
-Mistakes caught by measuring rather than trusting:
+These are the mistakes that measuring caught, where trusting the first idea would have shipped them:
 
-| What went wrong | How it showed up | Fix and check |
+| What went wrong | How it showed up | What fixed it |
 |---|---|---|
-| Learning from writers' episode endings | Held-out AUC 0.61; top features were writing style | Replaced by the withheld-payoff scorer (0.80 AUC on silver labels) |
-| Hook rules vetoed real hooks | "They arrested her!" penalised on blind sample A | Rules removed, re-checked on a fresh sample B |
-| Learned weights barely moved, then hurt | Prior strength 4: no change after 40 judgments. Prior 0.05: τ fell from 0.73 to 0.64 | Swept the prior, used active pair selection: τ rose steadily to 0.815 |
-| Spoiler cue flagged known facts | "You are my father!" in episode 5 counted as a reveal | Cues only count if new relative to the free episodes and the title |
-| Spoiler cue missed "you're under arrest" | Seen on the sample show's A/B screen | Contractions added; development-show numbers unchanged |
-| Format conversion "changed" rankings | Inline copy of the show: 9/12 overlap | Missing scene markers; once added, 12/12 |
-| Python 3.10 crashed on a ZIP edge case | `metadata_encoding` exists only from 3.11 | A portable codec fallback; full test suite passes on 3.10 and 3.13 |
+| Learning cliffhangers from how writers end episodes | Held-out AUC 0.61; the model picked up writing style, not suspense | Replaced with the withheld-payoff scorer (0.80 AUC on silver labels) |
+| Hook rules vetoed real hooks | "They arrested her!" was penalised in blind sample A | Removed the rules, re-checked on a fresh sample B |
+| Learned weights barely moved, then made things worse | Prior strength 4: no change after 40 judgments. Prior 0.05: τ dropped from 0.73 to 0.64 | Tried a range of values and let PromoFinder choose the pairs: τ rose steadily to 0.815 |
+| The spoiler check flagged things viewers already know | "You are my father!" in episode 5 counted as a reveal | A cue now counts only if it's new compared with the title and the free episodes |
+| The spoiler check missed "you're under arrest" | Spotted on the sample show's A/B screen | Contractions added; results on the development show didn't change |
+| Converting the show to another format seemed to change the ranking | Inline copy kept only 9 of 12 picks | Scene markers were missing; with them, 12 of 12 |
+| Python 3.10 crashed on one kind of ZIP | `metadata_encoding` only exists from Python 3.11 | A fallback that works on every version; tests pass on 3.10, 3.13 and 3.14 |
+| `run.bat` would have skipped installing on a fresh Windows PC | First Windows run printed a mangled `python.exe" -c` error | Rewrote that step to avoid the Windows quoting bug; checked on Windows with Python 3.14 |

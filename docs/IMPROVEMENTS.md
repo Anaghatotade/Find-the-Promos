@@ -1,7 +1,7 @@
 # PromoFinder v2: engineering notes
 
-These notes cover what was found in the v1.3 audit, what was built and why, what was rejected, and how it was measured.
-The development show is confidential, so this file reports aggregate numbers only.
+These notes cover what the v1.3 audit found, what I built and why, what I decided against, and how each piece was measured.
+The development show is confidential, so only aggregate numbers appear here.
 
 ## 1. Audit of v1.3 (what was there)
 
@@ -29,7 +29,7 @@ The development show is confidential, so this file reports aggregate numbers onl
 | Discovery | Editors could not ask for a specific kind of moment. |
 | LLM | Two SDKs as optional installs, no cache, and pointwise scoring only. Pointwise LLM scores are the least reliable form of LLM judgment. |
 | Evaluation | No harness to check a run against its source scripts, compare versions, or test formats. |
-| Ops | Manual setup. Python 3.10 crashed on a ZIP edge case (`metadata_encoding` is 3.11+). |
+| Setup | Everything was manual, and Python 3.10 crashed on one kind of ZIP (`metadata_encoding` only exists from 3.11). |
 
 ## 2. The suggested features: decisions
 
@@ -50,7 +50,8 @@ The development show is confidential, so this file reports aggregate numbers onl
 4. **Position-swap debiasing** for LLM pairwise judgments (LLM judges favour the first option shown). A verdict counts only if it survives the swap.
 5. **Stdlib HTTP LLM client** with free-tier presets (Gemini, Groq, OpenRouter, Ollama), a SQLite response cache, and `.env`-only keys that are never written to outputs.
 6. **Re-rank without re-running**: exported components include the non-learned factors, so learned weights re-order a finished run instantly (to within ±0.0002, the rounding of stored components).
-7. **One-command launchers** with a dependency hash, `.venv` self-repair and free-port fallback; a portable cp437 fix for Python 3.10.
+7. **One-command launchers** (`run.sh`, `run.bat`) that only reinstall when `requirements.txt` changes, rebuild a broken `.venv`, and fall back to the next free port. Tested from a clean extract on Linux (Python 3.10 and 3.13) and on Windows (Python 3.14). The Windows test caught a quoting bug that would have skipped the install on a fresh PC.
+8. **Search results show their evidence**: the matched words as they appear in the script, the concept, and the delivery tag. An exact line ("who are you") is found even when every word in it is a common word.
 
 ## 4. Key ML decisions
 
@@ -70,7 +71,8 @@ Real runs on the 50-episode development show; full numbers are in the README.
 - Spoiler detector recall at episode level: 1/9 from cues alone, 8/9 with loglines (optimistic, because the labels also came from loglines).
 - v2 keeps 9 of 12 v1.3 picks exactly (10 of 12 by moment), with the same #1.
 - Format robustness: identical top 12 for JSON, inline and unbolded-production copies. With tags removed, 8 of 12 moments; as SRT, 4 of 12.
-- Runtime: 5.9 s → 8.0 s for 51,598 candidates.
+- Runtime: 5.9 s → about 8 s for 51,598 candidates.
+- Search is strong on concrete descriptions and weaker on vague ones. On the public sample show, "the sheriff is lying" returns the right scenes, but "a shocking reveal" doesn't: that show's scripts have no delivery tags, and the concept lists can't tell a reveal from an ordinary question.
 
 ## 6. What I would build next with Kuku's data
 
