@@ -2,8 +2,6 @@
 
 **Find the best 20 - 60 second promo clips in a microdrama, straight from its timestamped screenplays.**
 
-Built for Kuku's AI Generalist Assignment, Problem 1: *Find the Promos*.
-
 **Live demo:** [promofinder-h00l.onrender.com](https://promofinder-h00l.onrender.com). Open a sample show for instant results.
 
 ---
