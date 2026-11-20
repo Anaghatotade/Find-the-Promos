@@ -135,12 +135,70 @@ border-top:1px dashed var(--rule);padding-top:18px;display:grid;grid-template-co
 .top-pick{margin:0}.rank{font-size:48px}.side{grid-column:1;display:block}.line{grid-template-columns:1fr;gap:2px}.withheld{margin-left:0}
 .why{font-size:20px}.tc{font-size:15px}}
 @media print{.topbar,nav.tabs,.dl,.fb,details{display:none}body{background:#fff}.promo{break-inside:avoid}}
+/* ---------- highlight taxonomy: one colour + glyph per hook / cut type ---------- */
+:root{--t-phys:#b8321f;--t-phys-bg:#f7dcd5;--t-shock:#c2410c;--t-shock-bg:#fbe3d1;--t-emo:#a1286a;--t-emo-bg:#f5dbe8;
+--t-conf:#7a3e9d;--t-conf-bg:#ebdff3;--t-open:#4f6b2c;--t-open-bg:#e4ecd6;--t-q:#1f5f8b;--t-q-bg:#d9e8f3;--t-oq:#2b7a78;--t-oq-bg:#d6eeec;
+--t-threat:#8f1d1d;--t-threat-bg:#f3d6d6;--t-int:#6b5a12;--t-int-bg:#f2ebcc;--t-rev:#9a4b00;--t-rev-bg:#f8e4cc;--t-peak:#3e4b8a;--t-peak-bg:#dde1f2}
+.bdg{display:inline-flex;align-items:center;gap:6px;font:600 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;
+padding:5px 9px 5px 7px;border-radius:999px;color:var(--c);background:var(--cb);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);
+white-space:nowrap;vertical-align:2px;margin-left:6px;cursor:help}
+.bdg .g{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--c);color:var(--sheet);font-size:9px;letter-spacing:0}
+.bdg.sm{font-size:9.5px;padding:3px 7px 3px 5px;margin:4px 0 0}.bdg.sm .g{width:12px;height:12px;font-size:8px}
+.line.h,.line.c{padding:10px 12px;border-radius:var(--r);background:color-mix(in srgb,var(--cb) 45%,transparent);border-left:3px solid var(--c);margin-left:-15px}
+/* filter + insight bar */
+.ins{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin:8px 0 26px;padding:20px 0;border-bottom:1px solid var(--rule)}
+.ins h3{font:500 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:0 0 10px}
+.mix{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--soft);margin-bottom:12px}
+.mix i{display:block;background:var(--c)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:500 12px/1 var(--sans);padding:7px 10px;border-radius:999px;background:var(--sheet);color:var(--ink-2);border:1px solid var(--rule);gap:6px}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.chip b{font:500 11px var(--mono);color:var(--mute)}
+.chip:hover{background:var(--cb);color:var(--ink);border-color:var(--c)}
+.chip.on{background:var(--c);color:var(--sheet);border-color:var(--c)}.chip.on::before{background:var(--sheet)}.chip.on b{color:var(--sheet)}
+.fstat{font:12px var(--mono);color:var(--mute);margin:0 0 6px}.fstat a{cursor:pointer}
+.promo.dim{display:none}
+.tools{display:flex;gap:6px;margin-top:10px}
+.tools button{padding:6px 10px;font:500 11.5px/1 var(--mono);background:transparent;color:var(--ink-2);border:1px solid var(--rule)}
+.tools button:hover{background:var(--soft);color:var(--ink)}
+.promo.focus{box-shadow:-6px 0 0 var(--hook)}
+.kbd{font:11px var(--mono);color:var(--mute);margin:14px 0 0}.kbd kbd{font:11px var(--mono);border:1px solid var(--rule);border-bottom-width:2px;border-radius:3px;padding:1px 5px;background:var(--sheet)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--on-night);font:13px var(--mono);padding:10px 16px;border-radius:var(--r);opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+th.so{cursor:pointer}th.so:hover{color:var(--ink)}
+@media(max-width:760px){.ins{grid-template-columns:1fr}.line.h,.line.c{margin-left:0}}
+@media print{.ins,.tools,.kbd{display:none}}
 """
 
 JS = """
 const D=JSON.parse(document.getElementById('data').textContent);
 const fb=JSON.parse((()=>{try{return localStorage.getItem('pf_fb_'+D.show)||'{}'}catch(e){return '{}'}})());
 function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+const TYPES={
+'physical/visual shock':{c:'phys',g:'\u26A1',l:'Visual shock',d:'Opens on a physical, on-screen action (slap, crash, grab) - reads with the sound off.'},
+'shock line':{c:'shock',g:'!',l:'Shock line',d:'Opens on a line of dialogue built to startle - a confession, accusation or reveal.'},
+'explosive emotion':{c:'emo',g:'\u2665',l:'Explosive emotion',d:'Opens at maximum emotional delivery (screaming, sobbing, rage).'},
+'direct confrontation':{c:'conf',g:'\u2194',l:'Confrontation',d:'Opens with one character directly challenging another ("you...!").'},
+'emotional open':{c:'open',g:'\u25CB',l:'Emotional open',d:'A softer open that builds feeling rather than shock - may need a strong cut.'},
+'unanswered question':{c:'q',g:'?',l:'Unanswered question',d:'Cuts after a question whose answer the viewer is denied - strongest click-through driver.'},
+'open question':{c:'oq',g:'?',l:'Open question',d:'Ends on a question, though the answer may be partly implied.'},
+'threat / ticking clock':{c:'threat',g:'\u23F1',l:'Threat / ticking clock',d:'Ends on a threat or deadline - the viewer needs to know if it happens.'},
+'interrupted line':{c:'int',g:'\u2026',l:'Interrupted line',d:'Cuts mid-sentence, so the thought is left hanging.'},
+'reveal / sudden action':{c:'rev',g:'\u2737',l:'Reveal',d:'Cuts on a sudden reveal or action beat.'},
+'emotional peak':{c:'peak',g:'\u25B2',l:'Emotional peak',d:'Cuts at the highest emotional moment rather than an open loop.'}};
+function tv(t){const x=TYPES[t]||{c:'open',g:'\u2022',l:t,d:''};return `--c:var(--t-${x.c});--cb:var(--t-${x.c}-bg)`}
+function badge(t,sm){const x=TYPES[t]||{g:'\u2022',l:t,d:''};return `<span class="bdg${sm?' sm':''}" style="${tv(t)}" title="${esc(x.d)}"><span class=g>${x.g}</span>${esc(x.l)}</span>`}
+const F={hook:null,cut:null};
+function insights(ps){const grp=(k,key)=>{const m={};ps.forEach(p=>{const t=p[k].type;m[t]=(m[t]||0)+1});
+ const e=Object.entries(m).sort((a,b)=>b[1]-a[1]);
+ return `<div class=mix>${e.map(([t,n])=>`<i style="${tv(t)};width:${n/ps.length*100}%" title="${esc((TYPES[t]||{l:t}).l)}: ${n}"></i>`).join('')}</div><div class=chips>${e.map(([t,n])=>`<button class="chip${F[key]==t?' on':''}" style="${tv(t)}" title="${esc((TYPES[t]||{d:''}).d)}" onclick="setF('${key}','${t.replace(/'/g,"\\\\'")}')">${esc((TYPES[t]||{l:t}).l)} <b>${n}</b></button>`).join('')}</div>`};
+ return `<div class=ins><div><h3>How they open &middot; hook mix</h3>${grp('hook','hook')}</div><div><h3>How they end &middot; cut mix</h3>${grp('cliffhanger','cut')}</div></div><p class=fstat id=fstat></p>`}
+function setF(k,t){F[k]=F[k]==t?null:t;renderTop()}
+function copyTc(id){const p=D.top.find(x=>x.id==id);const t=p.segments.map(s=>`E${s.episode} ${s.start}-${s.end}`).join(' + ');
+ (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast('Copied '+t),()=>toast(t))}
+function toast(m){let e=document.getElementById('toast');if(!e){e=document.createElement('div');e.id='toast';e.className='toast';document.body.appendChild(e)}
+ e.textContent=m;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),1800)}
 const NAMES={hook:'Hook',cliff:'Cut',standalone:'Standalone',arc:'Intensity',premise:'Premise'};
 function bars(c){return Object.keys(NAMES).map(k=>`<div><span>${NAMES[k]}</span><span class=bar><i style="width:${Math.round(c[k]*100)}%"></i></span><span class=num>${c[k].toFixed(2)}</span></div>`).join('')}
 function strip(p){const T=p.duration_s||1;let x=0,sp='';
@@ -157,9 +215,9 @@ const tx=p.transcript.map(l=>`<p><span class=t>E${l.episode} ${l.start}</span>${
 const st=p.components.stability, f=fb[p.id]||'';
 const stab=st==null?'':`<span class="stab ${st>=.9?'hi':st>=.6?'mid':'lo'}" title="Share of 200 alternative weightings that keep this pick">${st>=.9?'Robust':st>=.6?'Likely':'Borderline'} pick, ${Math.round(st*100)}%</span>`;
 return `<article class=promo id="${p.id}" aria-label="Promo ${p.rank}"><div class=p-rank><div class=rank>${p.rank}</div><div class=score>score <b>${p.score.toFixed(3)}</b></div>${p.rank==1?'<span class=top-pick>Top pick</span>':''}</div>
-<div class=p-main><div class=tcs>${tcs}</div><div class=meta><span class=d>${p.duration_s.toFixed(1)} s</span><span class=sep></span><span>${kind}</span></div>${strip(p)}
-<div class="line h"><b>Hook</b><span>${esc(p.hook.text)} <span class=type>${esc(p.hook.type)}</span></span></div>
-<div class="line c"><b>Cut on</b><span>${esc(p.cliffhanger.text)} <span class=type>${esc(p.cliffhanger.type)}</span></span></div>
+<div class=p-main><div class=tcs>${tcs}</div><div class=tools><button onclick="copyTc('${p.id}')" title="Copy timecodes for your edit">Copy timecodes</button><button onclick="location.hash='${p.id}';toast('Link set in address bar')">Link</button></div><div class=meta><span class=d>${p.duration_s.toFixed(1)} s</span><span class=sep></span><span>${kind}</span></div>${strip(p)}
+<div class="line h" style="${tv(p.hook.type)}"><b>Hook</b><span>${esc(p.hook.text)} ${badge(p.hook.type)}</span></div>
+<div class="line c" style="${tv(p.cliffhanger.type)}"><b>Cut on</b><span>${esc(p.cliffhanger.text)} ${badge(p.cliffhanger.type)}</span></div>
 ${p.cliffhanger.withheld_next_beat?`<div class=withheld>The viewer doesn't get to see: ${esc(p.cliffhanger.withheld_next_beat)}</div>`:''}
 <p class=why>${esc(p.why_it_works)}</p><p class=reason>${esc(p.rank_reason)}</p>
 <details><summary>Transcript and source lines</summary><p class=mute style="font-size:12px;margin:10px 0 0;font-family:var(--mono)">${src}</p><div class=tx>${tx}</div></details></div>
@@ -168,9 +226,18 @@ ${p.cliffhanger.withheld_next_beat?`<div class=withheld>The viewer doesn't get t
 function vote(id,v,el){fb[id]=v;try{localStorage.setItem('pf_fb_'+D.show,JSON.stringify(fb))}catch(e){}
  if(window.PF_SERVER){fetch('/feedback',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({run:D.run||'',show:D.show,id:id,vote:v,components:(D.top.concat(D.longlist)).find(p=>p.id==id).components})})}
  el.parentNode.querySelectorAll('button').forEach(b=>b.className='');el.className=v=='up'?'sel-up':'sel-down'}
-function table(ps){return `<table><tr><th>#</th><th>Clip</th><th>Hook</th><th>Cut on</th><th>Score</th><th>Flags</th></tr>${ps.map(p=>`<tr><td>${p.rank}</td><td class=tc>${p.segments.map(s=>`E${s.episode} ${s.start}&ndash;${s.end}`).join('<br>')}</td><td>${esc(p.hook.text)}</td><td>${esc(p.cliffhanger.text)}</td><td class=num>${p.score.toFixed(3)}</td><td>${p.risk_flags.map(esc).join('<br>')}</td></tr>`).join('')}</table>`}
-document.getElementById('top').innerHTML=D.top.map(card).join('');
+function table(ps){return `<table><tr><th>#</th><th>Clip</th><th>Hook</th><th>Cut on</th><th class=so onclick="sortL()" title="Sort by score">Score &#8645;</th><th>Flags</th></tr>${ps.map(p=>`<tr><td>${p.rank}</td><td class=tc>${p.segments.map(s=>`E${s.episode} ${s.start}&ndash;${s.end}`).join('<br>')}</td><td>${esc(p.hook.text)}<br>${badge(p.hook.type,1)}</td><td>${esc(p.cliffhanger.text)}<br>${badge(p.cliffhanger.type,1)}</td><td class=num>${p.score.toFixed(3)}</td><td>${p.risk_flags.map(esc).join('<br>')}</td></tr>`).join('')}</table>`}
+function renderTop(){const vis=D.top.filter(p=>(!F.hook||p.hook.type==F.hook)&&(!F.cut||p.cliffhanger.type==F.cut));
+ document.getElementById('top').innerHTML=insights(D.top)+vis.map(card).join('')+'<p class=kbd>Shortcuts: <kbd>J</kbd>/<kbd>K</kbd> next / previous promo &middot; <kbd>U</kbd> use &middot; <kbd>R</kbd> reject &middot; <kbd>C</kbd> copy timecodes</p>';
+ const n=F.hook||F.cut;document.getElementById('fstat').innerHTML=n?`Showing ${vis.length} of ${D.top.length} promos &middot; <a onclick="F.hook=F.cut=null;renderTop()">clear filters</a>`:'Tap a colour to filter promos by how they open or end. Hover a badge to see what it means.'}
+renderTop();
+let LA=-1;function sortL(){LA=-LA;const l=D.longlist.slice().sort((a,b)=>LA*(a.score-b.score));document.getElementById('long').innerHTML='<div class=tbl>'+table(l)+'</div>'}
 document.getElementById('long').innerHTML='<div class=tbl>'+table(D.longlist)+'</div>';
+let FI=-1;document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea')||e.metaKey||e.ctrlKey)return;
+ const cs=[...document.querySelectorAll('#top .promo')];if(!cs.length||document.getElementById('top').classList.contains('hide'))return;const k=e.key.toLowerCase();
+ if(k=='j'||k=='k'){FI=Math.max(0,Math.min(cs.length-1,FI+(k=='j'?1:-1)));cs.forEach((c,i)=>c.classList.toggle('focus',i==FI));cs[FI].scrollIntoView({behavior:'smooth',block:'start'})}
+ else if(FI>=0&&cs[FI]&&(k=='u'||k=='r')){const b=cs[FI].querySelectorAll('.fb button')[k=='u'?0:1];b.click();toast(k=='u'?'Marked: use':'Marked: reject')}
+ else if(FI>=0&&cs[FI]&&k=='c')copyTc(cs[FI].id)});
 const TABS=['top','long','method'];
 function tab(n){TABS.forEach(x=>{const on=x==n,b=document.getElementById('b_'+x);document.getElementById(x).classList.toggle('hide',!on);
  b.classList.toggle('on',on);b.setAttribute('aria-selected',on?'true':'false');b.tabIndex=on?0:-1});document.getElementById('key').classList.toggle('hide',n!='top')}
