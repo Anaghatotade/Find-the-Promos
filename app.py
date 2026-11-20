@@ -721,7 +721,7 @@ def prebuild_demo():
         jid = "prebuild" + _demo_job(smp)[len("demo-precompute"):] + "-demo"
         JOBS[jid] = {"status": "queued", "stage": "", "frac": 0.0, "started": time.time(), "show": show,
                      "n_eps": len(eps), "rid": None, "error": None}
-        _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], pre)
+        _run_job(jid, _demo_cfg(), show, eps, [], pre)
         if JOBS[jid]["status"] != "done" or not os.path.exists(os.path.join(pre, "promos_top.json")):
             print("prebuild-demo FAILED:", show, JOBS[jid].get("error")); return 1
         with open(os.path.join(pre, "BUILD.json"), "w", encoding="utf-8") as fh:
@@ -744,7 +744,7 @@ def precompute_demo(sid="1"):
     with JOBS_LOCK:
         JOBS[jid] = {"status": "queued", "stage": "Preparing demo", "frac": 0.0, "started": time.time(),
                      "show": show, "n_eps": len(eps), "rid": None, "error": None}
-    _run_job(jid, _demo_cfg(), show, eps, ["Sample show: original fiction written for this demo (not production content)."], dest)
+    _run_job(jid, _demo_cfg(), show, eps, [], dest)
 
 
 def precompute_all_demos():
@@ -777,7 +777,7 @@ def demo_run():
     if not smp or not os.path.exists(_sample_zip(smp)):
         return error_page("Demo unavailable", "That sample show is missing from this deployment.", 404)
     show, eps = _load_sample(smp["id"])
-    return _start_job(_demo_cfg(), show, eps, ["Live run on the sample show (original fiction written for this demo)."])
+    return _start_job(_demo_cfg(), show, eps, [])
 
 
 @app.get("/samples/<name>")

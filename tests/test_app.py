@@ -153,7 +153,7 @@ def test_demo_instant_results_and_live_run(client):
     r = client.get("/demo")                       # afterwards: instant
     assert r.headers["Location"].endswith("/r/demo")
     page = client.get("/r/demo").get_data(as_text=True)
-    assert "The Cleaner Was the Heiress" in page and "original fiction" in page
+    assert "The Cleaner Was the Heiress" in page and "Notes on this upload" not in page
     assert client.get("/r/demo/edl.zip").status_code == 200
     _, st, _ = wait_job(client, client.post("/demo/run"))      # live run on the sample
     assert st["status"] == "done" and len(st["rid"]) > 30
