@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 26
+EPISODE LOGLINE: Theo catches Nadia in the radio cabin and makes a choice that reveals which side he's really on.
+CONTINUITY NOTES: Continues directly from Episode 25.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. YACHT RADIO CABIN – NIGHT
+Scene start: 00:00.00
+Scene end: 00:29.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.00)
+Medium shot of Theo.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.00)
+Theo steps in and closes the door. He sees the recorder.
+
+**CAMERA:**
+Start: (00:02.00) | End: (00:04.90)
+Close-up on Nadia.
+
+**NADIA (Tense, Whispering):**
+Start: (00:02.20) | End: (00:04.70)
+"Go on. Call your uncle."
+
+**CAMERA:**
+Start: (00:04.90) | End: (00:09.80)
+Close-up on Theo.
+
+**THEO MARSH (Quiet, Conflicted):**
+Start: (00:05.10) | End: (00:09.60)
+"He paid for my school. My first camera. My first job."
+
+**CAMERA:**
+Start: (00:09.80) | End: (00:14.70)
+Close-up on Nadia.
+
+**NADIA (Hard):**
+Start: (00:10.00) | End: (00:14.50)
+"He also paid for four men to drown on the Kittiwake."
+
+**CAMERA:**
+Start: (00:14.70) | End: (00:16.70)
+Close-up on Theo's eyes.
+
+**ACTION:**
+Start: (00:14.70) | End: (00:16.70)
+Footsteps in the corridor. Theo glances at the door, then back at Nadia.
+
+**CAMERA:**
+Start: (00:16.70) | End: (00:21.60)
+Close-up on Theo.
+
+**THEO MARSH (Decided):**
+Start: (00:16.90) | End: (00:21.40)
+"Lifeboat on the port side. Three minutes. I'll keep him talking."
+
+**CAMERA:**
+Start: (00:21.60) | End: (00:23.10)
+Close-up on Nadia.
+
+**NADIA (Surprised):**
+Start: (00:21.80) | End: (00:22.90)
+"Why?"
+
+**CAMERA:**
+Start: (00:23.10) | End: (00:29.10)
+Close-up on Theo, opening the door.
+
+**THEO MARSH (Rueful):**
+Start: (00:23.30) | End: (00:28.90)
+"Because I fired the second shot on the pier. And I'd do it again."
+
+**SOUND FX:**
+Start: (00:29.10) | End: (00:30.10)
+A door latch clicking shut.
+
+--- SCRIPT END ---

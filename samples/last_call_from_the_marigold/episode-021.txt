@@ -1,0 +1,74 @@
+EPISODE NUMBER: Episode 21
+EPISODE LOGLINE: State investigator Ruth Okoye arrives to take over the case and makes it clear her first suspect is Nadia.
+CONTINUITY NOTES: That afternoon.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. SHERIFF'S OFFICE – DAY
+Scene start: 00:00.00
+Scene end: 00:34.90
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Medium shot of Detective Ruth Okoye.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+A woman in a grey coat boxes up Brannigan's desk.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:09.10)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Brisk, Dry):**
+Start: (00:02.70) | End: (00:08.90)
+"A dead sheriff, a shot harbour master, and a radio operator on the run. Busy island."
+
+**CAMERA:**
+Start: (00:09.10) | End: (00:14.00)
+Close-up on the deputy.
+
+**DEPUTY (Nervous):**
+Start: (00:09.30) | End: (00:13.80)
+"Reyes was on the pier last night, ma'am. Witnesses saw her."
+
+**CAMERA:**
+Start: (00:14.00) | End: (00:20.00)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Thoughtful):**
+Start: (00:14.20) | End: (00:19.80)
+"Witnesses also say her sister drowned three years ago. I'm keeping an open mind."
+
+**CAMERA:**
+Start: (00:20.00) | End: (00:22.00)
+Insert of the folder.
+
+**ACTION:**
+Start: (00:20.00) | End: (00:22.00)
+Okoye pulls a thin folder from the desk: the Marigold report.
+
+**CAMERA:**
+Start: (00:22.00) | End: (00:28.30)
+Close-up on Okoye flicking pages.
+
+**DETECTIVE OKOYE (Curious):**
+Start: (00:22.20) | End: (00:28.10)
+"Eleven pages for a ship that sank with all hands. Brannigan wrote longer parking tickets."
+
+**CAMERA:**
+Start: (00:28.30) | End: (00:34.90)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Decisive):**
+Start: (00:28.50) | End: (00:34.70)
+"Find Nadia Reyes. I want to hear her version before anyone else writes it for her."
+
+**SOUND FX:**
+Start: (00:34.90) | End: (00:35.90)
+A filing drawer slamming shut.
+
+--- SCRIPT END ---

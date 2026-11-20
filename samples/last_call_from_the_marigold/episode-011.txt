@@ -1,0 +1,86 @@
+EPISODE NUMBER: Episode 11
+EPISODE LOGLINE: Nadia sneaks into the hospital to see Owen, who wakes long enough to warn her that Brannigan answers to someone bigger.
+CONTINUITY NOTES: That night.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HARROW POINT COTTAGE HOSPITAL – NIGHT
+Scene start: 00:00.00
+Scene end: 00:27.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Tracking shot down a dim corridor.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Nadia slips past a sleeping guard in a borrowed nurse's coat.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:04.50)
+Close-up on Owen waking.
+
+**ACTION:**
+Start: (00:02.50) | End: (00:04.50)
+Owen lies pale and bandaged. His eyes open when she touches his hand.
+
+**CAMERA:**
+Start: (00:04.50) | End: (00:08.40)
+Close-up on Owen.
+
+**OWEN PIKE (Weak, Hoarse):**
+Start: (00:04.70) | End: (00:08.20)
+"You shouldn't be here. They're watching this room."
+
+**CAMERA:**
+Start: (00:08.40) | End: (00:12.70)
+Close-up on Nadia leaning in.
+
+**NADIA (Low, Urgent):**
+Start: (00:08.60) | End: (00:12.50)
+"Then talk fast. Why did Brannigan sink the Marigold?"
+
+**CAMERA:**
+Start: (00:12.70) | End: (00:17.00)
+Close-up on Owen.
+
+**OWEN PIKE (Struggling):**
+Start: (00:12.90) | End: (00:16.80)
+"Not for the insurance. That was just his cut."
+
+**CAMERA:**
+Start: (00:17.00) | End: (00:19.60)
+Close-up on Nadia.
+
+**NADIA (Confused):**
+Start: (00:17.20) | End: (00:19.40)
+"His cut of what?"
+
+**CAMERA:**
+Start: (00:19.60) | End: (00:23.90)
+Extreme close-up on Owen's eyes closing.
+
+**OWEN PIKE (Fading, Afraid):**
+Start: (00:19.80) | End: (00:23.70)
+"Tom Brannigan doesn't give orders, Nadia. He takes them."
+
+**SOUND FX:**
+Start: (00:23.90) | End: (00:25.40)
+The heart monitor beeping faster.
+
+**CAMERA:**
+Start: (00:23.90) | End: (00:27.10)
+Over-the-shoulder shot of the guard in the doorway.
+
+**GUARD (O.S.) (Suspicious):**
+Start: (00:24.10) | End: (00:26.90)
+"Nurse? Which ward are you from?"
+
+**SOUND FX:**
+Start: (00:27.10) | End: (00:28.10)
+A door swinging shut.
+
+--- SCRIPT END ---

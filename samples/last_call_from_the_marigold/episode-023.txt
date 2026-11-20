@@ -1,0 +1,81 @@
+EPISODE NUMBER: Episode 23
+EPISODE LOGLINE: Owen is discharged and tells Detective Okoye everything, but by evening he has vanished from the island.
+CONTINUITY NOTES: The next day.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. POLICE INTERVIEW ROOM – DAY
+Scene start: 00:00.00
+Scene end: 00:21.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:06.60)
+Close-up on Owen, his arm in a sling.
+
+**OWEN PIKE (Tired, Honest):**
+Start: (00:00.20) | End: (00:06.40)
+"Brannigan sank the Marigold. I took the beacon off the wreck so nobody would find it."
+
+**CAMERA:**
+Start: (00:06.60) | End: (00:09.20)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Measured):**
+Start: (00:06.80) | End: (00:09.00)
+"Why tell me now?"
+
+**CAMERA:**
+Start: (00:09.20) | End: (00:15.20)
+Close-up on Owen.
+
+**OWEN PIKE (Ashamed):**
+Start: (00:09.40) | End: (00:15.00)
+"Because I heard Elena calling in the water that night, and I drove away."
+
+**CAMERA:**
+Start: (00:15.20) | End: (00:21.50)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Sceptical):**
+Start: (00:15.40) | End: (00:21.30)
+"A confession from a man who'd like the dead sheriff to carry all the blame."
+
+SCENE 02
+Scene heading: EXT. OWEN'S BOATHOUSE – NIGHT
+Scene start: 00:21.50
+Scene end: 00:28.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:21.50) | End: (00:24.50)
+Wide shot of the empty boathouse.
+
+**ACTION:**
+Start: (00:21.50) | End: (00:24.50)
+Nadia arrives. The door is open, the lamp still warm, a mug of tea half-full.
+
+**CAMERA:**
+Start: (00:24.50) | End: (00:26.00)
+Close-up on Nadia.
+
+**NADIA (Calling, Uneasy):**
+Start: (00:24.70) | End: (00:25.80)
+"Owen?"
+
+**CAMERA:**
+Start: (00:26.00) | End: (00:28.50)
+Insert of the word.
+
+**ACTION:**
+Start: (00:26.00) | End: (00:28.50)
+On the table, his sling, folded neatly, and a single word scratched into the wood: RUN.
+
+**SOUND FX:**
+Start: (00:28.50) | End: (00:30.50)
+A boat engine fading into the distance.
+
+--- SCRIPT END ---

@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 17
+EPISODE LOGLINE: The logbook reveals dates and coordinates of every handover, but the most important page has been torn out.
+CONTINUITY NOTES: That evening, in the cannery.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. CANNERY OFFICE – NIGHT
+Scene start: 00:00.00
+Scene end: 00:28.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Overhead shot of damp pages.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+The sisters and Theo dry the logbook pages under a lamp.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:07.80)
+Close-up on Theo turning pages.
+
+**THEO MARSH (Excited):**
+Start: (00:02.70) | End: (00:07.60)
+"Dates. Coordinates. Boat names. This is enough to bury Crane for life."
+
+**CAMERA:**
+Start: (00:07.80) | End: (00:10.00)
+Close-up on Elena.
+
+**ELENA (Frowning):**
+Start: (00:08.00) | End: (00:09.80)
+"Wait. Go back."
+
+**CAMERA:**
+Start: (00:10.00) | End: (00:12.00)
+Insert of the torn stub.
+
+**ACTION:**
+Start: (00:10.00) | End: (00:12.00)
+Between two pages, a ragged stub where a page was torn out.
+
+**CAMERA:**
+Start: (00:12.00) | End: (00:18.60)
+Close-up on Elena.
+
+**ELENA (Certain):**
+Start: (00:12.20) | End: (00:18.40)
+"That was the night of the Kittiwake. I wrote down who was on the other boat."
+
+**CAMERA:**
+Start: (00:18.60) | End: (00:22.20)
+Close-up on Nadia.
+
+**NADIA (Suspicious):**
+Start: (00:18.80) | End: (00:22.00)
+"Who else knew where you hid this?"
+
+**CAMERA:**
+Start: (00:22.20) | End: (00:26.80)
+Close-up on Elena.
+
+**ELENA (Slow, Hurt):**
+Start: (00:22.40) | End: (00:26.60)
+"Only one person. The woman who's been hiding my daughter."
+
+**CAMERA:**
+Start: (00:26.80) | End: (00:28.70)
+Two-shot of Theo and Nadia.
+
+**THEO MARSH (Quiet):**
+Start: (00:27.00) | End: (00:28.50)
+"Agnes Calloway."
+
+**SOUND FX:**
+Start: (00:28.70) | End: (00:30.70)
+A clock ticking toward midnight.
+
+--- SCRIPT END ---

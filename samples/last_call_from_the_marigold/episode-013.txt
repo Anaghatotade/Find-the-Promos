@@ -1,0 +1,104 @@
+EPISODE NUMBER: Episode 13
+EPISODE LOGLINE: Elena finally tells Nadia what she saw the night the Marigold went down: Crane's cargo being moved at sea.
+CONTINUITY NOTES: That evening, in the ferry hold.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. FERRY HOLD – NIGHT
+Scene start: 00:00.00
+Scene end: 00:14.40
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:04.60)
+Close-up on Nadia.
+
+**NADIA (Demanding):**
+Start: (00:00.20) | End: (00:04.40)
+"Crane knew your name, Elena. What aren't you telling me?"
+
+**CAMERA:**
+Start: (00:04.60) | End: (00:10.20)
+Close-up on Elena.
+
+**ELENA (Reluctant):**
+Start: (00:04.80) | End: (00:10.00)
+"I wasn't out fishing that night. I was paid to meet another boat."
+
+**CAMERA:**
+Start: (00:10.20) | End: (00:12.40)
+Close-up on Nadia.
+
+**NADIA (Stunned):**
+Start: (00:10.40) | End: (00:12.20)
+"Paid by who?"
+
+**CAMERA:**
+Start: (00:12.40) | End: (00:14.40)
+Slow push-in on Elena's face.
+
+**ACTION:**
+Start: (00:12.40) | End: (00:14.40)
+Elena stares at a lantern, remembering.
+
+SCENE 02
+Scene heading: EXT. OPEN SEA – NIGHT (FLASHBACK)
+Scene start: 00:14.40
+Scene end: 00:24.60
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:14.40) | End: (00:17.40)
+Wide shot in moonlight.
+
+**ACTION:**
+Start: (00:14.40) | End: (00:17.40)
+Two boats side by side. Men pass sealed crates across in the dark.
+
+**CAMERA:**
+Start: (00:17.40) | End: (00:22.00)
+Close-up on a broken crate.
+
+**ELENA (Narrating, Low):**
+Start: (00:17.60) | End: (00:21.80)
+"I thought it was cigarettes. Then one crate split open."
+
+**CAMERA:**
+Start: (00:22.00) | End: (00:24.60)
+Close-up on Crane on the other deck.
+
+**VICTOR CRANE (Cold, Quiet):**
+Start: (00:22.20) | End: (00:24.40)
+"She saw. Sink it."
+
+SCENE 03
+Scene heading: INT. FERRY HOLD – NIGHT
+Scene start: 00:24.60
+Scene end: 00:32.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:24.60) | End: (00:27.80)
+Close-up on Nadia.
+
+**NADIA (Whispering):**
+Start: (00:24.80) | End: (00:27.60)
+"What was in the crate, Elena?"
+
+**CAMERA:**
+Start: (00:27.80) | End: (00:32.10)
+Close-up on Elena.
+
+**ELENA (Haunted):**
+Start: (00:28.00) | End: (00:31.90)
+"Something worth killing four men on the Kittiwake for."
+
+**SOUND FX:**
+Start: (00:32.10) | End: (00:33.60)
+The ferry hull groaning in the swell.
+
+--- SCRIPT END ---

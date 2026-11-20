@@ -1,0 +1,89 @@
+EPISODE NUMBER: Episode 20
+EPISODE LOGLINE: At dawn, Sheriff Brannigan's body is pulled from the harbour, and nobody on the pier admits to firing the second shot.
+CONTINUITY NOTES: The next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. HARBOUR SLIPWAY – DAWN
+Scene start: 00:00.00
+Scene end: 00:05.90
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of a small crowd on the slipway.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Fishermen drag a body out of the water. The sheriff's badge glints.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:05.90)
+Close-up on the fisherman.
+
+**FISHERMAN (Shaken):**
+Start: (00:03.20) | End: (00:05.70)
+"It's Brannigan. Shot clean through."
+
+SCENE 02
+Scene heading: INT. CANNERY OFFICE – DAWN
+Scene start: 00:05.90
+Scene end: 00:27.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:05.90) | End: (00:09.80)
+Close-up on Nadia.
+
+**NADIA (Shaken):**
+Start: (00:06.10) | End: (00:09.60)
+"I heard two shots. His and one other."
+
+**CAMERA:**
+Start: (00:09.80) | End: (00:14.70)
+Close-up on Theo.
+
+**THEO MARSH (Defensive):**
+Start: (00:10.00) | End: (00:14.50)
+"I don't carry a gun. I shouted. That's all I did."
+
+**CAMERA:**
+Start: (00:14.70) | End: (00:18.60)
+Close-up on Elena holding a sleeping Maisie.
+
+**ELENA (Flat):**
+Start: (00:14.90) | End: (00:18.40)
+"I was carrying Maisie. My hands were full."
+
+**CAMERA:**
+Start: (00:18.60) | End: (00:22.20)
+Close-up on Nadia.
+
+**NADIA (Slow):**
+Start: (00:18.80) | End: (00:22.00)
+"Then somebody else was on that pier."
+
+**CAMERA:**
+Start: (00:22.20) | End: (00:24.20)
+Insert of the stained cuff.
+
+**ACTION:**
+Start: (00:22.20) | End: (00:24.20)
+Theo turns away to wash his hands. There is a faint black smudge on his cuff.
+
+**CAMERA:**
+Start: (00:24.20) | End: (00:27.10)
+Close-up on Nadia.
+
+**NADIA (Very Quiet):**
+Start: (00:24.40) | End: (00:26.90)
+"Theo. What's on your sleeve?"
+
+**SOUND FX:**
+Start: (00:27.10) | End: (00:28.60)
+A tap running, then shut off abruptly.
+
+--- SCRIPT END ---

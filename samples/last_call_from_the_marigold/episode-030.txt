@@ -1,0 +1,101 @@
+EPISODE NUMBER: Episode 30
+EPISODE LOGLINE: Crane is arrested with the Kittiwake page as evidence, the sisters finally come home, and the radio crackles with one more voice from the sea.
+CONTINUITY NOTES: Final episode of the season.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. HARROW POINT HARBOUR – DAWN
+Scene start: 00:00.00
+Scene end: 00:18.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of the harbour at dawn.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Police boats escort the battered ferry in. Crane is led off in handcuffs.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:09.00)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Dry, Satisfied):**
+Start: (00:03.20) | End: (00:08.80)
+"Victor Crane, you're under arrest for the murders of the crew of the Kittiwake."
+
+**CAMERA:**
+Start: (00:09.00) | End: (00:13.60)
+Close-up on Crane.
+
+**VICTOR CRANE (Contemptuous):**
+Start: (00:09.20) | End: (00:13.40)
+"You have a fisherman's notebook and a grieving old woman."
+
+**CAMERA:**
+Start: (00:13.60) | End: (00:18.50)
+Close-up on Mrs Calloway holding up the page.
+
+**MRS CALLOWAY (Quiet, Triumphant):**
+Start: (00:13.80) | End: (00:18.30)
+"And your name, in your own handwriting, on the last line."
+
+SCENE 02
+Scene heading: INT. HARBOUR RADIO ROOM – DAY
+Scene start: 00:18.50
+Scene end: 00:35.00
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:18.50) | End: (00:21.00)
+Wide shot of the three of them.
+
+**ACTION:**
+Start: (00:18.50) | End: (00:21.00)
+Nadia, Elena and Maisie sit together in the sunlit radio room.
+
+**CAMERA:**
+Start: (00:21.00) | End: (00:24.60)
+Close-up on Maisie.
+
+**MAISIE (Hopeful):**
+Start: (00:21.20) | End: (00:24.40)
+"Are we allowed to stop hiding now?"
+
+**CAMERA:**
+Start: (00:24.60) | End: (00:27.50)
+Close-up on Elena.
+
+**ELENA (Smiling, Tearful):**
+Start: (00:24.80) | End: (00:27.30)
+"We're allowed to go home."
+
+**SOUND FX:**
+Start: (00:27.50) | End: (00:29.00)
+The radio crackling into life.
+
+**CAMERA:**
+Start: (00:27.50) | End: (00:31.80)
+Extreme close-up on the speaker.
+
+**RADIO VOICE (Distorted, Weak):**
+Start: (00:27.70) | End: (00:31.60)
+"Mayday. This is the Kittiwake. Is anyone still listening?"
+
+**CAMERA:**
+Start: (00:31.80) | End: (00:35.00)
+Close-up on Nadia.
+
+**NADIA (Whispering, Stunned):**
+Start: (00:32.00) | End: (00:34.80)
+"The Kittiwake sank six years ago."
+
+**SOUND FX:**
+Start: (00:35.00) | End: (00:37.00)
+Static swelling into silence.
+
+--- SCRIPT END ---

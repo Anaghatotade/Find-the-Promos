@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 18
+EPISODE LOGLINE: Nadia confronts Mrs Calloway, who confesses she tore out the page to take revenge for her son herself.
+CONTINUITY NOTES: Later that night.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. CALLOWAY HOUSE PARLOUR – NIGHT
+Scene start: 00:00.00
+Scene end: 00:34.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:06.00)
+Close-up on Nadia.
+
+**NADIA (Hard):**
+Start: (00:00.20) | End: (00:05.80)
+"You dived on that wreck before any of us. You took the Kittiwake page."
+
+**CAMERA:**
+Start: (00:06.00) | End: (00:09.60)
+Close-up on Mrs Calloway.
+
+**MRS CALLOWAY (Calm, Unrepentant):**
+Start: (00:06.20) | End: (00:09.40)
+"I did. And I'd do it again."
+
+**CAMERA:**
+Start: (00:09.60) | End: (00:12.80)
+Close-up on Nadia.
+
+**NADIA (Angry):**
+Start: (00:09.80) | End: (00:12.60)
+"That page could have saved Maisie."
+
+**CAMERA:**
+Start: (00:12.80) | End: (00:20.10)
+Close-up on Mrs Calloway's trembling hands.
+
+**MRS CALLOWAY (Breaking, Fierce):**
+Start: (00:13.00) | End: (00:19.90)
+"That page is the only proof of who drowned my Daniel. The police would bury it. I won't."
+
+**CAMERA:**
+Start: (00:20.10) | End: (00:22.60)
+Insert of the page behind a photo of a young fisherman.
+
+**ACTION:**
+Start: (00:20.10) | End: (00:22.60)
+She takes a folded, water-stained page from inside a picture frame.
+
+**CAMERA:**
+Start: (00:22.60) | End: (00:27.50)
+Close-up on the page.
+
+**MRS CALLOWAY (Quiet):**
+Start: (00:22.80) | End: (00:27.30)
+"Read the last line. Then tell me you'd hand it over."
+
+**CAMERA:**
+Start: (00:27.50) | End: (00:29.50)
+Close-up on Nadia.
+
+**ACTION:**
+Start: (00:27.50) | End: (00:29.50)
+Nadia reads. The colour leaves her face.
+
+**CAMERA:**
+Start: (00:29.50) | End: (00:34.10)
+Extreme close-up on Nadia.
+
+**NADIA (Whispering):**
+Start: (00:29.70) | End: (00:33.90)
+"Crane signed for the Kittiwake's cargo. In his own hand."
+
+**SOUND FX:**
+Start: (00:34.10) | End: (00:35.60)
+A sharp intake of breath, then silence.
+
+--- SCRIPT END ---

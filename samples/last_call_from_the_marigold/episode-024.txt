@@ -1,0 +1,81 @@
+EPISODE NUMBER: Episode 24
+EPISODE LOGLINE: Elena turns herself in to clear Nadia's name, only for Okoye to point out that, on paper, Elena Reyes doesn't exist.
+CONTINUITY NOTES: The next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. POLICE STATION FRONT DESK – MORNING
+Scene start: 00:00.00
+Scene end: 00:11.20
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.00)
+Medium shot of Elena.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.00)
+Elena walks in alone and puts both hands flat on the desk.
+
+**CAMERA:**
+Start: (00:02.00) | End: (00:07.60)
+Close-up on Elena.
+
+**ELENA (Steady):**
+Start: (00:02.20) | End: (00:07.40)
+"My name is Elena Reyes. I'm the woman who drowned on the Marigold."
+
+**CAMERA:**
+Start: (00:07.60) | End: (00:11.20)
+Close-up on the sergeant.
+
+**DESK SERGEANT (Bewildered):**
+Start: (00:07.80) | End: (00:11.00)
+"Ma'am, you'll want to see the detective."
+
+SCENE 02
+Scene heading: INT. POLICE INTERVIEW ROOM – CONTINUOUS
+Scene start: 00:11.20
+Scene end: 00:30.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:11.20) | End: (00:17.20)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Careful):**
+Start: (00:11.40) | End: (00:17.00)
+"Elena Reyes was declared dead. Her death certificate is signed. Her estate is settled."
+
+**CAMERA:**
+Start: (00:17.20) | End: (00:21.80)
+Close-up on Elena.
+
+**ELENA (Urgent):**
+Start: (00:17.40) | End: (00:21.60)
+"Then test my blood. Ask my daughter. Ask my sister."
+
+**CAMERA:**
+Start: (00:21.80) | End: (00:27.10)
+Close-up on Okoye.
+
+**DETECTIVE OKOYE (Quiet, Probing):**
+Start: (00:22.00) | End: (00:26.90)
+"Your sister is wanted for murder. Your daughter has no birth record."
+
+**CAMERA:**
+Start: (00:27.10) | End: (00:30.70)
+Extreme close-up on Okoye.
+
+**DETECTIVE OKOYE (Cool):**
+Start: (00:27.30) | End: (00:30.50)
+"So tell me. Who are you, really?"
+
+**SOUND FX:**
+Start: (00:30.70) | End: (00:32.20)
+A fluorescent light buzzing overhead.
+
+--- SCRIPT END ---

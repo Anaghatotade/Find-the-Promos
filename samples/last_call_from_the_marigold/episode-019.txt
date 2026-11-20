@@ -1,0 +1,94 @@
+EPISODE NUMBER: Episode 19
+EPISODE LOGLINE: At midnight on pier three, Nadia trades a fake logbook for Maisie, and Brannigan discovers the trick a moment too late.
+CONTINUITY NOTES: Midnight.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. PIER THREE – NIGHT
+Scene start: 00:00.00
+Scene end: 00:24.30
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of the foggy pier.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Fog rolls across the pier. Brannigan stands at the end, holding Maisie's hand.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:06.90)
+Close-up on Brannigan.
+
+**SHERIFF BRANNIGAN (Patient):**
+Start: (00:03.20) | End: (00:06.70)
+"The book first, Nadia. Then the girl walks."
+
+**CAMERA:**
+Start: (00:06.90) | End: (00:08.90)
+Tracking shot alongside Nadia.
+
+**ACTION:**
+Start: (00:06.90) | End: (00:08.90)
+Nadia holds up an oilcloth bundle and walks forward slowly.
+
+**CAMERA:**
+Start: (00:08.90) | End: (00:10.80)
+Close-up on Maisie.
+
+**MAISIE (Scared, Small):**
+Start: (00:09.10) | End: (00:10.60)
+"Aunt Nadia?"
+
+**CAMERA:**
+Start: (00:10.80) | End: (00:14.40)
+Close-up on Nadia.
+
+**NADIA (Soft, Steady):**
+Start: (00:11.00) | End: (00:14.20)
+"Walk to me, sweetheart. Don't look back."
+
+**CAMERA:**
+Start: (00:14.40) | End: (00:16.90)
+Wide shot of the exchange.
+
+**ACTION:**
+Start: (00:14.40) | End: (00:16.90)
+They swap at the midpoint. Maisie runs into the fog toward Elena's voice.
+
+**CAMERA:**
+Start: (00:16.90) | End: (00:18.90)
+Insert of the timetable.
+
+**ACTION:**
+Start: (00:16.90) | End: (00:18.90)
+Brannigan unwraps the bundle. Inside: a ferry timetable.
+
+**CAMERA:**
+Start: (00:18.90) | End: (00:22.10)
+Close-up on Brannigan drawing his gun.
+
+**SHERIFF BRANNIGAN (Cold Fury):**
+Start: (00:19.10) | End: (00:21.90)
+"You've just made this very simple."
+
+**SOUND FX:**
+Start: (00:22.10) | End: (00:23.10)
+A pistol hammer clicking back.
+
+**CAMERA:**
+Start: (00:22.10) | End: (00:24.30)
+Low-angle shot through the fog.
+
+**THEO MARSH (O.S.) (Shouting):**
+Start: (00:22.30) | End: (00:24.10)
+"Nadia, get down!"
+
+**SOUND FX:**
+Start: (00:24.30) | End: (00:26.30)
+Two gunshots and a splash.
+
+--- SCRIPT END ---

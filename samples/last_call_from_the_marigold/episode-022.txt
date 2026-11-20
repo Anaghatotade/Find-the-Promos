@@ -1,0 +1,86 @@
+EPISODE NUMBER: Episode 22
+EPISODE LOGLINE: Nadia searches Theo's room and finds proof he has known Victor Crane far longer than he admitted.
+CONTINUITY NOTES: That evening. Theo is out.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. GUESTHOUSE ROOM – NIGHT
+Scene start: 00:00.00
+Scene end: 00:25.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Close-up on the lock clicking.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Nadia picks the lock and slips into Theo's room.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:05.50)
+Slow pan across the desk.
+
+**ACTION:**
+Start: (00:02.50) | End: (00:05.50)
+Notebooks, maps, press passes. Then a framed photograph face-down in a drawer.
+
+**CAMERA:**
+Start: (00:05.50) | End: (00:07.50)
+Insert of the photo.
+
+**ACTION:**
+Start: (00:05.50) | End: (00:07.50)
+She turns it over. A young Theo stands beside Victor Crane on a yacht.
+
+**CAMERA:**
+Start: (00:07.50) | End: (00:11.10)
+Close-up on Nadia.
+
+**NADIA (Whispering, Betrayed):**
+Start: (00:07.70) | End: (00:10.90)
+"You told me you'd never met him."
+
+**CAMERA:**
+Start: (00:11.10) | End: (00:13.10)
+Insert of the handwriting.
+
+**ACTION:**
+Start: (00:11.10) | End: (00:13.10)
+On the back of the photo, handwriting: For my nephew, on his first day at sea.
+
+**CAMERA:**
+Start: (00:13.10) | End: (00:14.60)
+Close-up on Nadia.
+
+**NADIA (Stunned):**
+Start: (00:13.30) | End: (00:14.40)
+"Nephew."
+
+**SOUND FX:**
+Start: (00:14.60) | End: (00:15.60)
+A key turning in the door.
+
+**CAMERA:**
+Start: (00:14.60) | End: (00:20.20)
+Medium shot of Theo in the doorway.
+
+**THEO MARSH (Quiet, Resigned):**
+Start: (00:14.80) | End: (00:20.00)
+"I was going to tell you. I needed you to trust me first."
+
+**CAMERA:**
+Start: (00:20.20) | End: (00:25.50)
+Close-up on Nadia.
+
+**NADIA (Cold):**
+Start: (00:20.40) | End: (00:25.30)
+"You saved my life underwater. Was that for him, or for me?"
+
+**SOUND FX:**
+Start: (00:25.50) | End: (00:27.00)
+Rain starting against the window.
+
+--- SCRIPT END ---

@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 28
+EPISODE LOGLINE: Nadia and Owen take the Marigold's lifeboat into the storm while Theo feeds them the yacht's position over the radio.
+CONTINUITY NOTES: Continues directly from Episode 27.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. OPEN SEA – NIGHT
+Scene start: 00:00.00
+Scene end: 00:25.00
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Wide shot of the boat in the storm.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+The small orange lifeboat climbs a huge wave and slams down.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:06.20)
+Close-up on Owen at the tiller.
+
+**OWEN PIKE (Shouting):**
+Start: (00:03.20) | End: (00:06.00)
+"We'll never find her in this!"
+
+**CAMERA:**
+Start: (00:06.20) | End: (00:10.10)
+Insert of a handheld radio.
+
+**THEO MARSH (RADIO) (Calm, Clear):**
+Start: (00:06.40) | End: (00:09.90)
+"Bearing two-seven-zero. She's three miles ahead and drifting."
+
+**CAMERA:**
+Start: (00:10.10) | End: (00:12.70)
+Close-up on Nadia.
+
+**NADIA (Shouting):**
+Start: (00:10.30) | End: (00:12.50)
+"How do you know?"
+
+**CAMERA:**
+Start: (00:12.70) | End: (00:17.30)
+Insert of the radio.
+
+**THEO MARSH (RADIO) (Grim):**
+Start: (00:12.90) | End: (00:17.10)
+"Because I hid a tracker on his yacht last night."
+
+**CAMERA:**
+Start: (00:17.30) | End: (00:19.80)
+Point-of-view shot of the yacht.
+
+**ACTION:**
+Start: (00:17.30) | End: (00:19.80)
+Lights appear through the rain: a large yacht listing badly.
+
+**CAMERA:**
+Start: (00:19.80) | End: (00:23.00)
+Close-up on Owen.
+
+**OWEN PIKE (Quiet):**
+Start: (00:20.00) | End: (00:22.80)
+"She's going down by the stern."
+
+**CAMERA:**
+Start: (00:23.00) | End: (00:25.00)
+Zoom on Elena.
+
+**ACTION:**
+Start: (00:23.00) | End: (00:25.00)
+On the deck, a figure in a yellow rain jacket is tied to the rail.
+
+**SOUND FX:**
+Start: (00:25.00) | End: (00:27.00)
+Metal groaning as the yacht tilts.
+
+--- SCRIPT END ---

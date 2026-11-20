@@ -1,0 +1,97 @@
+EPISODE NUMBER: Episode 15
+EPISODE LOGLINE: Nadia and Theo dive on the wreck for the logbook while Elena keeps watch, and a second boat appears on the horizon.
+CONTINUITY NOTES: That afternoon. Theo has borrowed a dive boat.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. DIVE BOAT ABOVE THE WRECK – DAY
+Scene start: 00:00.00
+Scene end: 00:18.00
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:05.60)
+Medium shot of Theo fastening his tank.
+
+**THEO MARSH (Nervous, Joking):**
+Start: (00:00.20) | End: (00:05.40)
+"For the record, I write about crimes. I don't usually dive into them."
+
+**CAMERA:**
+Start: (00:05.60) | End: (00:10.50)
+Close-up on Elena.
+
+**ELENA (Precise):**
+Start: (00:05.80) | End: (00:10.30)
+"Captain's cabin. Under the bunk. A tin box wrapped in oilcloth."
+
+**CAMERA:**
+Start: (00:10.50) | End: (00:12.50)
+Wide shot of the splash.
+
+**ACTION:**
+Start: (00:10.50) | End: (00:12.50)
+Nadia and Theo drop backwards into the water.
+
+**CAMERA:**
+Start: (00:12.50) | End: (00:15.50)
+Underwater shot through the doorway.
+
+**ACTION:**
+Start: (00:12.50) | End: (00:15.50)
+Underwater, Nadia pulls open the warped cabin door.
+
+**CAMERA:**
+Start: (00:15.50) | End: (00:18.00)
+Close-up on the box.
+
+**ACTION:**
+Start: (00:15.50) | End: (00:18.00)
+She reaches under the bunk. Her fingers close on a wrapped tin box.
+
+SCENE 02
+Scene heading: EXT. DIVE BOAT – CONTINUOUS
+Scene start: 00:18.00
+Scene end: 00:27.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:18.00) | End: (00:20.00)
+Point-of-view shot through the binoculars.
+
+**ACTION:**
+Start: (00:18.00) | End: (00:20.00)
+Elena lowers her binoculars. A grey speedboat is closing fast.
+
+**CAMERA:**
+Start: (00:20.00) | End: (00:22.60)
+Close-up on Elena.
+
+**ELENA (Alarmed):**
+Start: (00:20.20) | End: (00:22.40)
+"No. No, no, no."
+
+**CAMERA:**
+Start: (00:22.60) | End: (00:24.60)
+Close-up on the still water.
+
+**ACTION:**
+Start: (00:22.60) | End: (00:24.60)
+She bangs on the dive ladder to signal. No bubbles rise.
+
+**CAMERA:**
+Start: (00:24.60) | End: (00:27.50)
+Close-up on Elena.
+
+**ELENA (Desperate):**
+Start: (00:24.80) | End: (00:27.30)
+"Come up. Please come up."
+
+**SOUND FX:**
+Start: (00:27.50) | End: (00:29.50)
+A speedboat engine roaring closer.
+
+--- SCRIPT END ---

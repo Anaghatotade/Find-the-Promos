@@ -659,15 +659,15 @@ def _sample_url(smp, name):
 
 def _sample_block(smp):
     files = _sample_files(smp["id"])
-    eplinks = ", ".join(f'<a href="{_sample_url(smp, html.escape(f))}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
-                        for f in files)
+    eplinks = (", " + ", ".join(f'<a href="{_sample_url(smp, html.escape(f))}">{html.escape(f.split(".")[0].replace("episode-00", "ep "))}</a>'
+                                for f in files)) if len(files) <= 8 else ""   # long shows: the .zip only
     see = "/demo" if smp["id"] == "1" else f"/demo/{smp['id']}"
     hidden = "" if smp["id"] == "1" else f'<input type=hidden name=sample value="{smp["id"]}">'
     return (f'<div class=sample><h3><span>Sample {smp["id"]}</span><i>{html.escape(smp["title"])}</i></h3>'
             f'<p>{html.escape(smp["blurb"])} {len(files)} episodes.</p>'
             f'<ul class=acts><li><a href="{see}"><span>See ranked promos<small>Opens instantly: results are precomputed</small></span><span class=arr>&rarr;</span></a></li>'
             f'<li><form method=post action="/demo/run">{hidden}<button ><span>Run the pipeline live<small>Watch every stage score the sample</small></span><span class=arr>&rarr;</span></button></form></li></ul>'
-            f'<div class=dl>Or download it and upload it yourself: <a href="{_sample_url(smp, "sample.zip")}">sample .zip</a>, {eplinks}</div></div>')
+            f'<div class=dl>Or download it and upload it yourself: <a href="{_sample_url(smp, "sample.zip")}">sample .zip</a>{eplinks}</div></div>')
 
 
 def _demo_cfg():

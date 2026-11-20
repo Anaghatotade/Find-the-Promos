@@ -1,0 +1,86 @@
+EPISODE NUMBER: Episode 27
+EPISODE LOGLINE: A storm hits Harrow Point again, and the radio room receives a new mayday, this time from Crane's yacht, in Elena's voice.
+CONTINUITY NOTES: Two nights later. Elena was released and has disappeared.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. HARROW POINT HARBOUR RADIO ROOM – NIGHT
+Scene start: 00:00.00
+Scene end: 00:29.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Wide shot of the radio room.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Rain hammers the window, exactly as it did on the first night.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:07.10)
+Close-up on Nadia at the microphone.
+
+**NADIA (Tense):**
+Start: (00:02.70) | End: (00:06.90)
+"Harrow Point to all vessels. Storm warning. Stay in port."
+
+**SOUND FX:**
+Start: (00:07.10) | End: (00:08.60)
+Static, then a voice breaking through.
+
+**CAMERA:**
+Start: (00:07.10) | End: (00:12.40)
+Insert of the radio dial.
+
+**RADIO VOICE (Distorted, Terrified):**
+Start: (00:07.30) | End: (00:12.20)
+"Mayday. This is the Seraphine. Nadia, it's me again. They've got me."
+
+**CAMERA:**
+Start: (00:12.40) | End: (00:15.00)
+Close-up on Nadia.
+
+**NADIA (Breaking):**
+Start: (00:12.60) | End: (00:14.80)
+"Elena! Where are you?"
+
+**CAMERA:**
+Start: (00:15.00) | End: (00:20.60)
+Extreme close-up on the speaker.
+
+**RADIO VOICE (Distorted, Fading):**
+Start: (00:15.20) | End: (00:20.40)
+"Ten miles out. He's going to scuttle the yacht with me on it."
+
+**CAMERA:**
+Start: (00:20.60) | End: (00:22.60)
+Medium shot of Owen.
+
+**ACTION:**
+Start: (00:20.60) | End: (00:22.60)
+The door bursts open. Owen stands there, soaked, alive.
+
+**CAMERA:**
+Start: (00:22.60) | End: (00:26.50)
+Close-up on Owen.
+
+**OWEN PIKE (Determined):**
+Start: (00:22.80) | End: (00:26.30)
+"I heard. The lifeboat's still under the lighthouse."
+
+**CAMERA:**
+Start: (00:26.50) | End: (00:29.70)
+Close-up on Nadia grabbing her coat.
+
+**NADIA (Fierce):**
+Start: (00:26.70) | End: (00:29.50)
+"Then this time, nobody drives away."
+
+**SOUND FX:**
+Start: (00:29.70) | End: (00:31.70)
+Thunder cracking over the harbour.
+
+--- SCRIPT END ---

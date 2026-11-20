@@ -1,0 +1,97 @@
+EPISODE NUMBER: Episode 6
+EPISODE LOGLINE: In the dark lighthouse, Owen takes the sheriff's bullet to protect the sisters, and Nadia and Elena escape down the cliff in the Marigold's missing lifeboat.
+CONTINUITY NOTES: Continues directly from Episode 5.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. LIGHTHOUSE LAMP ROOM – NIGHT
+Scene start: 00:00.00
+Scene end: 00:15.60
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Handheld close-up in torchlight.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Darkness. A torch beam swings wildly. Owen is on the floor, clutching his side.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:06.10)
+Close-up on Nadia kneeling beside Owen.
+
+**NADIA (Shocked, Breathless):**
+Start: (00:02.70) | End: (00:05.90)
+"Owen? You stepped in front of him."
+
+**CAMERA:**
+Start: (00:06.10) | End: (00:10.70)
+Close-up on Owen's bloodied hand.
+
+**OWEN PIKE (Pained, Urgent):**
+Start: (00:06.30) | End: (00:10.50)
+"I owed her that much. Go. Take the north stairs."
+
+**CAMERA:**
+Start: (00:10.70) | End: (00:15.60)
+Low-angle shot of the torch beam below.
+
+**SHERIFF BRANNIGAN (O.S.) (Calm, Cold):**
+Start: (00:10.90) | End: (00:15.40)
+"Three people in a dark tower and only one way down."
+
+SCENE 02
+Scene heading: EXT. CLIFF BELOW THE LIGHTHOUSE – NIGHT
+Scene start: 00:15.60
+Scene end: 00:36.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:15.60) | End: (00:18.60)
+Wide shot of waves breaking on the rocks.
+
+**ACTION:**
+Start: (00:15.60) | End: (00:18.60)
+Elena pulls a tarpaulin off a battered orange lifeboat hidden in the rocks.
+
+**CAMERA:**
+Start: (00:18.60) | End: (00:22.90)
+Close-up on the stencilled name on the hull.
+
+**NADIA (Stunned):**
+Start: (00:18.80) | End: (00:22.70)
+"The Marigold's lifeboat. You've had it all this time."
+
+**CAMERA:**
+Start: (00:22.90) | End: (00:28.50)
+Two-shot as they push the boat into the surf.
+
+**ELENA (Grim, Determined):**
+Start: (00:23.10) | End: (00:28.30)
+"It kept me alive for nine hours. It can manage one more night."
+
+**CAMERA:**
+Start: (00:28.50) | End: (00:31.10)
+Close-up on Nadia climbing in.
+
+**NADIA (Desperate):**
+Start: (00:28.70) | End: (00:30.90)
+"Where are we going?"
+
+**CAMERA:**
+Start: (00:31.10) | End: (00:36.70)
+Close-up on Elena starting the engine.
+
+**ELENA (Quiet):**
+Start: (00:31.30) | End: (00:36.50)
+"To the only person on this island who knows my daughter is real."
+
+**SOUND FX:**
+Start: (00:36.70) | End: (00:38.70)
+The outboard motor coughing into life over the waves.
+
+--- SCRIPT END ---

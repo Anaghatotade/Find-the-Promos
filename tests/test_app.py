@@ -333,7 +333,7 @@ def test_demo_with_prebuilt_goes_straight_to_results(client, tmp_path, monkeypat
 def test_second_sample_has_its_own_demo_files_and_live_run(client):
     home = client.get("/").get_data(as_text=True)
     for needle in ("Sample 1", "Sample 2", "Last Call from the Marigold", 'href="/demo/2"',
-                   'name=sample value="2"', 'href="/samples/2/sample.zip"', 'href="/samples/2/episode-001.txt"'):
+                   'name=sample value="2"', 'href="/samples/2/sample.zip"', "30 episodes"):
         assert needle in home, needle
     r = client.get("/demo/2")
     assert r.status_code == 302 and "/job/demo-precompute-2" in r.headers["Location"]
@@ -350,7 +350,7 @@ def test_second_sample_has_its_own_demo_files_and_live_run(client):
     assert st["status"] == "done"
     z = client.get("/samples/2/sample.zip")
     assert z.status_code == 200 and "last_call_from_the_marigold.zip" in z.headers["Content-Disposition"]
-    assert client.get("/samples/2/episode-005.txt").status_code == 200
+    assert client.get("/samples/2/episode-030.txt").status_code == 200
     for bad in ("/samples/3/sample.zip", "/samples/2/../app.py", "/demo/3"):
         assert client.get(bad).status_code == 404, bad
     assert client.post("/demo/run", data={"sample": "9"}).status_code == 404

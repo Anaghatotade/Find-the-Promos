@@ -1,0 +1,90 @@
+EPISODE NUMBER: Episode 8
+EPISODE LOGLINE: Brannigan reports Owen's shooting as Nadia's crime, and Nadia hears herself named a wanted fugitive on her own radio station.
+CONTINUITY NOTES: The next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. FERRY HOLD – DAWN
+Scene start: 00:00.00
+Scene end: 00:38.40
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Wide shot of the cramped hold.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Nadia, Elena and Maisie sit among life jackets. A handheld radio crackles.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:08.80)
+Insert of the radio.
+
+**RADIO ANNOUNCER (Formal, Flat):**
+Start: (00:02.70) | End: (00:08.60)
+"Police are searching for Nadia Reyes in connection with last night's shooting of Owen Pike."
+
+**CAMERA:**
+Start: (00:08.80) | End: (00:13.40)
+Close-up on Nadia.
+
+**NADIA (Stunned, Angry):**
+Start: (00:09.00) | End: (00:13.20)
+"He shot Owen. And now I'm the one they're hunting."
+
+**CAMERA:**
+Start: (00:13.40) | End: (00:19.00)
+Close-up on Elena.
+
+**ELENA (Bitter):**
+Start: (00:13.60) | End: (00:18.80)
+"That's how he works. He writes the report before anyone asks a question."
+
+**CAMERA:**
+Start: (00:19.00) | End: (00:22.60)
+Close-up on Maisie.
+
+**MAISIE (Curious, Innocent):**
+Start: (00:19.20) | End: (00:22.40)
+"Is Aunt Nadia a bad guy now?"
+
+**CAMERA:**
+Start: (00:22.60) | End: (00:28.20)
+Two-shot of Nadia and Maisie.
+
+**NADIA (Gentle, Firm):**
+Start: (00:22.80) | End: (00:28.00)
+"No, sweetheart. But for a few days, we have to hide like one."
+
+**CAMERA:**
+Start: (00:28.20) | End: (00:30.20)
+Low-angle shot of the hatch.
+
+**ACTION:**
+Start: (00:28.20) | End: (00:30.20)
+Footsteps cross the deck above. Dust falls from the boards.
+
+**CAMERA:**
+Start: (00:30.20) | End: (00:34.10)
+Insert of the radio.
+
+**RADIO ANNOUNCER (Flat):**
+Start: (00:30.40) | End: (00:33.90)
+"Anyone with information should contact Sheriff Brannigan directly."
+
+**CAMERA:**
+Start: (00:34.10) | End: (00:38.40)
+Extreme close-up on Elena's eyes looking up.
+
+**ELENA (Whispering):**
+Start: (00:34.30) | End: (00:38.20)
+"Nadia. Those footsteps stopped right on top of us."
+
+**SOUND FX:**
+Start: (00:38.40) | End: (00:39.90)
+A boot scraping slowly across the hatch.
+
+--- SCRIPT END ---

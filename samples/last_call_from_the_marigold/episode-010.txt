@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 10
+EPISODE LOGLINE: Theo shows Nadia his evidence linking every sinking to Brannigan, and Nadia realises the Kittiwake's crew included someone she knows.
+CONTINUITY NOTES: Continues from Episode 9.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. CANNERY OFFICE – DAY
+Scene start: 00:00.00
+Scene end: 00:32.70
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:03.00)
+Overhead shot of the papers.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:03.00)
+Theo spreads documents across a desk: loan papers, insurance forms, a crew list.
+
+**CAMERA:**
+Start: (00:03.00) | End: (00:09.00)
+Close-up on Theo's finger tracing signatures.
+
+**THEO MARSH (Focused):**
+Start: (00:03.20) | End: (00:08.80)
+"Every loan co-signed by T. Brannigan. Every payout within a month of the sinking."
+
+**CAMERA:**
+Start: (00:09.00) | End: (00:14.30)
+Close-up on Nadia.
+
+**NADIA (Bitter):**
+Start: (00:09.20) | End: (00:14.10)
+"And every report signed by the same man who collected the money."
+
+**CAMERA:**
+Start: (00:14.30) | End: (00:16.30)
+Insert of the list. One name: D. Calloway.
+
+**ACTION:**
+Start: (00:14.30) | End: (00:16.30)
+Nadia picks up the Kittiwake crew list. Her face changes.
+
+**CAMERA:**
+Start: (00:16.30) | End: (00:19.20)
+Close-up on Nadia.
+
+**NADIA (Whispering, Stunned):**
+Start: (00:16.50) | End: (00:19.00)
+"Daniel Calloway. Agnes Calloway's son."
+
+**CAMERA:**
+Start: (00:19.20) | End: (00:22.80)
+Two-shot across the desk.
+
+**THEO MARSH (Careful):**
+Start: (00:19.40) | End: (00:22.60)
+"The ferry woman? She never told you?"
+
+**CAMERA:**
+Start: (00:22.80) | End: (00:29.10)
+Close-up on Nadia.
+
+**NADIA (Slow, Realising):**
+Start: (00:23.00) | End: (00:28.90)
+"She told me who got the money. She never told me what it cost her."
+
+**CAMERA:**
+Start: (00:29.10) | End: (00:32.70)
+Close-up on Theo.
+
+**THEO MARSH (Quiet):**
+Start: (00:29.30) | End: (00:32.50)
+"Grief keeps secrets better than guilt does."
+
+**SOUND FX:**
+Start: (00:32.70) | End: (00:34.20)
+A distant police siren winding up.
+
+--- SCRIPT END ---

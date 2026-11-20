@@ -1,0 +1,86 @@
+EPISODE NUMBER: Episode 29
+EPISODE LOGLINE: Aboard the sinking yacht, Nadia faces Victor Crane, until Mrs Calloway arrives with the ferry and a score to settle.
+CONTINUITY NOTES: Continues directly from Episode 28.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: EXT. SINKING YACHT DECK – NIGHT
+Scene start: 00:00.00
+Scene end: 00:25.50
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Wide shot of the slanting deck.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Nadia cuts the ropes at Elena's wrists. Crane steps out of the wheelhouse.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:08.10)
+Close-up on Crane holding a flare gun.
+
+**VICTOR CRANE (Calm, Cold):**
+Start: (00:02.70) | End: (00:07.90)
+"Your sister should have stayed dead, Miss Reyes. It was kinder for everyone."
+
+**CAMERA:**
+Start: (00:08.10) | End: (00:13.70)
+Close-up on Nadia.
+
+**NADIA (Defiant):**
+Start: (00:08.30) | End: (00:13.50)
+"Kinder for you. You're the one who has to live with the Kittiwake."
+
+**CAMERA:**
+Start: (00:13.70) | End: (00:16.90)
+Close-up on Crane.
+
+**VICTOR CRANE (Unbothered):**
+Start: (00:13.90) | End: (00:16.70)
+"I've lived with it quite comfortably."
+
+**SOUND FX:**
+Start: (00:16.90) | End: (00:18.90)
+A ship's horn blasting through the storm.
+
+**CAMERA:**
+Start: (00:16.90) | End: (00:19.40)
+Low-angle shot of the ferry bow.
+
+**ACTION:**
+Start: (00:16.90) | End: (00:19.40)
+The Calloway ferry looms out of the rain, heading straight for the yacht.
+
+**CAMERA:**
+Start: (00:19.40) | End: (00:22.00)
+Close-up on Mrs Calloway at the ferry wheel.
+
+**MRS CALLOWAY (O.S.) (Shouting, Fierce):**
+Start: (00:19.60) | End: (00:21.80)
+"This is for Daniel!"
+
+**CAMERA:**
+Start: (00:22.00) | End: (00:24.00)
+Wide shot of the impact.
+
+**ACTION:**
+Start: (00:22.00) | End: (00:24.00)
+The ferry rams the yacht. Everyone is thrown across the deck.
+
+**CAMERA:**
+Start: (00:24.00) | End: (00:25.50)
+Close-up on the flare gun.
+
+**ACTION:**
+Start: (00:24.00) | End: (00:25.50)
+Crane's flare gun slides toward Nadia's hand.
+
+**SOUND FX:**
+Start: (00:25.50) | End: (00:27.50)
+Splintering wood and a roar of water.
+
+--- SCRIPT END ---

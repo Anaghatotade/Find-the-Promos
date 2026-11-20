@@ -1,0 +1,82 @@
+EPISODE NUMBER: Episode 14
+EPISODE LOGLINE: Maisie disappears from the ferry, and the kidnappers leave a note demanding the one thing Elena hid in the wreck.
+CONTINUITY NOTES: The next morning.
+
+--- SCRIPT START ---
+
+SCENE 01
+Scene heading: INT. FERRY HOLD – MORNING
+Scene start: 00:00.00
+Scene end: 00:28.10
+
+Actions and dialogue:
+
+**CAMERA:**
+Start: (00:00.00) | End: (00:02.50)
+Close-up on the empty blanket.
+
+**ACTION:**
+Start: (00:00.00) | End: (00:02.50)
+Elena wakes. Maisie's blanket is empty and cold.
+
+**CAMERA:**
+Start: (00:02.50) | End: (00:04.40)
+Handheld shot as Elena searches the hold.
+
+**ELENA (Panicking):**
+Start: (00:02.70) | End: (00:04.20)
+"Maisie? Maisie!"
+
+**CAMERA:**
+Start: (00:04.40) | End: (00:06.40)
+Insert of the note.
+
+**ACTION:**
+Start: (00:04.40) | End: (00:06.40)
+Nadia finds a folded note pinned to the hatch with a fishing hook.
+
+**CAMERA:**
+Start: (00:06.40) | End: (00:11.00)
+Close-up on Nadia.
+
+**NADIA (Reading, Shaking):**
+Start: (00:06.60) | End: (00:10.80)
+"The logbook for the girl. Midnight. Pier three. Come alone."
+
+**CAMERA:**
+Start: (00:11.00) | End: (00:12.90)
+Two-shot of the sisters.
+
+**NADIA (Confused):**
+Start: (00:11.20) | End: (00:12.70)
+"What logbook?"
+
+**CAMERA:**
+Start: (00:12.90) | End: (00:19.90)
+Close-up on Elena.
+
+**ELENA (Broken, Guilty):**
+Start: (00:13.10) | End: (00:19.70)
+"The Marigold's. Every meeting, every boat, every date. I hid it in the wreck before I swam."
+
+**CAMERA:**
+Start: (00:19.90) | End: (00:23.80)
+Close-up on Nadia.
+
+**NADIA (Firm):**
+Start: (00:20.10) | End: (00:23.60)
+"Then we go down and get it. Today."
+
+**CAMERA:**
+Start: (00:23.80) | End: (00:28.10)
+Close-up on Elena.
+
+**ELENA (Afraid):**
+Start: (00:24.00) | End: (00:27.90)
+"They know it's down there, Nadia. They'll be waiting."
+
+**SOUND FX:**
+Start: (00:28.10) | End: (00:30.10)
+A low pulsing heartbeat drone.
+
+--- SCRIPT END ---
