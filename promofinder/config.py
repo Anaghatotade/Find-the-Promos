@@ -22,7 +22,7 @@ DEFAULTS = {
     # audience profile (profiles.py): general | romance | revenge | thriller | mystery | family | humor
     "audience": "general",
     # preference learning (preferences.py): apply weights learned from editor judgments when available
-    "learning": {"auto_apply": True, "min_judgments": 8, "prior_strength": 4.0},
+    "learning": {"auto_apply": True, "min_judgments": 10, "prior_strength": 1.0, "active_pool": 50},
     "llm": {"enabled": False, "provider": "none", "model": "", "rerank_top_k": 30},
 }
 

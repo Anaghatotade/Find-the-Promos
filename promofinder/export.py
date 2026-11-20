@@ -6,6 +6,7 @@ from .features import overlapping
 from .explain import hook_info, cliff_info, why, rank_reason, transcript
 from . import __version__
 from .profiles import ANGLE_LABEL
+from .pipeline import extra_factor
 
 
 def promo_record(c, rank, eps, pool_med, show):
@@ -21,7 +22,8 @@ def promo_record(c, rank, eps, pool_med, show):
     return {"rank": rank, "id": f"{show[:12].strip().replace(' ', '_')}-E{c.segments[0].episode:02d}-{int(c.segments[0].start*10):05d}",
             "score": round(c.score, 4), "type": c.kind, "duration_s": round(c.dur, 2), "segments": segs,
             "hook": h, "cliffhanger": k, "why_it_works": why(c, h, k), "rank_reason": rank_reason(c, rank, pool_med),
-            "components": {kk: round(v, 3) for kk, v in c.comps.items() if not kk.startswith("_")}, "risk_flags": c.flags,
+            "components": dict({kk: round(v, 3) for kk, v in c.comps.items() if not kk.startswith("_")},
+                               extra_factor=round(extra_factor(c.comps), 4)), "risk_flags": c.flags,
             "angle": {"primary": c.angle.get("primary", "mixed"), "label": ANGLE_LABEL.get(c.angle.get("primary", ""), "Mixed"),
                       "vector": c.angle.get("vector", {})},
             "spoiler": _spoiler_rec(c),
