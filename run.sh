@@ -50,7 +50,7 @@ fi
 # 4. Local settings file for optional API keys
 [ -f .env ] || { cp .env.example .env; say "Created .env (optional API keys go there; it never leaves this computer)."; }
 
-export PYTHONUTF8=1
+export PYTHONUTF8=1 FLASK_SKIP_DOTENV=1
 case "${1:-}" in
   check) "$VPY" -c "import promofinder, sys; print('PromoFinder', promofinder.__version__, 'ready on Python', sys.version.split()[0])"
          "$VPY" -c "from promofinder.llm import load_dotenv, llm_status; from promofinder.config import load_config; load_dotenv(); print('LLM:', llm_status(load_config('config.yaml'))['message'])"

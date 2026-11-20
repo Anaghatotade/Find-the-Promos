@@ -9,6 +9,8 @@ rem First launch creates .venv and installs dependencies; later launches start i
 setlocal EnableExtensions
 cd /d "%~dp0"
 set "PYTHONUTF8=1"
+rem PromoFinder reads .env itself; stop Flask asking for python-dotenv
+set "FLASK_SKIP_DOTENV=1"
 
 if /i "%~1"=="reset" (
   if exist .venv rmdir /s /q .venv
@@ -46,7 +48,11 @@ if not exist "%VPY%" (
 )
 
 rem ---- 3. dependencies, only when requirements.txt changed
-for /f "usebackq delims=" %%h in (`"%VPY%" -c "import hashlib;print(hashlib.sha256(open('requirements.txt','rb').read()).hexdigest())"`) do set "HASH=%%h"
+rem (written via a file: cmd strips the quotes around a quoted program path inside for /f)
+"%VPY%" -c "import hashlib;print(hashlib.sha256(open('requirements.txt','rb').read()).hexdigest())" > .venv\.requirements.now 2>nul
+set "HASH="
+if exist .venv\.requirements.now set /p HASH=<.venv\.requirements.now
+if not defined HASH set "HASH=unknown"
 set "OLD="
 if exist .venv\.requirements.sha256 set /p OLD=<.venv\.requirements.sha256
 if not "%HASH%"=="%OLD%" (
