@@ -222,7 +222,6 @@ color:var(--ink);font:600 15.5px/1.3 var(--sans);text-decoration:none;text-align
 <li><span>03</span><b>Score hook &amp; cut</b><p>The first 3 s must grab; the last 6 s must leave a question the viewer needs answered.</p></li>
 <li><span>04</span><b>Rank &amp; export</b><p>Diverse picks with no overlaps, ready as EDLs, cut lists, CSV, JSON or Markdown.</p></li></ol></section>
 <div class=lists>__RUNS__</div></div>
-<footer class=foot><span>PromoFinder @@VERSION@@</span><span>Runs on CPU &middot; no AI API key needed</span></footer>
 <script>
 (function(){const d=document.getElementById('drop');if(!d)return;const inp=d.querySelector('input'),ul=document.getElementById('picked');
 function kb(n){return n>1048576?(n/1048576).toFixed(1)+' MB':Math.max(1,Math.round(n/1024))+' KB'}
