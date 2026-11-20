@@ -136,24 +136,33 @@ Once a key is set, the upload page shows an *LLM second opinion* checkbox, and `
 
 ## How it works
 
-```
-screenplays ─► format adapters ─► block table (every line, shot, action, tag, timestamp, source line)
-                                        │
-            ┌───────────────────────────┼─────────────────────────────────┐
-     legal cut points          series index (premise, names,      reveal index (cues + loglines,
-   (never inside a line)        word space, who's introduced)      title & free-episode exemptions)
-            │                           │                                  │
-   hook scorer (weak supervision)   cliffhanger scorer (open loop + withheld payoff)
-            └──────────── ~51k candidate clips (single, cross-episode, cold open) ────┐
-                                                                                      │
-   score = weighted geometric mean(hook, cliff, standalone, intensity, premise)       │
-           × duration fit × early-episode prior × spoiler factor × audience factor ◄──┘
-                                        │
-             varied selection (no overlaps, ≤ 2 per episode) ─► top / longlist / portfolio
-                                        │
-     optional LLM second opinion ◄──────┤──────► editor feedback (Use/Reject, A/B, measured CTR)
-                                        │               └─► learned weights ─► next run
-                                exports + web app + search index
+```mermaid
+flowchart TD
+    A["Screenplays<br/>.zip · .txt · .srt · .vtt · .json"] --> B["Format adapters"]
+    B --> C["Block table<br/>every line, shot, action, tag, timestamp and source line"]
+
+    C --> D["Legal cut points<br/>never inside a line"]
+    C --> E["Series index<br/>premise, names, word space, who's introduced"]
+    C --> F["Reveal index<br/>cues + loglines, title and free-episode exemptions"]
+
+    D --> G["Hook scorer<br/>weak supervision"]
+    D --> H["Cliffhanger scorer<br/>open loop + withheld payoff"]
+    G --> I["~51k candidate clips<br/>single, cross-episode, cold open"]
+    H --> I
+
+    I --> J["Score = weighted geometric mean of<br/>hook, cliffhanger, standalone, intensity, premise<br/>× duration fit × early-episode prior<br/>× spoiler factor × audience factor"]
+    E -->|standalone, premise| J
+    F -->|spoiler factor| J
+
+    J --> K["Varied selection<br/>no overlaps, at most 2 per episode"]
+    K --> L["Top · Longlist · Portfolio"]
+
+    L <--> M["Optional LLM second opinion"]
+    L --> N["Editor feedback<br/>Use/Reject, A/B, measured CTR"]
+    N --> O["Learned weights"]
+    O -.->|next run| J
+
+    L --> P["Exports, web app, search index"]
 ```
 
 | Module | What it does |
