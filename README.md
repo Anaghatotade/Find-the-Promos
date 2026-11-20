@@ -72,5 +72,3 @@ samples/            two original sample shows
 tests/              automated tests
 config.yaml         settings (clip length, weights, spoilers, LLM)
 ```
-
-Design notes and evaluation: [docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md)
