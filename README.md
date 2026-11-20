@@ -41,10 +41,10 @@ Exports are available in JSON, CSV, Markdown, and **CMX3600 EDLs** for Premiere 
 ## How it works
 
 1. **Parse** every camera shot, action, sound cue, and line of dialogue, along with its timestamp and delivery tags.
-2. **Legal cut points** — clips never start or end in the middle of a line of dialogue.
-3. **Hook scorer (weak supervision)** — transparent labeling functions feed a Dawid–Skene label model and a text classifier, cross-fitted by episode. If a show has no delivery tags, intensity is inferred from the camera and action text.
-4. **Cliffhanger scorer** — looks for an open question, threat, or reveal at the cut, plus the strength of the next beat the viewer is denied.
-5. **Clip score** — weighted geometric mean of hook, cliffhanger, standalone clarity, emotional arc, and premise fit. Selection is diverse (no overlaps, at most 2 clips per episode). Cross-episode and cold-open edits are also generated.
+2. **Legal cut points** - clips never start or end in the middle of a line of dialogue.
+3. **Hook scorer (weak supervision)** - transparent labeling functions feed a Dawid–Skene label model and a text classifier, cross-fitted by episode. If a show has no delivery tags, intensity is inferred from the camera and action text.
+4. **Cliffhanger scorer** - looks for an open question, threat, or reveal at the cut, plus the strength of the next beat the viewer is denied.
+5. **Clip score** - weighted geometric mean of hook, cliffhanger, standalone clarity, emotional arc, and premise fit. Selection is diverse (no overlaps, at most 2 clips per episode). Cross-episode and cold-open edits are also generated.
 
 On a 50-episode, 103-minute show the full pipeline takes about 7 seconds on a laptop CPU and scores 51,598 candidate clips. Settings such as clip length, number of picks and score weights live in `config.yaml`.
 
